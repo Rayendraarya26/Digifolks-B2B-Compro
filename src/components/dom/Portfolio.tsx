@@ -16,7 +16,7 @@ export default function Portfolio() {
 
   // Mengubah scroll vertikal (0 - 1) menjadi pergeseran horizontal (X%)
   // -95% artinya geser hampir sampai ujung kanan elemen
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-95%"]);
+  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-75%"]);
 
   return (
     // Section ini tingginya 400vh (4x tinggi layar).
@@ -28,7 +28,7 @@ export default function Portfolio() {
       <div className="sticky top-0 flex h-screen items-center overflow-hidden">
         
         {/* Teks Judul Vertikal (Menempel di kiri) */}
-        <div className="absolute left-6 top-1/2 z-10 -translate-y-1/2 desktop:left-24">
+        <div className="absolute hidden desktop:block top-1/2 z-10 -translate-y-1/2 desktop:right-24">
           <h2 className="font-display text-5xl font-black uppercase text-surface-light opacity-20 desktop:text-8xl">
             Selected Work
           </h2>
@@ -40,8 +40,8 @@ export default function Portfolio() {
           {/* Kartu Intro (Biar user tau ini awal portfolio) */}
           <div className="flex h-[60vh] w-[80vw] shrink-0 items-center justify-center rounded-3xl border-4 border-surface-light p-8 desktop:w-[50vw]">
             <h3 className="font-display text-4xl font-bold text-surface-light desktop:text-6xl">
-              Swipe Left <br />
-              <span className="text-text-muted">(Or just keep scrolling)</span>
+              Our Project <br />
+              <span className="text-text-muted">(Just keep scrolling)</span>
             </h3>
           </div>
 
@@ -55,7 +55,7 @@ export default function Portfolio() {
               <div className="absolute inset-0 z-0">
                 {/* Nanti ganti pakai <Image src={item.imageUrl} ... /> */}
                 <div className="flex h-full w-full items-center justify-center bg-surface-dark/5">
-                  <span className="font-display text-2xl font-bold text-text-muted opacity-50">[Project Visual]</span>
+                  <span className="font-display text-2xl font-bold text-text-muted opacity-50">[Project Visual Nanti nyesuain model ppt]</span>
                 </div>
               </div>
 

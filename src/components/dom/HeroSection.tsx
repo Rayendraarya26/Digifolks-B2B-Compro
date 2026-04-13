@@ -31,7 +31,7 @@ export default function HeroSection() {
         >
           We Don't Just Build. <br />
           <span
-            className="text-transparent bg-clip-text bg-gradient-to-r from-pop-pink to-pop-blue stroke-text-primary stroke-2"
+            className="text-transparent bg-clip-text bg-linear-to-r from-pop-pink to-pop-blue stroke-text-primary stroke-2"
             style={{ WebkitTextStroke: "2px var(--color-text-primary)" }}
           >
             We Engineer.

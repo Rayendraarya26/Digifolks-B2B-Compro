@@ -44,7 +44,7 @@ export default function OurDNA() {
           <h2 className="font-display text-4xl font-black uppercase tracking-tighter desktop:text-6xl">
             Our{" "}
             <span
-              className="text-transparent bg-clip-text bg-gradient-to-r from-pop-green to-pop-blue stroke-text-primary stroke-2"
+              className="text-transparent bg-clip-text bg-linear-to-r from-pop-green to-pop-blue stroke-text-primary stroke-2"
               style={{ WebkitTextStroke: "2px var(--color-text-primary)" }}
             >
               DNA

@@ -78,7 +78,7 @@ function AnimatedMediaCard({ service, index, spanClass }: { service: ServiceItem
       onMouseLeave={handleMouseLeave}
       style={{ '--hover-bg': service.accentColor } as React.CSSProperties}
       // CSS murni mengurus background hover dan bayangan tanpa JS
-      className={`group relative flex min-h-[350px] flex-col overflow-hidden rounded-3xl border-4 border-text-primary p-8 bg-surface-light shadow-playful transition-all duration-500 ease-out tablet:min-h-[400px] cursor-crosshair hover:-translate-y-2 hover:shadow-playful-hover hover:bg-[var(--hover-bg)] ${spanClass}`}
+      className={`group relative flex min-h-87.5 flex-col overflow-hidden rounded-3xl border-4 border-text-primary p-8 bg-surface-light shadow-playful transition-all duration-500 ease-out tablet:min-h-100 cursor-crosshair hover:-translate-y-2 hover:shadow-playful-hover hover:bg-(--hover-bg) ${spanClass}`}
     >
       <div className="relative z-10 flex h-full flex-col pointer-events-none">
         <span className="mb-4 font-display text-xl font-black opacity-40 transition-opacity duration-300 group-hover:opacity-80">
