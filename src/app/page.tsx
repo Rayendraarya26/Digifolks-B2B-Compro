@@ -12,6 +12,7 @@ export default function Home() {
       <Services />
       <Portfolio />
       <Testimonials />
+      <div className="mb-100"></div>
     </div>
   );
 }

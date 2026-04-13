@@ -10,7 +10,7 @@ export default function HeroSection() {
     <section className="relative flex min-h-screen w-full items-center overflow-hidden px-6 py-20 desktop:px-24">
       {/* 3D Canvas Layer */}
       <div className="absolute inset-y-0 right-0 z-0 h-full w-full pointer-events-none tablet:pointer-events-auto tablet:w-[80%] desktop:w-[65%]">
-        <Scene />
+        {/* <Scene /> */}
       </div>
 
       <div className="relative z-10 flex w-full max-w-2xl flex-col items-start justify-center gap-6 pointer-events-none">
