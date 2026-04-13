@@ -34,11 +34,11 @@ export default function RootLayout({
     <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
       <body className="antialiased selection:bg-pop-yellow selection:text-text-primary">
         {/* Main Content Area */}
-        <SmoothScrollProvider>
+        {/* <SmoothScrollProvider> */}
           <main className="relative min-h-screen w-full">
             {children}
           </main>
-        </SmoothScrollProvider>
+        {/* </SmoothScrollProvider> */}
         
         {/* Global Navigation diletakkan di luar struktur halaman agar persisten */}
         <FloatingDock />
