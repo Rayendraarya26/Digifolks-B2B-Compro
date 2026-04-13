@@ -6,7 +6,7 @@ import ScrollTrigger from "gsap/dist/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// --- MOCK DATA (Sesuaikan dengan data asli lu) ---
+// --- MOCK DATA ---
 const testimonialsData = [
   { id: 1, quote: "Their frontend magic made our conversion rate skyrocket. Absolute wizards.", author: "Sarah J., Startup Founder" },
   { id: 2, quote: "I didn't know a dashboard could look this sexy. My team loves it.", author: "Mike T., Product Manager" },
@@ -21,7 +21,7 @@ const coloredTestimonials = testimonialsData.map((t, i) => ({
   color: pastelColors[i % pastelColors.length],
 }));
 
-// GANDAKAN KARTU UNTUK INFINITE LOOP (Set 1, Set 2, Set 3)
+// THE CLONES: Digandakan 3x lipat (Left Clones, Originals, Right Clones)
 const marqueeCards = [...coloredTestimonials, ...coloredTestimonials, ...coloredTestimonials];
 
 export default function Testimonials() {
@@ -30,74 +30,90 @@ export default function Testimonials() {
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
-    // Pastikan DOM sudah siap
     if (!trackRef.current || !cardsRef.current.length) return;
 
-    // Pisahkan kartu asli (Set 1) dan kartu kloningan (Set 2 & 3)
     const originalCount = coloredTestimonials.length;
-    const firstBatch = cardsRef.current.slice(0, originalCount);
-    const clones = cardsRef.current.slice(originalCount);
-
-    // Dapatkan lebar satu kartu + gap untuk kalkulasi tumpukan
-    const cardElement = firstBatch[0];
-    if (!cardElement) return;
+    // Tentukan indeks tengah (karena 5 kartu, tengahnya ada di indeks 2)
+    const centerIndex = Math.floor(originalCount / 2); 
     
-    // Asumsi gap tailwind: gap-6 (24px) di mobile, gap-8 (32px) di desktop
-    const gap = window.innerWidth >= 1024 ? 32 : 24; 
-    const cardWidthWithGap = cardElement.offsetWidth + gap;
+    // Pecah array jadi 3 pasukan
+    const leftClones = cardsRef.current.slice(0, originalCount);
+    const originalCards = cardsRef.current.slice(originalCount, originalCount * 2);
+    const rightClones = cardsRef.current.slice(originalCount * 2);
 
-    // --- SETUP AWAL ---
-    // Sembunyikan kloningan
-    gsap.set(clones, { opacity: 0, display: "none" });
+    // BULLETPROOF MATH: Ambil jarak pasti antar kartu (Lebar + Gap)
+    const card0 = originalCards[0];
+    const card1 = originalCards[1];
+    if (!card0 || !card1) return;
+    
+    const stepDistance = card1.offsetLeft - card0.offsetLeft; 
+    const loopDistance = stepDistance * originalCount;
 
-    // Tumpuk Set 1 di tengah bawah layar (Sihir "The Deck")
-    gsap.set(firstBatch, {
-      y: 400, // Taruh di bawah layar
+    // --- SETUP AWAL KOREOGRAFI ---
+    // Posisi X awal lintasan agar kartu TENGAH dari pasukan 'Original' persis di tengah layar
+    const startX = -(originalCount + centerIndex) * stepDistance;
+
+    // 1. Sembunyikan pasukan kiri dan kanan
+    gsap.set([leftClones, rightClones], { opacity: 0 });
+
+    // 2. Geser rel ke titik startX 
+    gsap.set(trackRef.current, { x: startX });
+
+    // 3. Tumpuk pasukan 'Original' tepat di kartu tengahnya
+    gsap.set(originalCards, {
+      y: 400, // Mulai dari bawah layar
       opacity: 0,
-      // Tarik setiap kartu ke kiri agar menumpuk di posisi kartu pertama
-      x: (i) => -i * cardWidthWithGap, 
-      // Tambahkan sedikit rotasi acak biar tumpukannya terlihat organik kayak kartu asli
-      rotation: (i) => i * 2 - (originalCount), 
+      // RUMUS DEWA: Menumpuk kartu ke titik tengah. 
+      // Yang kiri ketarik ke kanan, yang kanan ketarik ke kiri.
+      x: (i) => (centerIndex - i) * stepDistance, 
+      // Rotasi berantakan: Kartu tengah lurus, pinggiran miring
+      rotation: (i) => (i - centerIndex) * 5, 
     });
 
-    // --- MASTER TIMELINE KOREOGRAFI ---
+    // --- MASTER TIMELINE ---
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: containerRef.current,
-        start: "top 70%", // Jalan saat section ini masuk 30% dari bawah layar
+        start: "top 60%", 
         toggleActions: "play none none none",
       },
     });
 
-    // 1. THE RISE (Tumpukan naik ke tengah layar)
-    tl.to(firstBatch, {
+    // 1. THE RISE: Tumpukan kartu naik dari bawah ke poros tengah layar
+    tl.to(originalCards, {
       y: 0,
       opacity: 1,
-      duration: 1,
+      duration: 1.2,
       ease: "back.out(1.2)",
     });
 
-    // 2. THE DEAL (Kartu dibagikan ke kanan)
-    tl.to(firstBatch, {
-      x: 0, // Kembalikan ke posisi flex aslinya (menyebar)
-      rotation: 0, // Luruskan rotasinya
+    // 2. THE SYMMETRICAL DEAL: Kartu mekar ke kiri dan kanan dari tengah
+    tl.to(originalCards, {
+      x: 0, // Masing-masing kembali ke titik DOM aslinya (Mekar)
+      rotation: 0, // Semuanya lurus kembali
       duration: 1.5,
-      stagger: 0.15, // Jeda antar kartu biar kayak dibagikan satu-satu
+      // Fitur dewa GSAP: Stagger dari tengah, jadi kartu tengah nyebar duluan/barengan sama pinggir
+      stagger: { amount: 0.4, from: "center" }, 
       ease: "power3.out",
     });
 
-    // 3. THE LOOP PREPARATION (Munculkan kloningan secara diam-diam)
-    tl.set(clones, { opacity: 1, display: "flex" });
+    // 3. HOLD: Kasih jeda 0.5 detik biar user bisa nikmatin animasinya sejenak
+    tl.to({}, { duration: 0.5 });
 
-    // 4. INFINITE MARQUEE (Jalan selamanya ke kiri)
+    // 4. SEAMLESS INJECTION: Munculkan pasukan kloningan kiri dan kanan secara halus
+    tl.to([leftClones, rightClones], { opacity: 1, duration: 0.5 });
+
+    // 5. INFINITE MARQUEE: Bikin rel berjalan selamanya
     tl.add(() => {
-      gsap.to(trackRef.current, {
-        // Pindahkan track persis sejauh panjang 1 set original
-        x: `-${100 / 3}%`, 
-        duration: 25, // Makin besar makin lambat jalannya
-        repeat: -1, // Loop selamanya
-        ease: "none", // Kecepatan konstan
-      });
+      gsap.fromTo(trackRef.current,
+        { x: startX }, 
+        { 
+          x: startX - loopDistance, // Bergeser ke kiri persis sejauh 1 set
+          duration: 25, 
+          repeat: -1, 
+          ease: "none" 
+        }
+      );
     });
 
     return () => {
@@ -111,33 +127,25 @@ export default function Testimonials() {
       ref={containerRef} 
       className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-surface-dark py-24"
     >
-      
-      {/* Visual Hint */}
       <div className="relative z-10 mb-16 inline-block rounded-full border-2 border-text-primary bg-surface-light px-6 py-2 text-sm font-bold uppercase tracking-widest text-text-primary shadow-playful">
         Word on the street
       </div>
 
-      {/* TRACK CONTAINER: 
-        Dikasih padding-left 50vw dikurangi setengah lebar kartu.
-        Ini trik CSS dewa biar Kartu Pertama PASTI persis di tengah layar saat awal di-*load*.
+      {/* TRACK CONTAINER */}
+      {/* Pl-[calc] ini menggeser titik 0-nya. Digabungkan dengan startX GSAP, 
+          maka kartu TENGAH dari tumpukan kita akan nongol sempurna di poros tengah monitor!
       */}
-      <div className="w-full overflow-visible" style={{ paddingLeft: "calc(50vw - (320px / 2))" }}>
+      <div className="w-full overflow-visible pl-[calc(50vw-160px)] desktop:pl-[calc(50vw-200px)]">
         
-        {/* THE TRACK: Panjang menyesuaikan isi, menampung 3 set array */}
-        <div 
-          ref={trackRef} 
-          className="flex w-max gap-6 desktop:gap-8"
-        >
+        <div ref={trackRef} className="flex w-max gap-6 desktop:gap-8">
           {marqueeCards.map((card, index) => (
             <div
               key={`${card.id}-${index}`}
               ref={(el) => { cardsRef.current[index] = el; }}
-              // Hover group untuk menghentikan animasi bisa ditambahkan nanti jika perlu
               className={`flex h-72 w-[320px] shrink-0 flex-col justify-between rounded-3xl border-4 border-text-primary p-6 shadow-playful desktop:h-80 desktop:w-[400px] desktop:p-8 ${card.color}`}
             >
-              
               <div className="flex flex-col gap-2 desktop:gap-4">
-                <span className="font-display text-4xl font-black text-text-primary opacity-20 desktop:text-6xl leading-none">
+                <span className="font-display text-4xl font-black leading-none text-text-primary opacity-20 desktop:text-6xl">
                   "
                 </span>
                 <p className="font-display text-lg font-black leading-tight text-text-primary desktop:text-xl">
@@ -150,13 +158,10 @@ export default function Testimonials() {
                   {card.author}
                 </p>
               </div>
-
             </div>
           ))}
         </div>
-
       </div>
-      
     </section>
   );
 }
