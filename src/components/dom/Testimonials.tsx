@@ -33,7 +33,7 @@ export default function Testimonials() {
         newArr.push(newArr.shift()!);
         return newArr;
       });
-    }, 1500); // Ganti kartu tiap 1.5 detik
+    }, 2500); // Ganti kartu tiap 2.5 detik
 
     return () => clearInterval(timer);
   }, [isHovered]);
