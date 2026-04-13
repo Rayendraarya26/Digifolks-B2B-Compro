@@ -10,9 +10,9 @@ import { Zap, Settings, Globe, Smartphone, Lightbulb } from "lucide-react";
 gsap.registerPlugin(ScrollTrigger);
 
 // --- CONFIGURATION ---
-const FRAME_COUNT = 580;
+const FRAME_COUNT = 580; // Pastikan ini pas dengan jumlah gambarmu!
 const currentFrame = (index: number) => `/sequence/frame-${String(index + 1).padStart(4, "0")}.webp`;
-// Track panjang, scrollbar PASTI muncul
+// Track panjang untuk ngasih ruang scroll yang nyaman
 const TOTAL_SCROLL_HEIGHT = "1200vh"; 
 
 // --- DATA ---
@@ -58,32 +58,76 @@ const ICON_MAP: { [key: string]: any } = {
   zap: Zap, settings: Settings, globe: Globe, smartphone: Smartphone, lightbulb: Lightbulb,
 };
 
-// --- COMPONENT ---
 export default function ServicesScrollytelling() {
   // DOM Refs
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null); // Balik ke Canvas!
   const introRef = useRef<HTMLDivElement>(null);
   const outroRef = useRef<HTMLDivElement>(null);
   const sectionRefs = useRef<(HTMLDivElement | null)[]>([]);
   
-  // State & Data Refs
+  // State & Cache
   const [isLoaded, setIsLoaded] = useState(false);
   const imagesRef = useRef<HTMLImageElement[]>([]);
 
+  // === EFFECT 1: Scroll Lock ===
+  useEffect(() => {
+    document.body.style.overflow = isLoaded ? "" : "hidden";
+    if (isLoaded) setTimeout(() => ScrollTrigger.refresh(), 100);
+    return () => { document.body.style.overflow = ""; };
+  }, [isLoaded]);
+
+  // === EFFECT 2: Image Preloading (Optimized) ===
+  useEffect(() => {
+    let loadedCount = 0;
+    // Buka tirai loading kalau 20% gambar awal udah masuk RAM
+    const PRELOAD_THRESHOLD = Math.floor(FRAME_COUNT * 0.2); 
+
+    for (let i = 0; i < FRAME_COUNT; i++) {
+      const img = new Image();
+      img.src = currentFrame(i);
+      img.onload = () => {
+        loadedCount++;
+        // Paksa render frame pertama segera biar layar nggak kosong
+        if (i === 0) renderFrameToCanvas(0); 
+        if (loadedCount >= PRELOAD_THRESHOLD && !isLoaded) {
+          setIsLoaded(true);
+        }
+      };
+      // Tangkap error diam-diam biar gak menuhin console
+      img.onerror = () => { console.warn(`Failed to load frame ${i}`); };
+      imagesRef.current.push(img);
+    }
+
+    const handleResize = () => {
+      if (canvasRef.current) {
+        canvasRef.current.width = window.innerWidth;
+        canvasRef.current.height = window.innerHeight;
+        // Re-render frame terakhir/pertama pas ukuran layar berubah
+        renderFrameToCanvas(0); 
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []); // isLoaded tidak di-pass ke dependency array agar preload jalan terus di background
+
   // === HELPER: DRAW TO CANVAS ===
-  const renderFrameToCanvas = (index: number) => {
+  const renderFrameToCanvas = (frameIndex: number) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    const img = imagesRef.current[index];
+    const img = imagesRef.current[frameIndex];
     
-    if (!img || !ctx) return;
+    // Pastikan gambar sudah full loaded sebelum di-draw
+    if (!img || !img.complete || !ctx) return;
     
     const canvasRatio = canvas.width / canvas.height;
     const imgRatio = img.width / img.height;
     let renderWidth, renderHeight, x, y;
     
+    // Logika object-fit: cover
     if (canvasRatio > imgRatio) {
       renderWidth = canvas.width; 
       renderHeight = canvas.width / imgRatio;
@@ -100,87 +144,29 @@ export default function ServicesScrollytelling() {
     ctx.drawImage(img, x, y, renderWidth, renderHeight);
   };
 
-  // === EFFECT 1: Scroll Lock ===
-  useEffect(() => {
-    if (isLoaded) {
-      document.body.style.overflow = "";
-    } else {
-      document.body.style.overflow = "hidden";
-    }
-  }, [isLoaded]);
-
-  // === EFFECT 2: Image Preloading & Canvas Setup ===
-  useEffect(() => {
-    let loadedCount = 0;
-    const PRELOAD_THRESHOLD = FRAME_COUNT * 0.2; 
-
-    for (let i = 0; i < FRAME_COUNT; i++) {
-      const img = new Image();
-      img.src = currentFrame(i);
-      img.onload = () => {
-        loadedCount++;
-        if (i === 0) renderFrameToCanvas(0); 
-        if (loadedCount > PRELOAD_THRESHOLD) setIsLoaded(true);
-      };
-      imagesRef.current.push(img);
-    }
-
-    const handleResize = () => {
-      if (canvasRef.current) {
-        canvasRef.current.width = window.innerWidth;
-        canvasRef.current.height = window.innerHeight;
-        renderFrameToCanvas(Math.max(0, imagesRef.current.length - 1 > 0 ? 0 : 0)); 
-      }
-    };
-
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
-  // === EFFECT 3: Master GSAP Choreography ===
+  // === EFFECT 3: The Custom LERP & DOM Engine ===
   useEffect(() => {
     if (!isLoaded) return;
 
-    const playhead = { frame: 0 };
     const elements = sectionRefs.current.filter(Boolean);
+    
+    let targetProgress = 0;  // Input murni dari scroll
+    let currentProgress = 0; // Output mulus dari LERP
+    let animationFrameId: number;
 
-    // Inisialisasi Timeline Utama
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: wrapperRef.current, // Targetkan kontainer 1200vh
-        start: "top top",
-        end: "bottom bottom", // Berhenti saat scroll mencapai ujung bawah 1200vh
-        scrub: 1, // Efek inersia
-        // PIN DIHAPUS TOTAL! Kita murni pakai CSS Sticky
-      },
-    });
+    // 1. SETUP TIMELINE DOM (Di-pause untuk dikontrol manual)
+    const tl = gsap.timeline({ paused: true });
 
-    // --- Konfigurasi Sinkronisasi Waktu ---
-    const TOTAL_ANIMATION_DURATION = 185; // Telah dikalibrasi sesuai durasi DOM
     let currentTime = 20; 
     const ENTER_DUR = 12; 
     const HOLD_DUR = 10;  
     const EXIT_DUR = 12;  
     const OVERLAP = 4;    
 
-    // --- TIMELINE A: Video Scrubbing ---
-    tl.to(playhead, {
-      frame: FRAME_COUNT - 1,
-      snap: "frame",
-      ease: "none",
-      duration: TOTAL_ANIMATION_DURATION, // Video selesai persis bersamaan dengan DOM
-      onUpdate: () => renderFrameToCanvas(Math.round(playhead.frame))
-    }, 0);
+    // Intro Out
+    tl.to(introRef.current, { y: "-100vh", opacity: 0, duration: 15, ease: "power2.inOut" }, 5);
 
-    // --- TIMELINE B: DOM Elements Choreography ---
-    
-    // 1. Intro Out
-    tl.to(introRef.current, { 
-      y: "-100vh", opacity: 0, duration: 15, ease: "power2.inOut" 
-    }, 5);
-
-    // 2. Services Loop
+    // Services Loop
     elements.forEach((el) => {
       const icon = el?.querySelector("[data-icon]");
       
@@ -197,42 +183,81 @@ export default function ServicesScrollytelling() {
       tl.to(el, { y: 0, opacity: 1, duration: HOLD_DUR }, currentTime);
       currentTime += HOLD_DUR;
 
-      tl.to(el, { 
-        y: "-100vh", opacity: 0, pointerEvents: "none", duration: EXIT_DUR, ease: "power2.in" 
-      }, currentTime);
+      tl.to(el, { y: "-100vh", opacity: 0, pointerEvents: "none", duration: EXIT_DUR, ease: "power2.in" }, currentTime);
       
       currentTime += (EXIT_DUR - OVERLAP); 
     });
 
-    // 3. Outro In
+    // Outro In
     tl.fromTo(outroRef.current, 
       { y: "100vh", opacity: 0, pointerEvents: "none" }, 
       { y: 0, opacity: 1, pointerEvents: "auto", duration: 15, ease: "power2.out" }, 
       currentTime
     );
 
-    // Cleanup GSAP
+    // Bikin DOM align dengan jumlah frame canvas (Padding ekstra di timeline)
+    tl.to({}, { duration: 10 }); 
+
+    // 2. TANGKAP PROGRESS SCROLL (Tanpa Scrub GSAP!)
+    ScrollTrigger.create({
+      trigger: wrapperRef.current,
+      start: "top top",
+      end: "bottom bottom",
+      onUpdate: (self) => {
+        targetProgress = self.progress; 
+      }
+    });
+
+    // 3. THE MAGICAL LERP RENDER LOOP
+    const lerp = (start: number, end: number, factor: number) => start + (end - start) * factor;
+
+    let lastRenderedFrame = -1; // Buat ngecek performa biar gak re-render frame yang sama
+
+    const renderLoop = () => {
+      // Faktor LERP: 0.08 itu kerasa empuk. Ubah ke 0.15 kalau mau lebih responsif.
+      currentProgress = lerp(currentProgress, targetProgress, 0.08);
+
+      // A. KALKULASI & RENDER CANVAS
+      // Hitung posisi frame dari 0 sampai (FRAME_COUNT - 1)
+      const exactFrame = currentProgress * (FRAME_COUNT - 1);
+      const roundedFrame = Math.round(exactFrame);
+      
+      // OPTIMASI: Hanya draw ulang kalau angkanya benar-benar berubah (menghemat CPU)
+      if (roundedFrame !== lastRenderedFrame) {
+        // Double check agar index aman dari out of bounds
+        const safeFrame = Math.min(Math.max(roundedFrame, 0), FRAME_COUNT - 1);
+        renderFrameToCanvas(safeFrame);
+        lastRenderedFrame = safeFrame;
+      }
+
+      // B. UPDATE DOM KOREOGRAFI
+      // Dorong GSAP buat nge-update opacity & Y-axis elemen sesuai LERP progress
+      tl.progress(currentProgress);
+
+      // Terus berputar 60FPS
+      animationFrameId = requestAnimationFrame(renderLoop);
+    };
+
+    // Nyalakan mesin!
+    renderLoop();
+
     return () => {
+      cancelAnimationFrame(animationFrameId);
       tl.kill();
       ScrollTrigger.getAll().forEach(t => t.kill());
     };
   }, [isLoaded]);
 
-  // === RENDER HELPERS ===
   const renderIcon = (iconName: string) => {
     const Component = ICON_MAP[iconName];
     return Component ? <Component className="h-10 w-10 text-text-primary" /> : null;
   };
 
-  // === RENDER UI ===
   return (
-    // THE WRAPPER: Fisik rel scroll yang panjang (1200vh)
     <section ref={wrapperRef} className="relative w-full bg-surface-dark" style={{ height: TOTAL_SCROLL_HEIGHT }}>
       
-      {/* THE STICKY STAGE: Panggung diam yang nempel di layar */}
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden">
         
-        {/* Loading Curtain */}
         <AnimatePresence>
           {!isLoaded && (
             <motion.div
@@ -243,20 +268,19 @@ export default function ServicesScrollytelling() {
               <div className="flex flex-col items-center space-y-6">
                 <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} className="h-20 w-20 border-4 border-surface-light/20 border-t-pop-yellow rounded-full" />
                 <p className="font-display text-pop-yellow font-black uppercase tracking-widest text-sm desktop:text-xl animate-pulse">
-                  Initializing Engine...
+                  Loading Frame Assets...
                 </p>
               </div>
             </motion.div>
           )}
         </AnimatePresence>
 
-        {/* Video Canvas Layer */}
+        {/* --- BALIK KE CANVAS ENGINE --- */}
         <canvas ref={canvasRef} className="absolute inset-0 z-0 h-full w-full opacity-60" />
 
-        {/* DOM Content Layer (Absolute Stacking Engine) */}
+        {/* DOM Content Layer */}
         <div className="absolute inset-0 z-20 pointer-events-none">
           
-          {/* Intro Card */}
           <div ref={introRef} className="absolute inset-0 flex items-center justify-center px-6 lg:px-24">
             <div className="rounded-[3rem] border-4 border-text-primary bg-surface-light p-10 text-center shadow-playful desktop:p-16">
               <h2 className="font-display text-5xl font-black uppercase text-text-primary lg:text-8xl leading-none tracking-tighter">
@@ -265,17 +289,14 @@ export default function ServicesScrollytelling() {
             </div>
           </div>
 
-          {/* Service Cards Loop */}
           {SERVICES.map((service, index) => (
             <div key={service.id} ref={(el) => { sectionRefs.current[index] = el; }} className="absolute inset-0 flex items-center justify-center px-4 lg:px-24 opacity-0">
               <div className="relative w-full max-w-3xl flex flex-col items-center text-center">
-                {/* Icon Badge */}
                 <div data-icon className="relative z-10 -mb-8 inline-flex">
                   <div className={`p-4 rounded-full ${service.theme.bg} border-4 ${service.theme.border} shadow-playful`}>
                     {renderIcon(service.icon)}
                   </div>
                 </div>
-                {/* Main Card */}
                 <div className={`relative w-full overflow-hidden rounded-[2.5rem] border-4 ${service.theme.border} bg-surface-light p-10 desktop:p-16 shadow-playful`}>
                   <div className={`absolute top-0 left-0 w-full h-4 ${service.theme.bg} border-b-4 ${service.theme.border}`} />
                   <h3 className={`font-display text-4xl lg:text-6xl font-black uppercase mt-4 mb-6 ${service.theme.text} drop-shadow-[3px_3px_0_rgba(0,0,0,1)] leading-none tracking-tight`}>
@@ -289,12 +310,10 @@ export default function ServicesScrollytelling() {
             </div>
           ))}
 
-          {/* Outro Card */}
           <div ref={outroRef} className="absolute inset-0 flex items-center justify-center px-6 lg:px-24 opacity-0">
             <motion.button
               whileHover={{ scale: 1.05, y: -4, boxShadow: "12px 12px 0px var(--shadow-playful-hover)" }}
               whileTap={{ scale: 0.95 }}
-              // Pointer events auto diaktifkan agar tombol bisa diklik
               className="pointer-events-auto group relative rounded-[2rem] border-4 border-text-primary bg-pop-yellow px-12 py-6 font-display text-2xl font-black uppercase tracking-widest text-text-primary shadow-playful transition-all duration-300"
             >
               Start Project
