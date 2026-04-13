@@ -1,26 +1,51 @@
 @import "tailwindcss";
 
+@theme {
+  /* Custom Breakpoints */
+  --breakpoint-tablet: 900px;
+  --breakpoint-desktop: 1280px;
+
+  /* Pastel Pop Palette */
+  --color-pop-pink: #FF90E8;
+  --color-pop-blue: #90E0EF;
+  --color-pop-yellow: #FFEA00;
+  --color-pop-green: #B9FBC0;
+  --color-pop-purple: #CDB4DB;
+  
+  --color-surface-light: #FAFAFA;
+  --color-surface-dark: #1A1A1A;
+  
+  --color-text-primary: #111111;
+  --color-text-muted: #666666;
+
+  /* Font yang bold dan modern untuk mendukung vibe playful */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  /* Custom shadows untuk efek playful/neo-brutalism ringan */
+  --shadow-playful: 4px 4px 0px 0px rgba(17, 17, 17, 1);
+  --shadow-playful-hover: 6px 6px 0px 0px rgba(17, 17, 17, 1);
+}
+
+/* Base resets & styles */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  background-color: var(--color-surface-light);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  /* Mencegah scroll horizontal saat animasi berjalan */
+  overflow-x: hidden; 
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 700;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Utilitas untuk menyembunyikan scrollbar pada area horizontal scroll (Portfolio) */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
