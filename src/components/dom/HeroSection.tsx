@@ -1,18 +1,58 @@
 "use client";
 
+import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 
 export default function HeroSection() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    // Pastikan video element-nya udah ada
+    if (!videoRef.current) return;
+
+    // Bikin Observer buat ngecek apakah video ada di dalam layar
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        // Kalau video masuk layar -> Play, kalau keluar layar -> Pause
+        if (entry.isIntersecting) {
+          // .catch() dipakai biar nggak muncul error di console kalau 
+          // browser nge-block play sebelum user interaksi
+          videoRef.current?.play().catch(() => {});
+        } else {
+          videoRef.current?.pause();
+        }
+      },
+      {
+        threshold: 0, // 0 berarti: Asal ada 1 piksel aja yang kelihatan/hilang, langsung trigger
+      }
+    );
+
+    // Mulai pantau videonya
+    observer.observe(videoRef.current);
+
+    // Cleanup pas komponen hancur/pindah halaman biar memory nggak bocor
+    return () => {
+      if (videoRef.current) {
+        observer.unobserve(videoRef.current);
+      }
+    };
+  }, []);
+
   return (
     <section className="relative flex min-h-screen w-full items-center overflow-hidden px-6 py-20 desktop:px-24">
+      
+      {/* 3D Canvas / Video Layer */}
       <div className="absolute inset-y-0 right-0 z-0 h-full w-full pointer-events-none tablet:w-[80%] desktop:w-[65%]">
         <video 
+          ref={videoRef}
           src="/Video/Hero/HeroAnim.webm" 
           autoPlay 
           loop 
           muted 
           playsInline
-          className="h-full w-full object-cover opacity-90 pointer-events-none"
+          // Tambahin will-change-transform dari Tailwind
+          className="h-full w-full object-cover opacity-90 pointer-events-none will-change-transform"
         />
       </div>
 
