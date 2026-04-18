@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { portfolioData } from "@/data/portfolio"; // Pastikan path data lu bener
+import { portfolioData } from "@/data/portfolio";
+import { motion, useInView, animate, AnimationPlaybackControls } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
 
 // Gabungkan semua data
 const allCards = [
@@ -59,6 +61,80 @@ export default function Portfolio() {
   );
 }
 
+// --- MICRO-COMPONENT: Outro Card (Infinite Replay Counting) ---
+const OutroCardInteractive = () => {
+  const [count, setCount] = useState(0);
+  const countRef = useRef(null);
+  
+  // 1. Hapus { once: true } agar status isInView update terus setiap keluar-masuk layar
+  const isInView = useInView(countRef, { margin: "-10% 0px" });
+  
+  const TOTAL_PROJECTS = portfolioData.length;
+
+  useEffect(() => {
+    let controls: AnimationPlaybackControls | undefined;
+    
+    if (isInView) {
+      // Jalankan animasi maju saat masuk layar
+      controls = animate(0, TOTAL_PROJECTS, {
+        duration: 2,
+        ease: "easeOut",
+        onUpdate: (latest) => setCount(Math.round(latest)),
+      });
+    } else {
+      // 2. RESET: Balikin ke 0 saat kartu keluar dari layar
+      setCount(0);
+    }
+
+    return () => controls?.stop(); // Stop animasi kalau komponen unmount
+  }, [isInView]);
+
+  const handleClick = () => {
+    window.location.href = "/work"; // Ganti ke halaman portfolio utama
+  };
+
+  return (
+    <div 
+      ref={countRef}
+      className="group relative flex h-full w-full flex-col items-center justify-center gap-6 overflow-hidden rounded-[2.5rem] border-4 border-pop-yellow bg-pop-yellow p-8 shadow-[0_-20px_50px_rgba(0,0,0,0.6)]"
+    >
+      {/* 1. THE GIANT BACKGROUND COUNTER */}
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center opacity-10">
+        <span className="font-display text-[15rem] font-black leading-none text-text-primary desktop:text-[25rem]">
+          {count}
+        </span>
+      </div>
+
+      {/* 2. FOREGROUND CONTENT */}
+      <div className="relative z-10 flex flex-col items-center text-center">
+        
+        {/* Badge yang ikut goyang dikit pas muncul */}
+        <motion.div 
+          animate={isInView ? { scale: [0.9, 1.1, 1], opacity: 1 } : { scale: 0.9, opacity: 0 }}
+          className="mb-6 rounded-full border-2 border-text-primary bg-surface-light px-5 py-2 font-display text-sm font-black uppercase tracking-widest text-text-primary shadow-[2px_2px_0_rgba(0,0,0,1)]"
+        >
+          {count} Successful Missions
+        </motion.div>
+        
+        <h3 className="font-display text-5xl font-black text-text-primary desktop:text-7xl">
+          Hungry for more pixels?
+        </h3>
+        
+        <p className="mt-4 max-w-md text-lg font-bold text-text-primary/70">
+          If you love what you see, wait until you see the rest of our digital crafts.
+        </p>
+
+      </div>
+      
+      {/* 3. BUTTON */}
+      <button onClick={handleClick} className="relative z-10 mt-8 rounded-xl border-4 border-text-primary bg-surface-light px-10 py-5 font-display text-xl font-black uppercase tracking-widest text-text-primary shadow-[6px_6px_0_rgba(0,0,0,1)] transition-transform hover:-translate-y-1 active:translate-y-0">
+        Take a Deeper Dive
+      </button>
+
+    </div>
+  );
+};
+
 // --- MICRO-COMPONENT: Card UI Builder ---
 const CardContent = ({ item }: { item: any }) => {
   // 1. Desain Card Intro
@@ -75,16 +151,7 @@ const CardContent = ({ item }: { item: any }) => {
 
   // 2. Desain Card Outro
   if (item.type === "outro") {
-    return (
-      <div className="flex h-full w-full flex-col items-center justify-center gap-6 rounded-[2.5rem] border-4 border-pop-yellow bg-pop-yellow p-8 shadow-[0_-20px_50px_rgba(0,0,0,0.6)]">
-        <h3 className="text-center font-display text-4xl font-black text-text-primary desktop:text-6xl">
-          Ready to be next?
-        </h3>
-        <button className="rounded-xl border-4 border-text-primary bg-surface-light px-8 py-4 font-bold text-text-primary shadow-[4px_4px_0_rgba(0,0,0,1)] transition-transform hover:-translate-y-1 hover:shadow-[6px_6px_0_rgba(0,0,0,1)]">
-          Start a Project
-        </button>
-      </div>
-    );
+    return <OutroCardInteractive />;
   }
 
   // 3. Desain Card Portfolio Utama
