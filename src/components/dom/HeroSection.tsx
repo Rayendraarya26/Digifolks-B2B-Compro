@@ -1,16 +1,19 @@
 "use client";
 
 import { motion } from "framer-motion";
-import dynamic from "next/dynamic";
-
-const Scene = dynamic(() => import("../canvas/Scene"), { ssr: false });
 
 export default function HeroSection() {
   return (
     <section className="relative flex min-h-screen w-full items-center overflow-hidden px-6 py-20 desktop:px-24">
-      {/* 3D Canvas Layer */}
-      <div className="absolute inset-y-0 right-0 z-0 h-full w-full pointer-events-none tablet:pointer-events-auto tablet:w-[80%] desktop:w-[65%]">
-        {/* <Scene /> */}
+      <div className="absolute inset-y-0 right-0 z-0 h-full w-full pointer-events-none tablet:w-[80%] desktop:w-[65%]">
+        <video 
+          src="/Video/Hero/HeroAnim.webm" 
+          autoPlay 
+          loop 
+          muted 
+          playsInline
+          className="h-full w-full object-cover opacity-90 pointer-events-none"
+        />
       </div>
 
       <div className="relative z-10 flex w-full max-w-2xl flex-col items-start justify-center gap-6 pointer-events-none">

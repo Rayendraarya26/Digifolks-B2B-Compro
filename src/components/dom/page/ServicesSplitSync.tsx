@@ -118,11 +118,12 @@ export default function ServicesSplitSync() {
             THE MIDDLE DIVIDER & PROGRESS BAR (FIXED)
         ========================================= */}
         <div className="hidden desktop:block absolute left-5/12 top-0 bottom-0 w-0.5 bg-text-primary/10">
-          <motion.div 
-            // PERBAIKAN: Menambahkan 'h-full' agar bisa di-scale tinggi-nya
-            className="h-full w-full bg-text-primary origin-top"
-            style={{ scaleY }} 
-          />
+         <div className="sticky top-0 h-screen w-full bg-text-primary/10">
+            <motion.div 
+              className="h-full w-full bg-text-primary origin-top"
+              style={{ scaleY }} 
+            />
+          </div>
         </div>
 
         {/* =========================================
