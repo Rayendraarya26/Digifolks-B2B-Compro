@@ -80,7 +80,7 @@ export default function ServicesSplitSync() {
   });
 
   return (
-    <section ref={containerRef} className="relative w-full bg-surface-light">
+    <section ref={containerRef} className="relative w-full overflow-x-clip bg-surface-light">
       <div className="mx-auto flex w-full max-w-360">
         
         {/* =========================================

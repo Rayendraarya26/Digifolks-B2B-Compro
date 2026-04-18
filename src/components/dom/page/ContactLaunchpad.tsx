@@ -110,7 +110,7 @@ export default function ContactLaunchpad() {
           <div className="flex items-center justify-between rounded-3xl border-2 border-text-primary bg-surface-light p-4 shadow-[4px_4px_0_rgba(0,0,0,1)]">
             <div className="flex flex-col">
               <span className="text-xs font-black uppercase tracking-widest text-text-primary/50">Drop an email</span>
-              <span className="font-display text-lg font-black sm:text-xl">hello@wecore.official</span>
+              <span className="font-display text-lg font-black sm:text-xl">digifolks@gmail.com</span>
             </div>
             <button 
               onClick={handleCopyEmail}
