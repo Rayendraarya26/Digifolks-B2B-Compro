@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import FloatingDock from "@/components/dom/FloatingDock";
-import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
+// import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 
 // Inisialisasi Font
 const spaceGrotesk = Space_Grotesk({
