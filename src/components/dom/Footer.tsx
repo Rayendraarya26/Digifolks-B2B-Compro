@@ -50,7 +50,7 @@ export default function Footer() {
           <div className="flex flex-col gap-6">
             <motion.div
               whileHover={{ scale: 1.05 }}
-              className="flex cursor-pointer items-center gap-2 text-pop-yellow transition-colors hover:text-pop-pink"
+              className="flex items-center gap-2 text-pop-yellow transition-colors hover:text-pop-pink"
             >
               <Command className="h-10 w-10 border-2 border-current rounded-xl p-1" />
               <span className="font-display text-3xl font-black uppercase tracking-widest">
@@ -77,11 +77,11 @@ export default function Footer() {
               Explore
             </h4>
             <div className="flex flex-col gap-3">
-              {["Home", "Services", "Work", "Contact"].map((link) => (
+              {[{name: "Home", href: "/"}, {name: "Services", href: "/services"}, {name: "Work", href: "/work"}, {name: "Contact", href: "/contact"}].map((link) => (
                 <HoverLink
-                  key={link}
-                  text={link}
-                  href={`/${link.toLowerCase()}`}
+                  key={link.name}
+                  text={link.name}
+                  href={link.href}
                 />
               ))}
             </div>
