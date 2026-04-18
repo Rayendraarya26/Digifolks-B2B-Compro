@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 import FloatingDock from "@/components/dom/FloatingDock";
+import Footer from "@/components/dom/Footer";
 // import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 
 // Inisialisasi Font
@@ -42,6 +43,7 @@ export default function RootLayout({
         
         {/* Global Navigation diletakkan di luar struktur halaman agar persisten */}
         <FloatingDock />
+        <Footer />
       </body>
     </html>
   );

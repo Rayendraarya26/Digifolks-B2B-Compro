@@ -84,7 +84,7 @@ export default function ServicesHyperBento() {
           >
             
             {/* KOTAK 1: Judul & Icon (Warna Dinamis) */}
-            <div className={`col-span-1 row-span-1 flex flex-col justify-between rounded-[2rem] border-2 border-text-primary p-8 shadow-[4px_4px_0_rgba(0,0,0,1)] transition-transform hover:-translate-y-1 ${service.color}`}>
+            <div className={`col-span-1 row-span-1 flex flex-col justify-between rounded-4xl border-2 border-text-primary p-8 shadow-[4px_4px_0_rgba(0,0,0,1)] transition-transform hover:-translate-y-1 ${service.color}`}>
               <div className="mb-8 inline-flex w-fit rounded-2xl border-2 border-text-primary bg-surface-light p-4 shadow-[4px_4px_0_rgba(0,0,0,1)]">
                 <service.icon className="h-8 w-8 text-text-primary" />
               </div>
@@ -94,14 +94,14 @@ export default function ServicesHyperBento() {
             </div>
 
             {/* KOTAK 2: Deskripsi Panjang */}
-            <div className="col-span-1 row-span-1 flex items-center rounded-[2rem] border-2 border-text-primary bg-surface-light p-8 shadow-[4px_4px_0_rgba(0,0,0,1)] desktop:col-span-2">
+            <div className="col-span-1 row-span-1 flex items-center rounded-4xl border-2 border-text-primary bg-surface-light p-8 shadow-[4px_4px_0_rgba(0,0,0,1)] desktop:col-span-2">
               <p className="text-xl font-bold leading-relaxed text-text-primary sm:text-2xl">
                 "{service.description}"
               </p>
             </div>
 
             {/* KOTAK 4: Tech Stack (Kita letakkan di row 2 col 1 agar rapi di bawah judul saat desktop) */}
-            <div className="col-span-1 row-span-1 flex flex-col justify-center gap-4 rounded-[2rem] border-2 border-text-primary bg-surface-light p-8 shadow-[4px_4px_0_rgba(0,0,0,1)]">
+            <div className="col-span-1 row-span-1 flex flex-col justify-center gap-4 rounded-4xl border-2 border-text-primary bg-surface-light p-8 shadow-[4px_4px_0_rgba(0,0,0,1)]">
               <p className="font-display text-sm font-black uppercase tracking-widest text-text-primary/50">
                 Core Stack
               </p>
@@ -118,7 +118,7 @@ export default function ServicesHyperBento() {
             </div>
 
             {/* KOTAK 3: Gambar Visual Utama */}
-            <div className="col-span-1 row-span-1 overflow-hidden rounded-[2rem] border-2 border-text-primary bg-surface-dark shadow-[4px_4px_0_rgba(0,0,0,1)] desktop:col-span-2">
+            <div className="col-span-1 row-span-1 overflow-hidden rounded-4xl border-2 border-text-primary bg-surface-dark shadow-[4px_4px_0_rgba(0,0,0,1)] desktop:col-span-2">
               <div className="group relative h-64 w-full sm:h-80 desktop:h-full">
                 <img 
                   src={service.image} 

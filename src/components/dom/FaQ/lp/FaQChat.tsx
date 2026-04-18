@@ -60,7 +60,7 @@ const ChatItem = ({ item }: { item: typeof FAQ_DATA[0] }) => {
         onClick={handleClick}
         whileHover={{ scale: 1.02 }}
         whileTap={{ scale: 0.98 }}
-        className="group relative flex w-11/12 max-w-xl flex-col items-start justify-center rounded-[2rem] rounded-bl-none border-4 border-text-primary bg-surface-light p-5 text-left shadow-playful transition-all hover:shadow-[8px_8px_0_var(--color-text-primary)] sm:p-6"
+        className="group relative flex w-11/12 max-w-xl flex-col items-start justify-center rounded-4xl rounded-bl-none border-4 border-text-primary bg-surface-light p-5 text-left shadow-playful transition-all hover:shadow-[8px_8px_0_var(--color-text-primary)] sm:p-6"
       >
         <p className="font-display text-lg font-black leading-tight text-text-primary sm:text-xl">
           {item.question}
@@ -81,7 +81,7 @@ const ChatItem = ({ item }: { item: typeof FAQ_DATA[0] }) => {
             animate={{ opacity: 1, scale: 1, x: 0 }}
             exit={{ opacity: 0, scale: 0.8, x: 20 }}
             transition={{ type: "spring", stiffness: 300, damping: 25 }}
-            className={`ml-auto flex w-fit items-center justify-center rounded-[2rem] rounded-br-none border-4 border-text-primary ${item.color} px-6 py-5 shadow-playful`}
+            className={`ml-auto flex w-fit items-center justify-center rounded-4xl rounded-br-none border-4 border-text-primary ${item.color} px-6 py-5 shadow-playful`}
           >
             <div className="flex gap-2">
               <motion.div animate={{ y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 0.6, ease: "easeInOut", delay: 0 }} className="h-3 w-3 rounded-full bg-text-primary" />
@@ -99,7 +99,7 @@ const ChatItem = ({ item }: { item: typeof FAQ_DATA[0] }) => {
             animate={{ opacity: 1, scale: 1, x: 0 }}
             exit={{ opacity: 0, scale: 0.8, x: 20 }}
             transition={{ type: "spring", stiffness: 400, damping: 25 }}
-            className={`ml-auto w-11/12 max-w-xl rounded-[2rem] rounded-br-none border-4 border-text-primary ${item.color} p-5 text-left shadow-playful sm:p-6`}
+            className={`ml-auto w-11/12 max-w-xl rounded-4xl rounded-br-none border-4 border-text-primary ${item.color} p-5 text-left shadow-playful sm:p-6`}
           >
             <p className="font-bold leading-relaxed text-text-primary sm:text-lg">
               {item.answer}

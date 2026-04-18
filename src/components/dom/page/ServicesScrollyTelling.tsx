@@ -256,14 +256,14 @@ export default function ServicesScrollytelling() {
   return (
     <section ref={wrapperRef} className="relative w-full bg-surface-dark" style={{ height: TOTAL_SCROLL_HEIGHT }}>
       
-      <div className="sticky top-0 h-[100dvh] w-full overflow-hidden">
+      <div className="sticky top-0 h-dvh w-full overflow-hidden">
         
         <AnimatePresence>
           {!isLoaded && (
             <motion.div
               exit={{ opacity: 0, y: "-100%" }}
               transition={{ duration: 0.8, ease: "easeInOut" }}
-              className="absolute inset-0 z-[100] flex items-center justify-center bg-surface-dark"
+              className="absolute inset-0 z-100 flex items-center justify-center bg-surface-dark"
             >
               <div className="flex flex-col items-center space-y-6">
                 <motion.div animate={{ rotate: 360 }} transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }} className="h-20 w-20 border-4 border-surface-light/20 border-t-pop-yellow rounded-full" />
@@ -314,7 +314,7 @@ export default function ServicesScrollytelling() {
             <motion.button
               whileHover={{ scale: 1.05, y: -4, boxShadow: "12px 12px 0px var(--shadow-playful-hover)" }}
               whileTap={{ scale: 0.95 }}
-              className="pointer-events-auto group relative rounded-[2rem] border-4 border-text-primary bg-pop-yellow px-12 py-6 font-display text-2xl font-black uppercase tracking-widest text-text-primary shadow-playful transition-all duration-300"
+              className="pointer-events-auto group relative rounded-4xl border-4 border-text-primary bg-pop-yellow px-12 py-6 font-display text-2xl font-black uppercase tracking-widest text-text-primary shadow-playful transition-all duration-300"
             >
               Start Project
             </motion.button>

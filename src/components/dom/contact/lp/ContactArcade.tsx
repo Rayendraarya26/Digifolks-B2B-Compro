@@ -128,7 +128,7 @@ export default function ContactArcade() {
                           {terminalLog.map((line, index) => (
                             <p 
                               key={index} 
-                              className={`font-mono text-sm font-bold uppercase tracking-widest break-words max-w-full ${index === terminalLog.length - 1 ? 'text-surface-light opacity-100' : 'text-pop-yellow opacity-50'}`}
+                              className={`font-mono text-sm font-bold uppercase tracking-widest wrap-break-word max-w-full ${index === terminalLog.length - 1 ? 'text-surface-light opacity-100' : 'text-pop-yellow opacity-50'}`}
                             >
                               {line}{index === terminalLog.length - 1 && <span className="animate-pulse">_</span>}
                             </p>

@@ -6,6 +6,7 @@ import Testimonials from "@/components/dom/Testimonials";
 // import Contact from "@/components/dom/contact/lp/ContactSection";
 import ContactArcade from "@/components/dom/contact/lp/ContactArcade";
 import FaqChat from "@/components/dom/FaQ/lp/FaQChat";
+import GrandCTA from "@/components/dom/GrandCTA";
 
 export default function Home() {
   return (
@@ -18,6 +19,7 @@ export default function Home() {
       {/* <Contact /> */}
       <ContactArcade />
       <FaqChat />
+      <GrandCTA />
     </div>
   );
 }

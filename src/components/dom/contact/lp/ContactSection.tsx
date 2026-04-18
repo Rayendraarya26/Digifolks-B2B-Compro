@@ -133,7 +133,7 @@ export default function Contact() {
                 key="success-msg"
                 initial={{ opacity: 0, scale: 0.5, y: 50 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                className="flex h-full min-h-[400px] flex-col items-center justify-center rounded-[2.5rem] border-4 border-text-primary bg-pop-green p-8 text-center shadow-playful"
+                className="flex h-full min-h-100 flex-col items-center justify-center rounded-[2.5rem] border-4 border-text-primary bg-pop-green p-8 text-center shadow-playful"
               >
                 <CheckCircle2 className="mb-6 h-20 w-20 text-text-primary" />
                 <h3 className="font-display text-4xl font-black uppercase leading-tight text-text-primary">

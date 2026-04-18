@@ -81,7 +81,7 @@ export default function ServicesSplitSync() {
 
   return (
     <section ref={containerRef} className="relative w-full bg-surface-light">
-      <div className="mx-auto flex w-full max-w-[1440px]">
+      <div className="mx-auto flex w-full max-w-360">
         
         {/* =========================================
             LEFT COLUMN: THE FIXED NAVIGATOR
@@ -117,7 +117,7 @@ export default function ServicesSplitSync() {
         {/* =========================================
             THE MIDDLE DIVIDER & PROGRESS BAR (FIXED)
         ========================================= */}
-        <div className="hidden desktop:block absolute left-5/12 top-0 bottom-0 w-[2px] bg-text-primary/10">
+        <div className="hidden desktop:block absolute left-5/12 top-0 bottom-0 w-0.5 bg-text-primary/10">
           <motion.div 
             // PERBAIKAN: Menambahkan 'h-full' agar bisa di-scale tinggi-nya
             className="h-full w-full bg-text-primary origin-top"
@@ -140,6 +140,7 @@ export default function ServicesSplitSync() {
           {SERVICES.map((service) => (
             <motion.div
               key={`content-${service.id}`}
+              id={service.id}
               // PERBAIKAN LOGIKA VIEWPORT
               // Mengubah amount menjadi "some" (sekitar 0.1) biar gampang ke-trigger
               onViewportEnter={() => setActiveSection(service.id)}
@@ -157,7 +158,7 @@ export default function ServicesSplitSync() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
-                className={`relative mb-12 w-full overflow-hidden rounded-[2rem] border-2 border-text-primary shadow-[6px_6px_0_rgba(0,0,0,1)] ${service.theme.bg}`}
+                className={`relative mb-12 w-full overflow-hidden rounded-4xl border-2 border-text-primary shadow-[6px_6px_0_rgba(0,0,0,1)] ${service.theme.bg}`}
               >
                 <div className="aspect-video w-full p-4 sm:p-6">
                    <div className="relative h-full w-full overflow-hidden rounded-xl border-2 border-text-primary bg-surface-dark">
@@ -184,7 +185,7 @@ export default function ServicesSplitSync() {
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  className="flex flex-col gap-4 rounded-[2rem] border-2 border-text-primary bg-surface-dark/5 p-6 sm:p-8"
+                  className="flex flex-col gap-4 rounded-4xl border-2 border-text-primary bg-surface-dark/5 p-6 sm:p-8"
                 >
                   <h3 className="font-display text-sm font-black uppercase tracking-widest text-text-primary/50">Key Features</h3>
                   <ul className="flex flex-col gap-3">
@@ -201,7 +202,7 @@ export default function ServicesSplitSync() {
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  className="flex flex-col gap-4 rounded-[2rem] border-2 border-text-primary bg-surface-dark/5 p-6 sm:p-8"
+                  className="flex flex-col gap-4 rounded-4xl border-2 border-text-primary bg-surface-dark/5 p-6 sm:p-8"
                 >
                   <h3 className="font-display text-sm font-black uppercase tracking-widest text-text-primary/50">Core Stack</h3>
                   <div className="flex flex-wrap gap-2">

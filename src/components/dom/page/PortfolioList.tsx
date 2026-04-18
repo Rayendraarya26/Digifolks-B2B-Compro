@@ -95,9 +95,9 @@ const ProjectDetail = ({ project, onClose }: { project: typeof PROJECTS[0], onCl
   return (
     <motion.div 
       layoutId={`card-${project.id}`}
-      className="fixed inset-0 z-[100] h-[100dvh] w-full overflow-y-auto bg-surface-light"
+      className="fixed inset-0 z-100 h-dvh w-full overflow-y-auto bg-surface-light"
     >
-      <div className="sticky top-6 z-[110] flex w-full justify-between px-6 pointer-events-none sm:px-12">
+      <div className="sticky top-6 z-110 flex w-full justify-between px-6 pointer-events-none sm:px-12">
         <button 
           onClick={onClose}
           // Border ditipisin jadi border-2
@@ -113,7 +113,7 @@ const ProjectDetail = ({ project, onClose }: { project: typeof PROJECTS[0], onCl
             <motion.div 
               layoutId={`image-${project.id}`}
               // Border ditipisin jadi border-2
-              className="relative aspect-video overflow-hidden rounded-[2rem] border-2 border-text-primary bg-surface-dark shadow-playful"
+              className="relative aspect-video overflow-hidden rounded-4xl border-2 border-text-primary bg-surface-dark shadow-playful"
             >
               <img src={project.image} alt={project.title} className="h-full w-full object-cover" />
             </motion.div>
@@ -193,13 +193,13 @@ const LayeredProjectCard = ({ project, onSelect }: { project: typeof PROJECTS[0]
       initial="idle"
       whileHover="hover"
       // Border ditipisin jadi border-2
-      className={`group relative w-full cursor-pointer overflow-hidden rounded-[2rem] border-2 border-text-primary bg-surface-light shadow-[6px_6px_0_rgba(0,0,0,1)] transition-shadow duration-300 hover:shadow-[10px_10px_0_rgba(0,0,0,1)] ${spanClasses}`}
+      className={`group relative w-full cursor-pointer overflow-hidden rounded-4xl border-2 border-text-primary bg-surface-light shadow-[6px_6px_0_rgba(0,0,0,1)] transition-shadow duration-300 hover:shadow-[10px_10px_0_rgba(0,0,0,1)] ${spanClasses}`}
     >
       {/* 1. BACKGROUND LACI */}
       <div className={`absolute inset-0 z-0 h-full w-full ${project.color}`} />
 
       {/* 2. ISI LACI */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 flex h-[80px] items-center justify-between px-6">
+      <div className="absolute bottom-0 left-0 right-0 z-10 flex h-20 items-center justify-between px-6">
         <motion.div
           variants={{
             idle: { y: 20, opacity: 0 },
@@ -238,7 +238,7 @@ const LayeredProjectCard = ({ project, onSelect }: { project: typeof PROJECTS[0]
       >
         <img src={project.image} alt={project.title} className="h-full w-full object-cover" />
         
-        <div className="absolute inset-0 bg-gradient-to-t from-surface-dark/90 via-surface-dark/20 to-transparent" />
+        <div className="absolute inset-0 bg-linear-to-t from-surface-dark/90 via-surface-dark/20 to-transparent" />
 
         <motion.div layoutId={`info-${project.id}`} className="absolute bottom-6 left-6 right-6 flex flex-col items-start">
           <h3 className="font-display text-2xl font-black uppercase text-surface-light drop-shadow-[2px_2px_0_rgba(0,0,0,1)] sm:text-4xl">
