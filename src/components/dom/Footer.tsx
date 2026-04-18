@@ -140,7 +140,7 @@ export default function Footer() {
         <div className="relative mt-6 flex flex-col items-center justify-between gap-6 rounded-4xl bg-surface-light/5 p-6 backdrop-blur-md sm:flex-row">
           <div className="flex flex-col gap-2 text-center sm:text-left">
             <p className="font-display text-sm font-black uppercase tracking-widest text-surface-light/80">
-              © {new Date().getFullYear()} WeCore Digital. All rights reserved.
+              © {new Date().getFullYear()} Digifolks. All rights reserved.
             </p>
             <p className="text-xs font-bold text-surface-light/50">
               No bugs were harmed in the making of this website. (Maybe a few).
