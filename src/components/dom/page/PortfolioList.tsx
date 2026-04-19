@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, ArrowLeft, X, ExternalLink, Globe, Calendar, Briefcase, User } from "lucide-react";
+import { ArrowRight, ArrowLeft, ExternalLink, Calendar, Briefcase, User } from "lucide-react";
+import { portfolioData } from "@/data/portfolio";
 
 // --- DATA PROJECT ---
 const PROJECTS = [
@@ -83,10 +84,10 @@ const PROJECTS = [
   },
 ];
 
-const CATEGORIES = ["All", "Web Platform", "AI & System", "Backend", "E-Commerce"];
+const CATEGORIES = ["All", "Web App", "AI & System", "Backend", "E-Commerce"];
 
 // --- KOMPONEN: OVERLAY DETAIL (FULL SCREEN) ---
-const ProjectDetail = ({ project, onClose }: { project: typeof PROJECTS[0], onClose: () => void }) => {
+const ProjectDetail = ({ project, onClose }: { project: typeof portfolioData[0], onClose: () => void }) => {
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => { document.body.style.overflow = "unset"; };
@@ -115,13 +116,13 @@ const ProjectDetail = ({ project, onClose }: { project: typeof PROJECTS[0], onCl
               // Border ditipisin jadi border-2
               className="relative aspect-video overflow-hidden rounded-4xl border-2 border-text-primary bg-surface-dark shadow-playful"
             >
-              <img src={project.image} alt={project.title} className="h-full w-full object-cover" />
+              <img src={project.imageUrl} alt={project.title} className="h-full w-full object-cover" />
             </motion.div>
           </div>
           <div className="w-full desktop:w-1/2">
             <motion.div layoutId={`info-${project.id}`}>
               <p className="mb-2 font-display text-lg font-black uppercase tracking-widest text-pop-pink">
-                {project.category}
+                {project.projectType}
               </p>
               <h2 className="font-display text-5xl font-black uppercase leading-none tracking-tighter text-text-primary desktop:text-8xl sm:text-7xl">
                 {project.title}
@@ -139,7 +140,7 @@ const ProjectDetail = ({ project, onClose }: { project: typeof PROJECTS[0], onCl
             <section>
               <h3 className="mb-6 font-display text-3xl font-black uppercase tracking-tight text-text-primary">The Craft</h3>
               <div className="flex flex-wrap gap-4">
-                {project.craft.map((tech) => (
+                {project.tags.map((tech) => (
                   // Border ditipisin jadi border-2
                   <div key={tech} className="flex items-center gap-2 rounded-2xl border-2 border-text-primary bg-surface-light px-5 py-3 shadow-playful transition-transform hover:-translate-y-1">
                     <div className="h-3 w-3 rounded-full bg-pop-yellow" />
@@ -149,8 +150,8 @@ const ProjectDetail = ({ project, onClose }: { project: typeof PROJECTS[0], onCl
               </div>
             </section>
             <section className="rounded-[2.5rem] border-2 border-text-primary bg-pop-green p-8 shadow-playful sm:p-10">
-              <h3 className="mb-4 font-display text-3xl font-black uppercase tracking-tight text-text-primary">The Result</h3>
-              <p className="text-xl font-black italic leading-relaxed text-text-primary">"{project.result}"</p>
+              <h3 className="mb-4 font-display text-3xl font-black uppercase tracking-tight text-text-primary">The Solutions</h3>
+              <p className="text-xl font-black italic leading-relaxed text-text-primary">"{project.solutions}"</p>
             </section>
           </div>
 
@@ -181,7 +182,7 @@ const ProjectDetail = ({ project, onClose }: { project: typeof PROJECTS[0], onCl
 };
 
 // --- KOMPONEN BARU: LAYERED PROJECT CARD (CLEAN BORDERS) ---
-const LayeredProjectCard = ({ project, onSelect }: { project: typeof PROJECTS[0], onSelect: (id: string) => void }) => {
+const LayeredProjectCard = ({ project, onSelect }: { project: typeof portfolioData[0], onSelect: (id: string) => void }) => {
   let spanClasses = "col-span-1 row-span-1 h-[300px]";
   if (project.size === "large") spanClasses = "col-span-1 md:col-span-2 row-span-1 md:row-span-2 h-[300px] md:h-[632px]";
   if (project.size === "wide") spanClasses = "col-span-1 md:col-span-2 row-span-1 h-[300px]";
@@ -220,7 +221,7 @@ const LayeredProjectCard = ({ project, onSelect }: { project: typeof PROJECTS[0]
           transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.1 }}
         >
           <p className="rounded-full border-2 border-text-primary bg-surface-light px-3 py-1 text-xs font-bold uppercase tracking-widest text-text-primary shadow-[2px_2px_0_rgba(0,0,0,1)]">
-            {project.category}
+            {project.projectType}
           </p>
         </motion.div>
       </div>
@@ -236,7 +237,7 @@ const LayeredProjectCard = ({ project, onSelect }: { project: typeof PROJECTS[0]
         // HAPUS SISA BORDER-B-4 DI SINI! Murni pakai background color aja
         className="absolute bottom-0 left-0 right-0 top-0 z-20 bg-surface-dark transition-colors duration-300"
       >
-        <img src={project.image} alt={project.title} className="h-full w-full object-cover" />
+        <img src={project.imageUrl} alt={project.title} className="h-full w-full object-cover" />
         
         <div className="absolute inset-0 bg-linear-to-t from-surface-dark/90 via-surface-dark/20 to-transparent" />
 
@@ -259,11 +260,11 @@ export default function PortfolioList() {
   // Set jadi 4 biar paginationnya nongol dan bisa dites!
   const itemsPerPage = 4; 
 
-  const filteredProjects = PROJECTS.filter(p => activeFilter === "All" || p.category === activeFilter);
+  const filteredProjects = portfolioData.filter(p => activeFilter === "All" || p.projectType === activeFilter);
   const paginatedProjects = filteredProjects.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
   const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
 
-  const selectedProject = PROJECTS.find(p => p.id === selectedId);
+  const selectedProject = portfolioData.find(p => p.id === selectedId);
 
   return (
     <section className="min-h-screen w-full bg-surface-light px-4 py-24 desktop:px-24 sm:px-6">

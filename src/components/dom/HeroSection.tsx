@@ -46,7 +46,7 @@ export default function HeroSection() {
       <div className="absolute inset-y-0 right-0 z-0 h-full w-full pointer-events-none tablet:w-[80%] desktop:w-[65%]">
         <video 
           ref={videoRef}
-          src="/Video/Hero/HeroAnim.webm" 
+          src="/Video/Hero/Hero-4K-V1.webm" 
           autoPlay 
           loop 
           muted 

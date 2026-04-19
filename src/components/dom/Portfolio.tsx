@@ -5,10 +5,15 @@ import { portfolioData } from "@/data/portfolio";
 import { motion, useInView, animate, AnimationPlaybackControls } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
 
+const targetIds = ["port-1", "port-2", "port-3"];
+
 // Gabungkan semua data
 const allCards = [
   { id: "intro", type: "intro" },
-  ...portfolioData.map((item) => ({ ...item, type: "portfolio" })),
+  ...targetIds
+    .map((id) => portfolioData.find((item) => item.id === id))
+    .filter(Boolean)
+    .map((item) => ({ ...item, type: "portfolio" })),
   { id: "outro", type: "outro" },
 ];
 
@@ -17,12 +22,11 @@ export default function Portfolio() {
   const GAP = 24; 
 
   return (
-    // Padding bawah nggak perlu terlalu besar lagi karena kita udah pasang spacer di dalam
     <section className="relative w-full bg-surface-dark px-4 pb-24 pt-[10vh] sm:px-8 desktop:px-24">
       {/* RUMAH UTAMA TUMPUKAN KARTU */}
       <div className="relative z-10 mx-auto w-full max-w-6xl">
         {allCards.map((item, index) => {
-          // SIHIR SINKRONISASI: 
+          // MAGIC SINKRONISASI: 
           // Kita hitung seberapa besar "bantalan bawah" yang dibutuhin tiap kartu 
           // biar batas bawah mereka semua rata. (Kartu pertama butuh bantalan paling tebal)
           const bottomAlignmentPadding = (allCards.length - 1 - index) * GAP;
@@ -65,8 +69,6 @@ export default function Portfolio() {
 const OutroCardInteractive = () => {
   const [count, setCount] = useState(0);
   const countRef = useRef(null);
-  
-  // 1. Hapus { once: true } agar status isInView update terus setiap keluar-masuk layar
   const isInView = useInView(countRef, { margin: "-10% 0px" });
   
   const TOTAL_PROJECTS = portfolioData.length;
@@ -157,13 +159,9 @@ const CardContent = ({ item }: { item: any }) => {
   // 3. Desain Card Portfolio Utama
   return (
     <div className="group relative flex h-full w-full flex-col justify-end overflow-hidden rounded-[2.5rem] border-4 border-pop-green bg-surface-light p-8 shadow-[0_-20px_50px_rgba(0,0,0,0.4)] transition-colors hover:border-pop-pink desktop:p-12">
-      
-      {/* Gambar / Cover dengan Next Image */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Image 
-          // Placeholder Unsplash keren bertema Tech/Setup
-          // Nanti kalau data asli udah siap, tinggal ganti jadi: src={item.image}
-          src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop"
+          src={item.imageUrl}
           alt={item.headline}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 60vw"
