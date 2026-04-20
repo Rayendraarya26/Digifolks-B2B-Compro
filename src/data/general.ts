@@ -4,6 +4,7 @@ export interface GeneralData {
   heroAnimationUrl: string;
   heroCTAUrl: string;
   grandCTAUrl: string;
+  bookMeetingUrl: string;
   footerContactUrl: {
     instagram: string;
     linkedin: string;
@@ -24,6 +25,7 @@ export const GeneralData: GeneralData[] = [
     heroAnimationUrl: "/Video/Hero/HeroAnimV2.webm",
     heroCTAUrl: "/contact",
     grandCTAUrl: "/services",
+    bookMeetingUrl: "/book-meeting",
     footerContactUrl: {
       instagram: "https://instagram.com",
       linkedin: "https://linkedin.com",

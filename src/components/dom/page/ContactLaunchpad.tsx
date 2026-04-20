@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { Copy, Calendar, Rocket, CheckCircle2, ArrowRight, ArrowLeft, Send } from "lucide-react";
+import { GeneralData } from "@/data/general";
 
 // --- STATE MANAGEMENT ---
 type FormData = {
@@ -60,7 +61,7 @@ export default function ContactLaunchpad() {
   };
 
   const handleCopyEmail = () => {
-    navigator.clipboard.writeText("hello@wecore.official");
+    navigator.clipboard.writeText(GeneralData[0].email);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -110,7 +111,7 @@ export default function ContactLaunchpad() {
           <div className="flex items-center justify-between rounded-3xl border-2 border-text-primary bg-surface-light p-4 shadow-[4px_4px_0_rgba(0,0,0,1)]">
             <div className="flex flex-col">
               <span className="text-xs font-black uppercase tracking-widest text-text-primary/50">Drop an email</span>
-              <span className="font-display text-lg font-black sm:text-xl">digifolks@gmail.com</span>
+              <span className="font-display text-lg font-black sm:text-xl">{GeneralData[0].email}</span>
             </div>
             <button 
               onClick={handleCopyEmail}
@@ -120,7 +121,7 @@ export default function ContactLaunchpad() {
             </button>
           </div>
 
-          <a href="#" className="group flex flex-col justify-between rounded-3xl border-2 border-text-primary bg-pop-blue p-6 shadow-[4px_4px_0_rgba(0,0,0,1)] transition-transform hover:-translate-y-1">
+          <a href={GeneralData[0].bookMeetingUrl} target="_blank" className="group flex flex-col justify-between rounded-3xl border-2 border-text-primary bg-pop-blue p-6 shadow-[4px_4px_0_rgba(0,0,0,1)] transition-transform hover:-translate-y-1">
             <div className="mb-4 flex items-center gap-3">
               <div className="rounded-full border-2 border-text-primary bg-surface-light p-2">
                 <Calendar className="h-5 w-5" />
