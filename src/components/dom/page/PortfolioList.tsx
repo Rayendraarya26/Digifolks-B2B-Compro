@@ -82,6 +82,26 @@ const ProjectDetail = ({
             </section>
             <section>
               <h3 className="mb-6 font-display text-3xl font-black uppercase tracking-tight text-text-primary">
+                The Requirement
+              </h3>
+              
+              {/* THE DOSSIER BLOCK (Neo-Brutalism Paragraph Box) */}
+              <div className="relative w-full rounded-3xl border-4 border-text-primary bg-surface-light p-6 shadow-[6px_6px_0_rgba(0,0,0,1)] sm:p-8">
+                
+                {/* Aksen Label Kecil ala UI Sci-Fi/Technical */}
+                {/* <div className="absolute -top-3 left-6 inline-flex bg-surface-light px-2 font-display text-xs font-black uppercase tracking-widest text-pop-pink">
+                  System.Requirements_
+                </div> */}
+
+                {/* Teks String Panjang Lu */}
+                <p className="text-lg font-bold leading-relaxed text-text-primary/80 whitespace-pre-line">
+                  {project.requirements}
+                </p>
+                
+              </div>
+            </section>
+            <section>
+              <h3 className="mb-6 font-display text-3xl font-black uppercase tracking-tight text-text-primary">
                 The Craft
               </h3>
               <div className="flex flex-wrap gap-4">
@@ -160,6 +180,41 @@ const ProjectDetail = ({
             </div>
           </aside>
         </div>
+        {project.showcaseImages?.length > 0 && (
+          <section className="mt-32 flex flex-col gap-8">
+            <div className="flex items-center gap-6">
+              <h3 className="font-display text-4xl font-black uppercase tracking-tight text-text-primary sm:text-5xl">
+                The Visuals
+              </h3>
+              <div className="h-2 w-full flex-1 rounded-full bg-text-primary/10"></div>
+            </div>
+
+            {/* Dynamic Grid: Gambar selang-seling full width dan half width */}
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+              {project.showcaseImages.map((img: string, idx: number) => {
+                // Logika Dynamic Grid: Setiap kelipatan 3 (index 0, 3, 6) jadikan full width
+                const isFullWidth = idx % 3 === 0;
+
+                return (
+                  <div
+                    key={idx}
+                    className={`group relative overflow-hidden rounded-4xl border-4 border-text-primary bg-surface-dark shadow-[8px_8px_0_rgba(0,0,0,1)] transition-transform duration-300 hover:-translate-y-2 ${
+                      isFullWidth ? "aspect-video md:col-span-2" : "aspect-square md:aspect-4/3"
+                    }`}
+                  >
+                    <img
+                      src={img}
+                      alt={`${project.title} showcase ${idx + 1}`}
+                      className="h-full w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                    />
+                    {/* Efek Glass Overlay tipis pas dihover biar elegan */}
+                    <div className="absolute inset-0 bg-pop-pink/0 transition-colors duration-300 group-hover:bg-pop-pink/10 pointer-events-none" />
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+        )}
       </div>
     </motion.div>
   );
