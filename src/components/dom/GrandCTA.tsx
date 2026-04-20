@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useSpring, useMotionValue, AnimatePresence } from "framer-motion";
+import { motion, useSpring, useMotionValue } from "framer-motion";
 
-export default function Footer() {
+export default function GrandCTA({grandCTAUrl}: {grandCTAUrl: string}) {
 
   // --- MAGNETIC BUTTON LOGIC ---
   const btnRef = useRef<HTMLButtonElement>(null);
@@ -34,11 +34,11 @@ export default function Footer() {
       ========================================= */}
       <div className="relative flex flex-col items-center justify-center border-t-2 border-b-2 border-text-primary bg-pop-yellow px-6 py-32 text-center desktop:px-24 desktop:py-48">
         <h2 className="font-display text-5xl font-black uppercase leading-none tracking-tighter text-text-primary sm:text-7xl desktop:text-8xl">
-          Let’s build the <span className="text-surface-light drop-shadow-[4px_4px_0_rgba(0,0,0,1)]">future</span>,<br />
+          Let's build the <span className="text-surface-light drop-shadow-[4px_4px_0_rgba(0,0,0,1)]">future</span>,<br />
           one pixel at a time.
         </h2>
         
-        <div className="mt-16 p-8" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
+        <div className="mt-16 p-8" onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave} onClick={() => window.open(grandCTAUrl, '_blank', 'noopener,noreferrer')}>
           <motion.button
             ref={btnRef}
             style={{ x: smoothX, y: smoothY }}

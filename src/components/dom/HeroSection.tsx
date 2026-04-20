@@ -3,7 +3,7 @@
 import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 
-export default function HeroSection() {
+export default function HeroSection({heroAnim, heroCTA}: {heroAnim: string; heroCTA: string}) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function HeroSection() {
           videoRef.current?.pause();
         }
       },
-      { threshold: 0 }
+      { threshold: 0 },
     );
 
     observer.observe(videoRef.current);
@@ -31,17 +31,15 @@ export default function HeroSection() {
 
   return (
     <section className="relative flex min-h-screen w-full flex-col justify-end overflow-hidden px-6 pb-20 pt-[45vh] tablet:flex-row tablet:items-center tablet:justify-start desktop:px-24 tablet:pb-20 tablet:pt-20">
-      
       <div className="absolute left-0 top-0 z-0 h-[55vh] w-full pointer-events-none tablet:bottom-0 tablet:left-auto tablet:right-0 tablet:h-full tablet:w-[65%]">
-        
         <div className="absolute inset-0 z-10" />
-        
-        <video 
+
+        <video
           ref={videoRef}
-          src="/Video/Hero/HeroAnimV2.webm" 
-          autoPlay 
-          loop 
-          muted 
+          src={heroAnim}
+          autoPlay
+          loop
+          muted
           playsInline
           className="h-full w-full object-cover object-center opacity-90 pointer-events-none will-change-transform"
         />
@@ -52,8 +50,12 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, ease: "easeOut" }}
-          className="pointer-events-auto inline-block rounded-full border-2 border-text-primary bg-pop-green px-4 py-1.5 text-sm font-bold uppercase tracking-widest shadow-playful"
+          className="pointer-events-auto rounded-full border-2 border-text-primary bg-pop-purple px-4 py-1.5 text-sm font-bold uppercase tracking-widest shadow-playful flex w-fit items-center gap-3"
         >
+          <div className="relative flex h-3 w-3 items-center justify-center">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-pop-green opacity-75"></span>
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-pop-green"></span>
+          </div>
           System Online
         </motion.div>
 
@@ -89,6 +91,7 @@ export default function HeroSection() {
           whileHover={{ y: -4, boxShadow: "var(--shadow-playful-hover)" }}
           whileTap={{ scale: 0.95 }}
           className="pointer-events-auto mt-4 rounded-xl border-2 border-text-primary bg-pop-yellow px-8 py-4 font-display font-bold text-text-primary shadow-playful transition-all"
+          onClick={() => window.open(heroCTA, '_blank', 'noopener,noreferrer')}
         >
           Initiate Sequence
         </motion.button>

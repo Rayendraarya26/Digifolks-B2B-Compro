@@ -3,23 +3,22 @@ import OurDNA from "@/components/dom/OurDNA";
 import Services from "@/components/dom/Services";
 import Portfolio from "@/components/dom/Portfolio";
 import Testimonials from "@/components/dom/Testimonials";
-// import Contact from "@/components/dom/contact/lp/ContactSection";
 import ContactArcade from "@/components/dom/contact/lp/ContactArcade";
 import FaqChat from "@/components/dom/FaQ/lp/FaQChat";
 import GrandCTA from "@/components/dom/GrandCTA";
+import { GeneralData } from "@/data/general";
 
 export default function Home() {
   return (
     <div className="flex w-full flex-col">
-      <HeroSection />
+      <HeroSection heroAnim={GeneralData[0].heroAnimationUrl} heroCTA={GeneralData[0].heroCTAUrl} />
       <OurDNA />
       <Services />
       <Portfolio />
       <Testimonials />
-      {/* <Contact /> */}
       <ContactArcade />
       <FaqChat />
-      <GrandCTA />
+      <GrandCTA grandCTAUrl={GeneralData[0].grandCTAUrl} />
     </div>
   );
 }

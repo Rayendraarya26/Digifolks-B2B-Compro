@@ -3,37 +3,10 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { MessageCircle } from "lucide-react";
-
-// --- DATA FAQ ---
-const FAQ_DATA = [
-  {
-    id: 1,
-    question: "Bro, berapa lama biasanya bikin website kayak gini?",
-    answer: "Tergantung seberapa liar idemu! Biasanya 2-4 minggu buat hasil yang mind-blowing dan pixel-perfect. Kita nggak main template soalnya 🚀",
-    color: "bg-pop-pink",
-  },
-  {
-    id: 2,
-    question: "Bisa handle backend sama database sekalian nggak?",
-    answer: "Aman bro! Kita fullstack. Dari UI/UX yang sexy sampai arsitektur database yang tahan banting (PostgreSQL, Go, Node.js), kita libas semua.",
-    color: "bg-pop-blue",
-  },
-  {
-    id: 3,
-    question: "Kalau project udah kelar, dapet support maintenance?",
-    answer: "Pasti dong. Bug fixing, minor updates, atau sekadar nanya-nanya teknis tetep kita kawal. We build partnerships, not just websites.",
-    color: "bg-pop-yellow",
-  },
-  {
-    id: 4,
-    question: "Harganya gimana nih? Bikin kantong jebol nggak?",
-    answer: "Harga kita sebanding sama impact yang lu dapet. Kita bisa sesuaikan scope project sama budget lu kok. Hit us up on the contact form to discuss!",
-    color: "bg-pop-green",
-  },
-];
+import { faQData } from "@/data/FaQ";
 
 // --- KOMPONEN BUBBLE CHAT INDIVIDUAL ---
-const ChatItem = ({ item }: { item: typeof FAQ_DATA[0] }) => {
+const ChatItem = ({ item }: { item: typeof faQData[0] }) => {
   // PERBAIKAN 1: Gabungin state biar gampang dikontrol (closed -> typing -> open)
   const [chatState, setChatState] = useState<"closed" | "typing" | "open">("closed");
 
@@ -145,7 +118,7 @@ export default function FaqChat() {
 
       {/* CHAT THREAD CONTAINER */}
       <motion.div layout className="relative w-full max-w-3xl flex-col flex gap-8 rounded-[3rem] border-4 border-text-primary bg-surface-light/5 p-6 backdrop-blur-sm sm:gap-10 sm:p-10 desktop:p-12">
-        {FAQ_DATA.map((item) => (
+        {faQData.map((item) => (
           <ChatItem key={item.id} item={item} />
         ))}
       </motion.div>

@@ -3,17 +3,9 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/dist/ScrollTrigger";
+import { testimonialsData } from "@/data/testimonials";
 
 gsap.registerPlugin(ScrollTrigger);
-
-// --- MOCK DATA ---
-const testimonialsData = [
-  { id: 1, quote: "Their frontend magic made our conversion rate skyrocket. Absolute wizards.", author: "Sarah J., Startup Founder" },
-  { id: 2, quote: "I didn't know a dashboard could look this sexy. My team loves it.", author: "Mike T., Product Manager" },
-  { id: 3, quote: "Fast, reliable, and they actually understand Gen Z aesthetics.", author: "Elena R., Creative Director" },
-  { id: 4, quote: "They rebuilt our backend architecture from scratch. Zero downtime since.", author: "David L., CTO" },
-  { id: 5, quote: "From Figma to React, pixel perfect. Best agency I've worked with.", author: "Chloe W., Designer" },
-];
 
 const pastelColors = ["bg-pop-pink", "bg-pop-blue", "bg-pop-yellow", "bg-pop-green"];
 const coloredTestimonials = testimonialsData.map((t, i) => ({
@@ -142,7 +134,7 @@ export default function Testimonials() {
             <div
               key={`${card.id}-${index}`}
               ref={(el) => { cardsRef.current[index] = el; }}
-              className={`flex h-72 w-[320px] shrink-0 flex-col justify-between rounded-3xl border-4 border-text-primary p-6 shadow-playful desktop:h-80 desktop:w-[400px] desktop:p-8 ${card.color}`}
+              className={`flex h-72 w-[320px] shrink-0 flex-col justify-between rounded-3xl border-4 border-text-primary p-6 shadow-playful desktop:h-80 desktop:w-100 desktop:p-8 ${card.color}`}
             >
               <div className="flex flex-col gap-2 desktop:gap-4">
                 <span className="font-display text-4xl font-black leading-none text-text-primary opacity-20 desktop:text-6xl">

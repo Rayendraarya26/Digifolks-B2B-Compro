@@ -2,7 +2,9 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUp, Rocket, Command } from "lucide-react"; // Sisakan icon non-brand di sini
+import { ArrowUp, Rocket, Command } from "lucide-react";
+import { servicesData } from "@/data/services";
+import { GeneralData } from "@/data/general";
 
 export default function Footer() {
   // --- DYNAMIC CLOCK LOGIC ---
@@ -93,15 +95,9 @@ export default function Footer() {
               Expertise
             </h4>
             <div className="flex flex-col gap-3">
-              {[
-                { name: "AI Integration", href: "/services#ai" },
-                { name: "Management System", href: "/services#management-system" },
-                { name: "Web Platform", href: "/services#web-platform" },
-                { name: "Mobile Apps", href: "/services#mobile-desktop" },
-                { name: "IT Solution & Consulting", href: "/services#it-solution" },
-              ].map((link) => (
+              {servicesData.map((link) => (
                 // Kirim href-nya ke HoverLink
-                <HoverLink key={link.name} text={link.name} href={link.href} />
+                <HoverLink key={link.id} text={link.title} href={`/services#${link.id}`} />
               ))}
             </div>
           </div>
@@ -112,13 +108,13 @@ export default function Footer() {
               Connect
             </h4>
             <div className="flex gap-4">
-              <SocialIcon href="#" color="hover:bg-pop-pink">
+              <SocialIcon href={GeneralData[0].footerContactUrl.instagram} color="hover:bg-pop-pink">
                 <IconInstagram className="h-5 w-5" />
               </SocialIcon>
-              <SocialIcon href="#" color="hover:bg-pop-blue">
+              <SocialIcon href={GeneralData[0].footerContactUrl.linkedin} color="hover:bg-pop-blue">
                 <IconLinkedin className="h-5 w-5" />
               </SocialIcon>
-              <SocialIcon href="#" color="hover:bg-pop-purple">
+              <SocialIcon href={GeneralData[0].footerContactUrl.github} color="hover:bg-pop-purple">
                 <IconGithub className="h-5 w-5" />
               </SocialIcon>
             </div>

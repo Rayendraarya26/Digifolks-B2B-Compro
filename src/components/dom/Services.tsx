@@ -71,12 +71,17 @@ function AnimatedMediaCard({ service, index, spanClass }: { service: ServiceItem
     cardRef.current.style.setProperty('--mouse-y', '0');
   };
 
+  const OnClick = () => {
+    window.location.href = `/services#${service.id}`;
+  };
+
   return (
     <div
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      style={{ '--hover-bg': service.accentColor } as React.CSSProperties}
+      onClick={OnClick}
+      style={{ '--hover-bg': service.theme.bg } as React.CSSProperties}
       // CSS murni mengurus background hover dan bayangan tanpa JS
       className={`group relative flex min-h-87.5 flex-col overflow-hidden rounded-3xl border-4 border-text-primary p-8 bg-surface-light shadow-playful transition-all duration-500 ease-out tablet:min-h-100 cursor-crosshair hover:-translate-y-2 hover:shadow-playful-hover hover:bg-(--hover-bg) ${spanClass}`}
     >

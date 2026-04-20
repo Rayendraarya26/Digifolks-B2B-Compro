@@ -34,7 +34,7 @@ export const portfolioData: PortfolioItem[] = [
     link: "https://wecoreofficial.com"
   },
   {
-    id: "port-1",
+    id: "port-7",
     client: "Bapak Arya",
     projectType: "Web App",
     headline: "Digital Tourism Catalog & Management Platform",
@@ -114,7 +114,7 @@ export const portfolioData: PortfolioItem[] = [
     link: "https://wecoreofficial.com"
   },
   {
-    id: "port-7",
+    id: "port-1",
     client: "Personal Project",
     projectType: "Web App",
     headline: "Modern & Scalable Admin Dashboard for Scalable Web Apps",

@@ -2,69 +2,11 @@
 
 import { useState, useRef } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
-import { Zap, Settings, Globe, Smartphone, Lightbulb } from "lucide-react";
+import { servicesData } from "@/data/services";
 
-// --- DATA SERVICES ---
-const SERVICES = [
-  {
-    id: "ai",
-    num: "01",
-    title: "Artificial Intelligence",
-    description: "We don't just code AI. We birth digital brains that learn, adapt, and outsmart humans. From chatbots that roast you to predictive models that know you better than your mom.",
-    features: ["Machine Learning Models", "NLP & Chatbots", "Predictive Analytics", "Computer Vision"],
-    icon: Zap,
-    theme: { bg: "bg-pop-pink", text: "text-pop-pink" },
-    techStack: ["Python", "TensorFlow", "PyTorch", "OpenAI"],
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2000&auto=format&fit=crop"
-  },
-  {
-    id: "management-system",
-    num: "02",
-    title: "Management System",
-    description: "ERP, CRM, DMS - whatever you call it, we make it sexy. Dashboards that pop, workflows that flow, and data that dances. Your business, but make it Gen Z.",
-    features: ["Custom ERP Solutions", "Real-time Dashboards", "Automated Workflows", "Data Visualization"],
-    icon: Settings,
-    theme: { bg: "bg-pop-blue", text: "text-pop-blue" },
-    techStack: ["React", "Node.js", "PostgreSQL", "Docker"],
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop"
-  },
-  {
-    id: "web-platform",
-    num: "03",
-    title: "Web Platform",
-    description: "Not just websites. Hyper-interactive playgrounds with WebGL, shaders, and animations that break the internet. Your web presence will go viral (the good kind).",
-    features: ["Interactive 3D Web", "High-Performance SSR", "Scalable Architecture", "SEO Optimization"],
-    icon: Globe,
-    theme: { bg: "bg-pop-yellow", text: "text-pop-yellow" },
-    techStack: ["Next.js", "Tailwind v4", "Framer Motion", "Three.js"],
-    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop"
-  },
-  {
-    id: "mobile-desktop",
-    num: "04",
-    title: "Mobile & Desktop Apps",
-    description: "Android, iOS, Desktop - we build apps that feel native but look futuristic. Cross-platform sorcery with React Native, Flutter, and Electron. One codebase, infinite flex.",
-    features: ["Cross-Platform Mobile", "Native Desktop Apps", "Offline Capabilities", "Hardware Integration"],
-    icon: Smartphone,
-    theme: { bg: "bg-pop-green", text: "text-pop-green" },
-    techStack: ["React Native", "Flutter", "Swift", "Electron"],
-    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070&auto=format&fit=crop"
-  },
-  {
-    id: "it-solution",
-    num: "05",
-    title: "IT Solution & Consulting",
-    description: "Stuck in digital hell? We rescue you with custom solutions, cloud migration, and consulting that actually makes sense. Your IT nightmare becomes our playground.",
-    features: ["Cloud Migration", "DevOps Setup", "Security Audits", "Tech Consultation"],
-    icon: Lightbulb,
-    theme: { bg: "bg-pop-purple", text: "text-pop-purple" },
-    techStack: ["AWS", "Google Cloud", "Kubernetes", "Linux"],
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
-  }
-];
 
 export default function ServicesSplitSync() {
-  const [activeSection, setActiveSection] = useState<string>(SERVICES[0].id);
+  const [activeSection, setActiveSection] = useState<string>(servicesData[0].id);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // --- Scroll Progress Bar Logic ---
@@ -93,7 +35,7 @@ export default function ServicesSplitSync() {
           </p>
 
           <div className="flex flex-col gap-6">
-            {SERVICES.map((service) => {
+            {servicesData.map((service) => {
               const isActive = activeSection === service.id;
               
               return (
@@ -138,7 +80,7 @@ export default function ServicesSplitSync() {
             <p className="mt-4 font-bold text-text-primary/70">Scroll to explore our expertise.</p>
           </div>
 
-          {SERVICES.map((service) => (
+          {servicesData.map((service) => (
             <motion.div
               key={`content-${service.id}`}
               id={service.id}
@@ -164,11 +106,11 @@ export default function ServicesSplitSync() {
                 <div className="aspect-video w-full p-4 sm:p-6">
                    <div className="relative h-full w-full overflow-hidden rounded-xl border-2 border-text-primary bg-surface-dark">
                       {/* Image tag diperbaiki agar tidak undefined */}
-                      <img src={service.image} alt={service.title} className="h-full w-full object-cover opacity-90" />
+                      <img src={service.imageUrl} alt={service.title} className="h-full w-full object-cover opacity-90" />
                    </div>
                 </div>
                 <div className="absolute -bottom-6 -right-6 flex h-24 w-24 items-center justify-center rounded-full border-2 border-text-primary bg-surface-light shadow-playful">
-                   <service.icon className="h-10 w-10 text-text-primary" />
+                   <img src={service.iconUrl} alt={`${service.title} Icon`} className="h-10 w-10 text-text-primary" />
                 </div>
               </motion.div>
 

@@ -4,8 +4,6 @@ import Image from "next/image";
 import { portfolioData } from "@/data/portfolio";
 import { motion, useInView, animate, AnimationPlaybackControls, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef } from "react";
-import { ArrowLeft, ExternalLink, Calendar, Briefcase, User } from "lucide-react";
-
 const targetIds = ["port-1", "port-2", "port-3"];
 
 // Gabungkan semua data
@@ -21,9 +19,6 @@ const allCards = [
 export default function Portfolio() {
   // Jarak ujung atas kartu yang ngintip (Diperpendek jadi 24px)
   const GAP = 24;
-  const [selectedId, setSelectedId] = useState<string | null>(null);
-
-  const selectedProject = portfolioData.find(p => p.id === selectedId);
 
   return (
     <section className="relative w-full bg-surface-dark px-4 pb-24 pt-[10vh] sm:px-8 desktop:px-24">
@@ -50,7 +45,7 @@ export default function Portfolio() {
               {/* Card visualnya fix 75vh biar bentuknya konsisten */}
               <motion.div layout className="h-[75vh] w-full">
                 <AnimatePresence mode="popLayout">
-                  <CardContent item={item} onSelect={setSelectedId} />
+                  <CardContent item={item} onSelect={() => window.location.href = "/work?projectId=" + item.id} />
                 </AnimatePresence>
               </motion.div>
 
@@ -66,12 +61,6 @@ export default function Portfolio() {
         */}
         <div className="h-screen w-full" />
       </div>
-        {/* THE PPT MAGIC OVERLAY */}
-      <AnimatePresence>
-        {selectedId && selectedProject && (
-          <ProjectDetail project={selectedProject} onClose={() => setSelectedId(null)} />
-        )}
-      </AnimatePresence>
     </section>
   );
 }
@@ -187,8 +176,6 @@ const CardContent = ({ item, onSelect }: { item: any, onSelect: (id: string) => 
       onClick={isMobile ? () => onSelect(item.id) : undefined} // Hanya aktif di desktop, di mobile biar klik langsung ke detail
       className="group relative flex h-full w-full flex-col justify-end overflow-hidden rounded-[2.5rem] border-4 border-pop-green bg-surface-light p-8 shadow-[0_-20px_50px_rgba(0,0,0,0.4)] transition-colors hover:border-pop-pink desktop:p-12"
     >
-      
-      {/* PERBAIKAN 2: Bungkus gambar dengan motion.div dan pasang layoutId="image-{id}" */}
       <motion.div 
         layoutId={`image-${item.id}`}
         className="absolute inset-0 z-0 overflow-hidden"
@@ -232,100 +219,6 @@ const CardContent = ({ item, onSelect }: { item: any, onSelect: (id: string) => 
         </button>
       </motion.div>
 
-    </motion.div>
-  );
-};
-
-const ProjectDetail = ({ project, onClose }: { project: typeof portfolioData[0], onClose: () => void }) => {
-  useEffect(() => {
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = "unset"; };
-  }, []);
-
-  return (
-    <motion.div 
-      layoutId={`card-${project.id}`}
-      className="fixed inset-0 z-100 h-dvh w-full overflow-y-auto bg-surface-light"
-    >
-      <div className="sticky top-6 z-110 flex w-full justify-between px-6 pointer-events-none sm:px-12">
-        <button 
-          onClick={onClose}
-          // Border ditipisin jadi border-2
-          className="pointer-events-auto flex items-center gap-2 rounded-full border-2 border-text-primary bg-pop-pink px-6 py-3 font-display text-lg font-black uppercase text-text-primary shadow-playful transition-all hover:-translate-y-1 active:translate-y-0"
-        >
-          <ArrowLeft className="h-6 w-6" /> Back to Showcase
-        </button>
-      </div>
-
-      <div className="mx-auto w-full max-w-6xl px-6 pb-24 desktop:px-0 sm:px-12">
-        <div className="mt-8 flex flex-col gap-8 desktop:mt-0 desktop:flex-row desktop:items-center">
-          <div className="w-full desktop:w-1/2">
-            <motion.div 
-              layoutId={`image-${project.id}`}
-              // Border ditipisin jadi border-2
-              className="relative aspect-video overflow-hidden rounded-4xl border-2 border-text-primary bg-surface-dark shadow-playful"
-            >
-              <img src={project.imageUrl} alt={project.title} className="h-full w-full object-cover" />
-            </motion.div>
-          </div>
-          <div className="w-full desktop:w-1/2">
-            <motion.div layoutId={`info-${project.id}`}>
-              <p className="mb-2 font-display text-lg font-black uppercase tracking-widest text-pop-pink">
-                {project.projectType}
-              </p>
-              <h2 className="font-display text-5xl font-black uppercase leading-none tracking-tighter text-text-primary desktop:text-8xl sm:text-7xl">
-                {project.title}
-              </h2>
-            </motion.div>
-          </div>
-        </div>
-
-        <div className="mt-16 flex flex-col gap-12 desktop:flex-row">
-          <div className="flex flex-col gap-12 desktop:w-2/3">
-            <section>
-              <h3 className="mb-4 font-display text-3xl font-black uppercase tracking-tight text-text-primary">The Challenge</h3>
-              <p className="text-xl font-bold leading-relaxed text-text-primary/80">{project.challenge}</p>
-            </section>
-            <section>
-              <h3 className="mb-6 font-display text-3xl font-black uppercase tracking-tight text-text-primary">The Craft</h3>
-              <div className="flex flex-wrap gap-4">
-                {project.tags.map((tech) => (
-                  // Border ditipisin jadi border-2
-                  <div key={tech} className="flex items-center gap-2 rounded-2xl border-2 border-text-primary bg-surface-light px-5 py-3 shadow-playful transition-transform hover:-translate-y-1">
-                    <div className="h-3 w-3 rounded-full bg-pop-yellow" />
-                    <span className="font-display text-sm font-black uppercase tracking-wider">{tech}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
-            <section className="rounded-[2.5rem] border-2 border-text-primary bg-pop-green p-8 shadow-playful sm:p-10">
-              <h3 className="mb-4 font-display text-3xl font-black uppercase tracking-tight text-text-primary">The Solutions</h3>
-              <p className="text-xl font-black italic leading-relaxed text-text-primary">"{project.solutions}"</p>
-            </section>
-          </div>
-
-          <aside className="desktop:w-1/3">
-            <div className="sticky top-32 flex flex-col gap-6 rounded-[2.5rem] border-2 border-text-primary bg-pop-yellow p-8 shadow-playful">
-              <div className="flex items-center gap-4">
-                <div className="rounded-xl border-2 border-text-primary bg-surface-light p-2 shadow-playful"><User className="h-5 w-5" /></div>
-                <div><p className="text-xs font-black uppercase opacity-50">Client</p><p className="font-display text-lg font-black uppercase">{project.client}</p></div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="rounded-xl border-2 border-text-primary bg-surface-light p-2 shadow-playful"><Briefcase className="h-5 w-5" /></div>
-                <div><p className="text-xs font-black uppercase opacity-50">Industry</p><p className="font-display text-lg font-black uppercase">{project.industry}</p></div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="rounded-xl border-2 border-text-primary bg-surface-light p-2 shadow-playful"><Calendar className="h-5 w-5" /></div>
-                <div><p className="text-xs font-black uppercase opacity-50">Date</p><p className="font-display text-lg font-black uppercase">{project.date}</p></div>
-              </div>
-              <hr className="border-2 border-text-primary/20" />
-              <a href={project.link} target="_blank" className="flex items-center justify-center gap-3 rounded-full border-2 border-text-primary bg-surface-light py-4 font-display text-lg font-black uppercase tracking-widest text-text-primary shadow-playful transition-all hover:-translate-y-1 hover:bg-pop-pink">
-                Live Preview <ExternalLink className="h-5 w-5" />
-              </a>
-            </div>
-          </aside>
-        </div>
-      </div>
     </motion.div>
   );
 };
