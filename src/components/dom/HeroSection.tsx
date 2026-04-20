@@ -7,31 +7,21 @@ export default function HeroSection() {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-    // Pastikan video element-nya udah ada
     if (!videoRef.current) return;
 
-    // Bikin Observer buat ngecek apakah video ada di dalam layar
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
-        // Kalau video masuk layar -> Play, kalau keluar layar -> Pause
         if (entry.isIntersecting) {
-          // .catch() dipakai biar nggak muncul error di console kalau 
-          // browser nge-block play sebelum user interaksi
           videoRef.current?.play().catch(() => {});
         } else {
           videoRef.current?.pause();
         }
       },
-      {
-        threshold: 0, // 0 berarti: Asal ada 1 piksel aja yang kelihatan/hilang, langsung trigger
-      }
+      { threshold: 0 }
     );
 
-    // Mulai pantau videonya
     observer.observe(videoRef.current);
-
-    // Cleanup pas komponen hancur/pindah halaman biar memory nggak bocor
     return () => {
       if (videoRef.current) {
         observer.unobserve(videoRef.current);
@@ -40,23 +30,24 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative flex min-h-screen w-full items-center overflow-hidden px-6 py-20 desktop:px-24">
+    <section className="relative flex min-h-screen w-full flex-col justify-end overflow-hidden px-6 pb-20 pt-[45vh] tablet:flex-row tablet:items-center tablet:justify-start desktop:px-24 tablet:pb-20 tablet:pt-20">
       
-      {/* 3D Canvas / Video Layer */}
-      <div className="absolute inset-y-0 right-0 z-0 h-full w-full pointer-events-none tablet:w-[80%] desktop:w-[65%]">
+      <div className="absolute left-0 top-0 z-0 h-[55vh] w-full pointer-events-none tablet:bottom-0 tablet:left-auto tablet:right-0 tablet:h-full tablet:w-[65%]">
+        
+        <div className="absolute inset-0 z-10" />
+        
         <video 
           ref={videoRef}
-          src="/Video/Hero/Hero-4K-V1.webm" 
+          src="/Video/Hero/HeroAnimV2.webm" 
           autoPlay 
           loop 
           muted 
           playsInline
-          // Tambahin will-change-transform dari Tailwind
-          className="h-full w-full object-cover opacity-90 pointer-events-none will-change-transform"
+          className="h-full w-full object-cover object-center opacity-90 pointer-events-none will-change-transform"
         />
       </div>
 
-      <div className="relative z-10 flex w-full max-w-2xl flex-col items-start justify-center gap-6 pointer-events-none">
+      <div className="relative z-20 flex w-full max-w-2xl flex-col items-start justify-center gap-6 pointer-events-none">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}

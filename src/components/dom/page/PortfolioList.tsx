@@ -5,85 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, ArrowLeft, ExternalLink, Calendar, Briefcase, User } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
 
-// --- DATA PROJECT ---
-const PROJECTS = [
-  {
-    id: "wecore",
-    title: "WeCore Agency",
-    category: "Web Platform",
-    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop",
-    color: "bg-pop-blue",
-    size: "large",
-    challenge: "WeCore butuh platform yang nggak cuma sekadar 'Company Profile', tapi juga mesin branding yang mencerminkan identitas Gen-Z mereka. Masalah utamanya adalah performa animasi yang berat sering bikin user bounce.",
-    craft: ["Next.js", "Framer Motion", "GSAP", "Tailwind v4", "Three.js"],
-    result: "Website berhasil dapet skor Lighthouse 98/100 dan meningkatkan inbound leads sebesar 40% dalam sebulan pertama berkat interaksi yang immersive.",
-    client: "WeCore Digital",
-    industry: "Creative Agency",
-    date: "Januari 2026",
-    link: "https://wecore.official"
-  },
-  {
-    id: "court-vision",
-    title: "Court Vision",
-    category: "AI & System",
-    image: "https://images.unsplash.com/photo-1546519638-68e109498ffc?q=80&w=2090&auto=format&fit=crop",
-    color: "bg-pop-pink",
-    size: "normal",
-    challenge: "Menganalisis pergerakan pemain basket secara real-time butuh efisiensi komputasi tinggi. Tantangannya adalah menyajikan data kompleks dalam UI yang simpel bagi pelatih.",
-    craft: ["Python", "YOLOv8", "React", "FastAPI", "PostgreSQL"],
-    result: "Sistem berhasil mendeteksi akurasi tembakan hingga 92% dan digunakan oleh tim kampus untuk evaluasi latihan mingguan.",
-    client: "UGM Basketball",
-    industry: "Sports Tech",
-    date: "September 2025",
-    link: "https://courtvision.ai"
-  },
-  {
-    id: "wallet-service",
-    title: "Wallet Service",
-    category: "Backend",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop",
-    color: "bg-pop-yellow",
-    size: "normal",
-    challenge: "Membangun sistem transaksi finansial yang anti-race-condition. Keamanan dan integritas data adalah harga mati saat ribuan transaksi masuk secara simultan.",
-    craft: ["Golang", "PostgreSQL", "Redis", "Docker", "Kubernetes"],
-    result: "Backend mampu menangani 5000+ Request Per Second dengan latency di bawah 100ms tanpa ada kegagalan saldo.",
-    client: "Personal Project",
-    industry: "Fintech",
-    date: "Februari 2026",
-    link: "https://github.com/wallet-service"
-  },
-  {
-    id: "positive-strength",
-    title: "Positive Strength",
-    category: "E-Commerce",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070&auto=format&fit=crop",
-    color: "bg-pop-green",
-    size: "wide",
-    challenge: "Transisi dari sekadar product catalog statis menjadi sistem e-commerce penuh yang responsif dan terintegrasi dengan payment gateway.",
-    craft: ["React", "TailwindCSS", "Node.js", "Express", "Midtrans"],
-    result: "Sistem keranjang belanja dan checkout berhasil diimplementasi dengan konversi penjualan naik 25%.",
-    client: "Positive Strength Co.",
-    industry: "Retail & Apparel",
-    date: "November 2025",
-    link: "https://positivestrength.co"
-  },
-  {
-    id: "unidash",
-    title: "UniDash Template",
-    category: "Web Platform",
-    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop",
-    color: "bg-pop-purple",
-    size: "normal",
-    challenge: "Menciptakan admin template yang modular dan minimalist namun mudah disesuaikan untuk berbagai kebutuhan klien agency.",
-    craft: ["Next.js", "Tailwind v4", "Zustand", "Radix UI", "Recharts"],
-    result: "UniDash digunakan sebagai fondasi untuk 5 proyek klien berbeda, menghemat waktu development hingga 60 jam per proyek.",
-    client: "Internal Product",
-    industry: "SaaS",
-    date: "Maret 2026",
-    link: "https://unidash.wecore"
-  },
-];
-
 const CATEGORIES = ["All", "Web App", "AI & System", "Backend", "E-Commerce"];
 
 // --- KOMPONEN: OVERLAY DETAIL (FULL SCREEN) ---
@@ -181,8 +102,21 @@ const ProjectDetail = ({ project, onClose }: { project: typeof portfolioData[0],
   );
 };
 
-// --- KOMPONEN BARU: LAYERED PROJECT CARD (CLEAN BORDERS) ---
+// --- KOMPONEN BARU: LAYERED PROJECT CARD (CLEAN BORDERS & SMART MOBILE) ---
 const LayeredProjectCard = ({ project, onSelect }: { project: typeof portfolioData[0], onSelect: (id: string) => void }) => {
+  
+  // 1. SIHIR DETEKSI LAYAR: Cek apakah user pakai HP/Tablet (lebar di bawah 1280px)
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Kita taruh di useEffect biar aman dari error SSR Next.js
+    const checkMobile = () => setIsMobile(window.innerWidth < 1280);
+    checkMobile(); // Cek saat pertama kali web di-load
+    
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   let spanClasses = "col-span-1 row-span-1 h-[300px]";
   if (project.size === "large") spanClasses = "col-span-1 md:col-span-2 row-span-1 md:row-span-2 h-[300px] md:h-[632px]";
   if (project.size === "wide") spanClasses = "col-span-1 md:col-span-2 row-span-1 h-[300px]";
@@ -191,15 +125,18 @@ const LayeredProjectCard = ({ project, onSelect }: { project: typeof portfolioDa
     <motion.div
       layoutId={`card-${project.id}`}
       onClick={() => onSelect(project.id)}
+      // 2. THE LOGIC: 
+      // - Desktop: Mulai dari "idle" (laci nutup), buka pas di-hover.
+      // - Mobile: Langsung tembak ke "hover" (laci kebuka terus).
       initial="idle"
+      animate={isMobile ? "hover" : "idle"} 
       whileHover="hover"
-      // Border ditipisin jadi border-2
       className={`group relative w-full cursor-pointer overflow-hidden rounded-4xl border-2 border-text-primary bg-surface-light shadow-[6px_6px_0_rgba(0,0,0,1)] transition-shadow duration-300 hover:shadow-[10px_10px_0_rgba(0,0,0,1)] ${spanClasses}`}
     >
       {/* 1. BACKGROUND LACI */}
       <div className={`absolute inset-0 z-0 h-full w-full ${project.color}`} />
 
-      {/* 2. ISI LACI */}
+      {/* 2. ISI LACI (Client & Tipe Project) */}
       <div className="absolute bottom-0 left-0 right-0 z-10 flex h-20 items-center justify-between px-6">
         <motion.div
           variants={{
@@ -234,7 +171,6 @@ const LayeredProjectCard = ({ project, onSelect }: { project: typeof portfolioDa
           hover: { y: -80 } 
         }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        // HAPUS SISA BORDER-B-4 DI SINI! Murni pakai background color aja
         className="absolute bottom-0 left-0 right-0 top-0 z-20 bg-surface-dark transition-colors duration-300"
       >
         <img src={project.imageUrl} alt={project.title} className="h-full w-full object-cover" />
