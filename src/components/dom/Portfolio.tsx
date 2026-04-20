@@ -115,22 +115,22 @@ const OutroCardInteractive = () => {
           animate={isInView ? { scale: [0.9, 1.1, 1], opacity: 1 } : { scale: 0.9, opacity: 0 }}
           className="mb-6 rounded-full border-2 border-text-primary bg-surface-light px-5 py-2 font-display text-sm font-black uppercase tracking-widest text-text-primary shadow-[2px_2px_0_rgba(0,0,0,1)]"
         >
-          {count} Successful Missions
+          STABLE BUILD: v2.0
         </motion.div>
         
         <h3 className="font-display text-5xl font-black text-text-primary desktop:text-7xl">
-          Hungry for more pixels?
+          {count} Systems Deployed.
         </h3>
         
         <p className="mt-4 max-w-md text-lg font-bold text-text-primary/70">
-          If you love what you see, wait until you see the rest of our digital crafts.
+          Click to decrypt our mission reports and see how we engineered solutions for complex business logic.
         </p>
 
       </div>
       
       {/* 3. BUTTON */}
       <button onClick={handleClick} className="relative z-10 mt-8 rounded-xl border-4 border-text-primary bg-surface-light px-10 py-5 font-display text-xl font-black uppercase tracking-widest text-text-primary shadow-[6px_6px_0_rgba(0,0,0,1)] transition-transform hover:-translate-y-1 active:translate-y-0">
-        Take a Deeper Dive
+        ACCESS DATA
       </button>
 
     </div>

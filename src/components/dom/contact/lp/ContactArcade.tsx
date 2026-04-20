@@ -193,7 +193,7 @@ export default function ContactArcade() {
           >
             <div className="grid grid-cols-1 gap-5 sm:gap-6 desktop:grid-cols-2">
                <div className="flex flex-col gap-2">
-                 <label className="font-display font-black uppercase tracking-widest text-text-primary">Player Name</label>
+                 <label className="font-display font-black uppercase tracking-widest text-text-primary">Partner Name</label>
                  {/* PERUBAHAN: handleInputChange sekarang butuh string fieldName */}
                  <input 
                    type="text" 
@@ -243,7 +243,7 @@ export default function ContactArcade() {
               }`}
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
-                {(status === "idle" || status === "typing") && "Send It"}
+                {(status === "idle" || status === "typing") && "Execute Sequence"}
                 {status === "submitting" && (
                   <>
                     <Loader2 className="h-6 w-6 animate-spin" />
