@@ -120,7 +120,7 @@ export default function Testimonials() {
       className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-surface-dark py-24"
     >
       <div className="relative z-10 mb-16 inline-block rounded-full border-2 border-text-primary bg-surface-light px-6 py-2 text-sm font-bold uppercase tracking-widest text-text-primary shadow-playful">
-        Word on the street
+        CLIENT INSIGHTS
       </div>
 
       {/* TRACK CONTAINER */}

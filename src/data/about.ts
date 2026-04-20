@@ -8,17 +8,17 @@ export interface TeamDNA {
 export const teamDNAData: TeamDNA[] = [
   {
     id: "dna-1",
-    value: "Move Fast, Don't Break Things",
-    shortPitch: "Agility meets pixel-perfect precision.",
+    value: "Build Fast. Scale Safely.",
+    shortPitch: "Speed matters—but system stability is never compromised.",
   },
   {
     id: "dna-2",
-    value: "Aesthetics = Function",
-    shortPitch: "Ugly software is a bug. We patch it.",
+    value: "Function Over Interface Noise",
+    shortPitch: "Every interface is designed to support real operational workflows.",
   },
   {
     id: "dna-3",
-    value: "Always Beta",
-    shortPitch: "Iterate relentlessly. Stagnation is the enemy.",
+    value: "Systems That Evolve",
+    shortPitch: "Built with modular architecture to adapt as your business grows.",
   }
 ];

@@ -3,7 +3,13 @@
 import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 
-export default function HeroSection({heroAnim, heroCTA}: {heroAnim: string; heroCTA: string}) {
+export default function HeroSection({
+  heroAnim,
+  heroCTA,
+}: {
+  heroAnim: string;
+  heroCTA: string;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
@@ -70,7 +76,7 @@ export default function HeroSection({heroAnim, heroCTA}: {heroAnim: string; hero
             className="text-transparent bg-clip-text bg-linear-to-r from-pop-pink to-pop-blue stroke-text-primary stroke-2"
             style={{ WebkitTextStroke: "2px var(--color-text-primary)" }}
           >
-            We Engineer.
+            We Engineer Systems.
           </span>
         </motion.h1>
 
@@ -80,8 +86,9 @@ export default function HeroSection({heroAnim, heroCTA}: {heroAnim: string; hero
           transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
           className="max-w-md text-lg font-medium text-text-muted drop-shadow-sm desktop:text-xl"
         >
-          From pixel-perfect interfaces to robust backend architectures. Stand
-          out in the digital noise or log off.
+          We design and develop scalable operational systems that reduce
+          complexity, improve reliability, and support long-term business
+          growth.
         </motion.p>
 
         <motion.button
@@ -91,7 +98,7 @@ export default function HeroSection({heroAnim, heroCTA}: {heroAnim: string; hero
           whileHover={{ y: -4, boxShadow: "var(--shadow-playful-hover)" }}
           whileTap={{ scale: 0.95 }}
           className="pointer-events-auto mt-4 rounded-xl border-2 border-text-primary bg-pop-yellow px-8 py-4 font-display font-bold text-text-primary shadow-playful transition-all"
-          onClick={() => window.open(heroCTA, '_blank', 'noopener,noreferrer')}
+          onClick={() => window.open(heroCTA, "_blank", "noopener,noreferrer")}
         >
           Initiate Sequence
         </motion.button>

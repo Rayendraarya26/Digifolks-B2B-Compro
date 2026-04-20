@@ -51,8 +51,7 @@ export default function OurDNA() {
             </span>
           </h2>
           <p className="mt-4 max-w-lg text-lg font-medium text-text-muted">
-            We don't do industry standards. We set them. Here is the core of our
-            engineering culture.
+            Our approach is built around system reliability, scalability, and long-term maintainability.
           </p>
         </motion.div>
 
