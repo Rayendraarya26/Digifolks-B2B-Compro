@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, Variants } from "framer-motion";
-import { teamDNAData } from "@/data/team";
+import { teamDNAData } from "@/data/about";
 
 // Varian animasi untuk kontainer agar memicu efek berurutan (stagger) pada anak-anaknya
 const containerVariants: Variants = {
