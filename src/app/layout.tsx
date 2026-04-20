@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
 // import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
+import Preloader from "@/components/loader/Preloader";
+import TransitionProvider from "@/components/providers/TransitionProvider";
 
 // Inisialisasi Font
 const spaceGrotesk = Space_Grotesk({
@@ -79,7 +81,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
       <body className="antialiased selection:bg-pop-yellow selection:text-text-primary">
+        <Preloader />
         {/* <SmoothScrollProvider> */}
+        <TransitionProvider />
         {children}
         {/* </SmoothScrollProvider> */}
       </body>

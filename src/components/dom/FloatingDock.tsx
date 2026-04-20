@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import TransitionLink from "../loader/TransitionLink";
 
 // Struktur data navigasi internal
 const navItems = [
@@ -65,7 +66,7 @@ function NavItem({ item, isActive }: { item: typeof navItems[0]; isActive: boole
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <Link href={item.path}>
+    <TransitionLink href={item.path}>
       <motion.div
         className="relative flex h-14 w-14 flex-col items-center justify-center rounded-xl font-display font-bold transition-colors tablet:h-16 tablet:w-16"
         onMouseEnter={() => setIsHovered(true)}
@@ -113,6 +114,6 @@ function NavItem({ item, isActive }: { item: typeof navItems[0]; isActive: boole
           />
         )}
       </motion.div>
-    </Link>
+    </TransitionLink>
   );
 }

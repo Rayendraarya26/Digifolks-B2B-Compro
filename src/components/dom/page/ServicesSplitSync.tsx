@@ -3,11 +3,14 @@
 import { useState, useRef } from "react";
 import { motion, useScroll, useSpring } from "framer-motion";
 import { servicesData } from "@/data/services";
+import { usePageTransition } from "@/hooks/UsePageTransition";
 
 
 export default function ServicesSplitSync() {
   const [activeSection, setActiveSection] = useState<string>(servicesData[0].id);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  const isTransitionReady = usePageTransition();
 
   // --- Scroll Progress Bar Logic ---
   const { scrollYProgress } = useScroll({
@@ -28,7 +31,12 @@ export default function ServicesSplitSync() {
         {/* =========================================
             LEFT COLUMN: THE FIXED NAVIGATOR
         ========================================= */}
-        <div className="hidden desktop:sticky desktop:top-0 desktop:flex desktop:h-screen desktop:w-5/12 desktop:flex-col desktop:justify-center desktop:pl-24 desktop:pr-12">
+        <motion.div 
+          initial={{ opacity: 0, x: -30 }}
+          animate={isTransitionReady ? { opacity: 1, x: 0 } : { opacity: 0, x: -30 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+          className="hidden desktop:sticky desktop:top-0 desktop:flex desktop:h-screen desktop:w-5/12 desktop:flex-col desktop:justify-center desktop:pl-24 desktop:pr-12"
+        >
           
           <p className="mb-12 font-display text-sm font-black uppercase tracking-widest text-text-primary/50">
             Our Expertise
@@ -54,7 +62,7 @@ export default function ServicesSplitSync() {
             })}
           </div>
 
-        </div>
+        </motion.div>
 
         {/* =========================================
             THE MIDDLE DIVIDER & PROGRESS BAR (FIXED)
@@ -73,12 +81,17 @@ export default function ServicesSplitSync() {
         ========================================= */}
         <div className="flex w-full flex-col px-4 sm:px-6 desktop:w-7/12 desktop:px-24">
           
-          <div className="mt-24 mb-12 flex flex-col items-center text-center desktop:hidden">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={isTransitionReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="mt-24 mb-12 flex flex-col items-center text-center desktop:hidden"
+          >
             <h1 className="font-display text-5xl font-black uppercase leading-none tracking-tighter text-text-primary sm:text-6xl">
               Digital <span className="text-pop-yellow drop-shadow-[4px_4px_0_rgba(0,0,0,1)]">Firepower</span>
             </h1>
             <p className="mt-4 font-bold text-text-primary/70">Scroll to explore our expertise.</p>
-          </div>
+          </motion.div>
 
           {servicesData.map((service) => (
             <motion.div

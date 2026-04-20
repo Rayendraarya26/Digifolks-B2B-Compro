@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { usePageTransition } from "@/hooks/UsePageTransition";
 
 export default function HeroSection({
   heroAnim,
@@ -15,6 +16,7 @@ export default function HeroSection({
   // STATE UNTUK THE MASTER TRIGGER
   const [isDomReady, setIsDomReady] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const isTransitionReady = usePageTransition();
 
   // CEK DOM STABILITY PAKE REQUEST ANIMATION FRAME (Ide Jenius Lu)
   useEffect(() => {
@@ -67,7 +69,7 @@ export default function HeroSection({
   }, []);
 
   // THE MASTER TRIGGER: Animasi baru jalan kalau DOM stabil DAN video siap (atau kena fallback)
-  const shouldAnimate = isDomReady && isVideoLoaded;
+  const shouldAnimate = isDomReady && isVideoLoaded && isTransitionReady;
 
   return (
     <section className="relative flex min-h-screen w-full flex-col justify-end overflow-hidden px-6 pb-20 pt-[45vh] tablet:flex-row tablet:items-center tablet:justify-start desktop:px-24 tablet:pb-20 tablet:pt-20">
