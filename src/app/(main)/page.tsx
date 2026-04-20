@@ -7,6 +7,13 @@ import ContactArcade from "@/components/dom/contact/lp/ContactArcade";
 import FaqChat from "@/components/dom/FaQ/lp/FaQChat";
 import GrandCTA from "@/components/dom/GrandCTA";
 import { GeneralData } from "@/data/general";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Build Scalable Operational Systems for Your Business",
+  description: "We design and develop scalable systems that reduce operational complexity, improve reliability, and support long-term business growth. Talk to our team today.",
+};
+
 
 export default function Home() {
   return (

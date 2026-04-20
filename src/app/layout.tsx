@@ -1,9 +1,6 @@
 import type { Metadata } from "next";
-// Menggunakan next/font untuk optimasi font agar tidak ada layout shift
 import { Space_Grotesk, Inter } from "next/font/google";
 import "./globals.css";
-import FloatingDock from "@/components/dom/FloatingDock";
-import Footer from "@/components/dom/Footer";
 // import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 
 // Inisialisasi Font
@@ -19,11 +16,59 @@ const inter = Inter({
 
 // Metadata Global yang SEO Friendly
 export const metadata: Metadata = {
+  // authors: [{ name: "Digifolks", url: "https://www.digifolks.com" }],
   title: {
-    template: "%s | Digifolks.id",
-    default: "We Build Digital Experiences | Digifolks.id",
+    default: "Digifolks | Scalable Operational Systems & Software Engineering",
+    template: "Digifolks | %s",
   },
-  description: "Crafting hyper-interactive, scalable, and bold web applications for the next generation.",
+  description:
+    "We build scalable operational systems that reduce complexity, improve reliability, and support long-term business growth. Based in Yogyakarta.",
+  keywords: [
+    "software house jogja",
+    "scalable systems",
+    "enterprise system development",
+    "custom software indonesia",
+    "operational system development",
+    "ai systems indonesia",
+  ],
+  openGraph: {
+    title: "Digifolks | Scalable Systems for Complex Businesses",
+    description:
+      "We design and develop operational systems that scale with your business. Built for reliability, efficiency, and long-term growth.",
+    // url: "https://www.digifolks.com",
+    siteName: "Digifolks",
+    // images: [
+    //   {
+    //     url: "https://www.digifolks.com/og-image.png",
+    //     width: 1200,
+    //     height: 630,
+    //     alt: "Digifolks Open Graph Image",
+    //   },
+    // ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Digifolks | Engineering Scalable Systems",
+    description:
+      "Operational systems built for growth, stability, and efficiency.",
+    // images: ["https://www.digifolks.com/twitter-card.png"],
+  },
+  // icons: {
+  //   icon: [
+  //     { url: '/IconLogo.png' },
+  //     { url: '/IconLogoDark.png', media: '(prefers-color-scheme: dark)' },
+  //   ],
+  //   apple: "/IconLogo.png", // Biasanya ukuran 180x180 px
+  // },
+  // themeColor: [
+  //   { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+  //   { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  // ],
+  // verification: {
+  //   google: "y3-gFYtJ7QEsJVPPgUG7IyCTUuknHNZ4zTxWjX8fEa8",
+  // },
 };
 
 export default function RootLayout({
@@ -34,16 +79,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
       <body className="antialiased selection:bg-pop-yellow selection:text-text-primary">
-        {/* Main Content Area */}
         {/* <SmoothScrollProvider> */}
-          <main className="relative min-h-screen w-full">
-            {children}
-          </main>
+        {children}
         {/* </SmoothScrollProvider> */}
-        
-        {/* Global Navigation diletakkan di luar struktur halaman agar persisten */}
-        <FloatingDock />
-        <Footer />
       </body>
     </html>
   );

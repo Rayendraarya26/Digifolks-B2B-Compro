@@ -5,6 +5,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUp, Rocket, Command, Mail, Phone } from "lucide-react";
 import { servicesData } from "@/data/services";
 import { GeneralData } from "@/data/general";
+import localFont from "next/font/local";
+
+const AvayxRegular = localFont({ 
+  src: "/../../fonts/Avayx.ttf",
+  // Opsional: Kasih fallback variable kalau lu mau gabungin ke Tailwind
+  variable: "--avayx-regular" 
+});
 
 export default function Footer() {
   // --- DYNAMIC CLOCK LOGIC ---
@@ -54,8 +61,8 @@ export default function Footer() {
               whileHover={{ scale: 1.05 }}
               className="flex items-center gap-2 text-pop-yellow transition-colors hover:text-pop-pink"
             >
-              <Command className="h-10 w-10 border-2 border-current rounded-xl p-1" />
-              <span className="font-display text-3xl font-black uppercase tracking-widest">
+              {/* <Command className="h-10 w-10 border-2 border-current rounded-xl p-1" /> */}
+              <span className={`${AvayxRegular.className} font-display text-3xl font-black uppercase tracking-widest`}>
                 DIGIFOLKS
               </span>
             </motion.div>
