@@ -130,7 +130,7 @@ const AnimatedInkLetter = ({ char, idx, progress }: { char: string, idx: number,
         viewport={{ once: false }} // THE RESET FIX 🛠️: Berubah jadi false biar keriset tiap masuk layar!
         // Delay juga pakai 'rank' biar jatuhnya acak, bukan dari kiri ke kanan
         transition={{ delay: rank * 0.08, duration: 0.6, ease: "easeOut" }}
-        className="font-display text-6xl desktop:text-[14vw] font-black uppercase tracking-tighter text-text-primary leading-none"
+        className="font-display text-[14vw] desktop:text-[14vw] font-black uppercase tracking-tighter text-text-primary leading-none"
         style={{ display: "inline-block" }}
       >
         {char === " " ? "\u00A0" : char}

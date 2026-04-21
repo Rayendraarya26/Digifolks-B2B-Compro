@@ -118,7 +118,7 @@ const ProjectDetail = ({
           <div className="w-full desktop:w-1/2">
             <motion.div
               layoutId={`image-${project.id}`}
-              className="relative aspect-[4/3] w-full overflow-hidden rounded-[2.5rem] border-4 border-text-primary bg-surface-dark shadow-[8px_8px_0_rgba(0,0,0,1)]"
+              className="relative aspect-4/3 w-full overflow-hidden rounded-[2.5rem] border-4 border-text-primary bg-surface-dark shadow-[8px_8px_0_rgba(0,0,0,1)]"
             >
               <img
                 src={project.imageUrl}
@@ -370,7 +370,7 @@ const LayeredProjectCard = ({
         layoutId={`image-${project.id}`}
         variants={{ idle: { y: 0 }, hover: { y: isMobile ? 0 : -80 } }}
         transition={{ type: "spring", bounce: 0, duration: 0.4 }}
-        className="relative z-20 w-full aspect-4/3 bg-surface-dark transition-colors duration-300 desktop:absolute desktop:-left-[1px] desktop:top-0 desktop:h-full desktop:w-[calc(100%+2px)] desktop:aspect-auto"
+        className="relative z-20 w-full aspect-4/3 bg-surface-dark transition-colors duration-300 desktop:absolute desktop:-left-px desktop:top-0 desktop:h-full desktop:w-[calc(100%+2px)] desktop:aspect-auto"
       >
         <img src={project.imageUrl} alt={project.title} className="h-full w-full object-cover" />
         
