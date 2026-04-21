@@ -32,7 +32,7 @@ const ProjectDetail = ({
   return (
     <motion.div
       layoutId={`card-${project.id}`}
-      className="fixed inset-0 z-100 h-dvh w-full overflow-y-auto bg-surface-light"
+      className="fixed inset-0 z-100 h-dvh w-full overflow-y-auto overscroll-none bg-surface-light"
     >
       <div className="sticky top-6 z-110 flex w-full justify-between px-6 pointer-events-none sm:px-12">
         <button
@@ -547,13 +547,18 @@ useEffect(() => {
         <AnimatePresence
           onExitComplete={() => {
             document.body.style.overflow = "unset";
-            if (queryId) {
-              router.replace(pathname, { scroll: false });
-            }
           }}
         >
           {selectedId && selectedProject && (
-            <ProjectDetail project={selectedProject} onClose={() => setSelectedId(null)} />
+            <ProjectDetail 
+              project={selectedProject} 
+              onClose={() => {
+                setSelectedId(null);
+                if (queryId) {
+                  router.replace(pathname, { scroll: false });
+                }
+              }} 
+            />
           )}
         </AnimatePresence>
       </section>

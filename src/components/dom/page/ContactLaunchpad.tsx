@@ -118,7 +118,7 @@ export default function ContactLaunchpad() {
   };
 
   return (
-    <section className="relative flex min-h-screen w-full flex-col bg-surface-light desktop:flex-row">
+    <section className="relative flex min-h-screen w-full flex-col overflow-x-clip bg-surface-light desktop:flex-row">
       {/* =========================================
           SISI KIRI: THE SOCIAL & TRUST AREA (40%)
       ========================================= */}

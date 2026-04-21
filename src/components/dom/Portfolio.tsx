@@ -140,17 +140,6 @@ const OutroCardInteractive = () => {
 // --- MICRO-COMPONENT: Card UI Builder ---
 const CardContent = ({ item, onSelect }: { item: any, onSelect: (id: string) => void }) => {
 
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    // Kita taruh di useEffect biar aman dari error SSR Next.js
-    const checkMobile = () => setIsMobile(window.innerWidth < 1280);
-    checkMobile(); // Cek saat pertama kali web di-load
-    
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
-
   // 1. Desain Card Intro
   if (item.type === "intro") {
     return (
@@ -170,12 +159,14 @@ const CardContent = ({ item, onSelect }: { item: any, onSelect: (id: string) => 
 
   // 3. Desain Card Portfolio Utama
   return (
-    // PERBAIKAN 1: Ganti div jadi motion.div dan pasang layoutId="card-{id}"
     <motion.div 
       layoutId={`card-${item.id}`}
-      onClick={isMobile ? () => onSelect(item.id) : undefined} // Hanya aktif di desktop, di mobile biar klik langsung ke detail
       className="group relative flex h-full w-full flex-col justify-end overflow-hidden rounded-[2.5rem] border-4 border-pop-green bg-surface-light p-8 shadow-[0_-20px_50px_rgba(0,0,0,0.4)] transition-colors hover:border-pop-pink desktop:p-12"
     >
+      <div 
+        className="absolute inset-0 z-50 cursor-pointer desktop:hidden"
+        onClick={() => onSelect(item.id)} 
+      />
       <motion.div 
         layoutId={`image-${item.id}`}
         className="absolute inset-0 z-0 overflow-hidden"
@@ -193,7 +184,6 @@ const CardContent = ({ item, onSelect }: { item: any, onSelect: (id: string) => 
       {/* Shadow Gradient biar teks selalu kebaca */}
       <div className="absolute inset-0 z-0 bg-linear-to-t from-surface-dark/90 via-surface-dark/40 to-transparent" />
 
-      {/* PERBAIKAN 3: Bungkus teks info dengan motion.div dan pasang layoutId="info-{id}" */}
       <motion.div 
         layoutId={`info-${item.id}`}
         className="relative z-10 flex flex-col items-start gap-4 translate-y-8 transition-transform duration-500 group-hover:translate-y-0"
