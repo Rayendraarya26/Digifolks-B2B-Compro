@@ -80,7 +80,7 @@ const ProjectDetail = ({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-100 h-dvh w-full overflow-y-auto overscroll-none bg-surface-light custom-scrollbar"
+      className="fixed inset-0 z-100 h-dvh w-full overflow-y-auto overflow-x-clip overscroll-none bg-surface-light custom-scrollbar"
     >
       {/* TOP COMMAND BAR & PROGRESS INDICATOR */}
       <motion.div 

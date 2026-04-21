@@ -42,7 +42,7 @@ export default function GrandCTA({grandCTAUrl}: {grandCTAUrl: string}) {
           <motion.button
             ref={btnRef}
             style={{ x: smoothX, y: smoothY }}
-            className="group relative rounded-full border-2 border-text-primary bg-pop-pink px-12 py-6 font-display text-lg tablet:text-2xl font-black uppercase tracking-widest text-text-primary shadow-[6px_6px_0_rgba(0,0,0,1)] transition-shadow hover:shadow-[10px_10px_0_rgba(0,0,0,1)] active:shadow-none"
+            className="group relative rounded-full border-2 border-text-primary bg-pop-pink px-12 py-6 font-display text-md tablet:text-2xl font-black uppercase tracking-widest text-text-primary shadow-[6px_6px_0_rgba(0,0,0,1)] transition-shadow hover:shadow-[10px_10px_0_rgba(0,0,0,1)] active:shadow-none"
           >
             Start a Project
           </motion.button>

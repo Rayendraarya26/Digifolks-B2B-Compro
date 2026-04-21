@@ -85,7 +85,7 @@ export default function HeroSection({
   const shouldAnimate = isDomReady && isVideoLoaded && isTransitionReady;
 
   return (
-    <section className="relative flex min-h-screen w-full flex-col justify-end overflow-hidden px-6 pb-20 pt-[45vh] desktop:flex-row desktop:items-center tablet:justify-center desktop:justify-start tablet:px-24 tablet:pb-20 tablet:pt-20">
+    <section className="relative flex min-h-screen w-full flex-col justify-end overflow-hidden overflow-x-clip px-6 pb-20 pt-[45vh] desktop:flex-row desktop:items-center tablet:justify-center desktop:justify-start tablet:px-24 tablet:pb-20 tablet:pt-20">
       {/* =========================================
           ANIMASI VIDEO BARENGAN SAMA TEKS
       ========================================= */}

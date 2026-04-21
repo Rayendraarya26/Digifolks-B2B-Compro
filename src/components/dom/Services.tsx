@@ -83,9 +83,11 @@ export default function Services() {
         }
       },
       {
-        // Threshold 0.3 = Animasi nunggu sampai 30% area grid masuk ke layar
-        // Ini obat ampuh buat masalah "animasi kelar sebelum keliatan"
-        threshold: 0.3,
+        // 1. Threshold nol, supaya nggak error di elemen yang super tinggi (HP)
+        threshold: 0, 
+        // 2. RootMargin bawah negatif (-150px). 
+        // Artinya: Animasi baru jalan pas elemen udah masuk/nongol 150px dari batas bawah layar user.
+        rootMargin: "0px 0px -150px 0px",
       },
     );
 
@@ -99,7 +101,7 @@ export default function Services() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-screen w-full flex-col items-center bg-surface-light px-6 py-24 desktop:px-24"
+      className="relative flex min-h-screen w-full flex-col items-center bg-surface-light overflow-x-clip px-6 py-24 desktop:px-24"
     >
       <div className="relative z-10 flex w-full max-w-7xl flex-col gap-12">
         {/* Header Section (Tetap Sama) */}
@@ -199,7 +201,7 @@ function AnimatedMediaCard({
       onMouseLeave={handleMouseLeave}
       onClick={OnClick}
       style={{ "--hover-bg": service.theme.bg } as React.CSSProperties}
-      className={`group relative flex min-h-87.5 flex-col overflow-hidden rounded-3xl border-4 border-text-primary p-8 bg-surface-light shadow-playful transition-all duration-500 ease-out tablet:min-h-100 cursor-crosshair hover:-translate-y-2 hover:shadow-playful-hover hover:bg-(--hover-bg) ${spanClass}`}
+      className={`group relative flex min-h-87.5 flex-col overflow-hidden overflow-x-clip rounded-3xl border-4 border-text-primary p-8 bg-surface-light shadow-playful transition-all duration-500 ease-out tablet:min-h-100 cursor-crosshair hover:-translate-y-2 hover:shadow-playful-hover hover:bg-(--hover-bg) ${spanClass}`}
     >
       {/* KONTEN CARD TETAP SAMA */}
       <div className="relative z-10 flex h-full flex-col pointer-events-none">

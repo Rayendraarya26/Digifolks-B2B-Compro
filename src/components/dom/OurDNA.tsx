@@ -91,7 +91,7 @@ export default function OurDNA() {
 
   return (
     // Pasang ref sensornya di pembungkus utama
-    <section ref={sectionRef} className="relative w-full bg-surface-light px-6 py-24 desktop:px-24">
+    <section ref={sectionRef} className="relative w-full bg-surface-light overflow-x-clip px-6 py-24 desktop:px-24">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-12">
         
         {/* Header Section */}

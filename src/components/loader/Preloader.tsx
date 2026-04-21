@@ -96,7 +96,7 @@ export default function Preloader() {
             </div>
 
             {/* Brand & Loading Text */}
-            <div className="flex flex-col items-center gap-2 overflow-hidden">
+            <div className="flex flex-col items-center gap-2 pb-2 overflow-hidden">
               <motion.h1
                 initial={{ y: 40, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}

@@ -75,8 +75,8 @@ export default function Testimonials() {
     tl.to(originalCards, {
       y: 0,
       opacity: 1,
-      duration: 1.2,
-      ease: "back.out(1.2)",
+      duration: 0.8,
+      ease: "back.out(0.8)",
     });
 
     // 2. THE SYMMETRICAL DEAL: Kartu mekar ke kiri dan kanan dari tengah
