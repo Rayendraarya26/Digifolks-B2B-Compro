@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, Variants, useScroll, useSpring, useTransform } from "framer-motion";
 import {
   ArrowRight,
   ArrowLeft,
@@ -15,29 +15,34 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Suspense } from "react";
 import { usePageTransition } from "@/hooks/UsePageTransition";
 
-const rightPanelVariants = {
+const CATEGORIES = ["All", "Web App", "AI & System", "Backend", "E-Commerce"];
+
+// --- VARIAN ANIMASI UNTUK DETAIL PORTOFOLIO ---
+const staggerContainer: Variants = {
   hidden: { opacity: 0 },
-  visible: {
+  show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3, // Tunggu efek morphing layoutId selesai
+      staggerChildren: 0.15,
+      delayChildren: 0.4, // Tunggu gambar terbang selesai
     },
   },
-  exit: { opacity: 0, transition: { duration: 0.2 } }
-};
-
-const blockVariants = {
-  hidden: { opacity: 0, y: 40, scale: 0.98 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    scale: 1,
-    transition: { type: "spring", stiffness: 300, damping: 20 }
+  exit: {
+    opacity: 0,
+    transition: { staggerChildren: 0.05, staggerDirection: -1 },
   }
 };
 
-const CATEGORIES = ["All", "Web App", "AI & System", "Backend", "E-Commerce"];
+const slideUpItem: Variants = {
+  hidden: { opacity: 0, y: 40, scale: 0.98 },
+  show: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1, 
+    transition: { type: "spring", stiffness: 250, damping: 20 } 
+  },
+  exit: { opacity: 0, y: 20, transition: { duration: 0.2 } }
+};
 
 // --- KOMPONEN: OVERLAY DETAIL (FULL SCREEN) ---
 const ProjectDetail = ({
@@ -47,184 +52,248 @@ const ProjectDetail = ({
   project: (typeof portfolioData)[0];
   onClose: () => void;
 }) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // 1. TETAP PERTAHANKAN SCROLL TRACKING UNTUK PROGRESS BAR (Sangat berguna untuk UX)
+  const { scrollYProgress } = useScroll({
+    container: containerRef,
+    offset: ["start start", "end end"],
+  });
+
+  const smoothProgress = useSpring(scrollYProgress, {
+    mass: 0.5,
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  const progressWidth = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
+    return () => { document.body.style.overflow = "unset"; };
   }, []);
 
   return (
     <motion.div
-      layoutId={`card-${project.id}`}
-      className="fixed inset-0 z-100 h-dvh w-full overflow-y-auto overscroll-none bg-surface-light"
+      ref={containerRef}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-100 h-dvh w-full overflow-y-auto overscroll-none bg-surface-light custom-scrollbar"
     >
-      <div className="sticky top-6 z-110 flex w-full justify-between px-6 pointer-events-none sm:px-12">
-        <button
-          onClick={onClose}
-          className="pointer-events-auto flex items-center gap-2 rounded-full border-2 border-text-primary bg-pop-pink px-6 py-3 font-display text-lg font-black uppercase text-text-primary shadow-playful transition-all hover:-translate-y-1 active:translate-y-0"
-        >
-          <ArrowLeft className="h-6 w-6" /> Back to Archive
-        </button>
-      </div>
+      {/* TOP COMMAND BAR & PROGRESS INDICATOR */}
+      <motion.div 
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        exit={{ y: -100 }}
+        transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.2 }}
+        className="sticky top-0 z-110 w-full border-b-4 border-text-primary bg-surface-light shadow-[0_4px_0_rgba(0,0,0,1)]"
+      >
+        <div className="flex w-full justify-between px-6 py-4 pointer-events-none sm:px-12 items-center">
+          <div className="flex items-center gap-3">
+             <div className="h-3 w-3 rounded-full bg-pop-pink animate-pulse" />
+             <span className="font-mono text-sm font-bold uppercase tracking-widest text-text-primary hidden sm:block">
+               Previewing: {project.id}
+             </span>
+          </div>
+          <button
+            onClick={onClose}
+            className="pointer-events-auto flex items-center gap-2 rounded-full border-4 border-text-primary bg-pop-yellow px-6 py-2 font-display text-sm font-black uppercase text-text-primary shadow-[4px_4px_0_rgba(0,0,0,1)] transition-all hover:-translate-y-1 hover:bg-pop-pink hover:shadow-[6px_6px_0_rgba(0,0,0,1)] active:translate-y-0"
+          >
+            <ArrowLeft className="h-5 w-5" /> Back to Archive
+          </button>
+        </div>
+        {/* NEO-BRUTALIST PROGRESS BAR */}
+        <motion.div 
+          style={{ width: progressWidth }} 
+          className="absolute bottom-0 left-0 h-1.5 bg-pop-green border-r-2 border-text-primary z-120" 
+        />
+      </motion.div>
 
-      <div className="mx-auto w-full max-w-6xl px-6 pb-24 desktop:px-0 sm:px-12">
-        <div className="mt-8 flex flex-col gap-8 desktop:mt-0 desktop:flex-row desktop:items-center">
+      <div className="mx-auto w-full max-w-6xl px-6 pb-24 pt-12 desktop:px-0 sm:px-12">
+        
+        {/* HERO SECTION (Tanpa Parallax -> 100% Stabil & Bebas Bug) */}
+        <div className="flex flex-col gap-8 desktop:flex-row desktop:items-center">
           <div className="w-full desktop:w-1/2">
             <motion.div
               layoutId={`image-${project.id}`}
-              className="relative aspect-video overflow-hidden rounded-4xl border-2 border-text-primary bg-surface-dark shadow-playful"
+              className="relative aspect-[4/3] w-full overflow-hidden rounded-[2.5rem] border-4 border-text-primary bg-surface-dark shadow-[8px_8px_0_rgba(0,0,0,1)]"
             >
               <img
                 src={project.imageUrl}
                 alt={project.title}
-                className="h-full w-full object-cover"
+                // Object-cover dipertahankan, origin-center biar nge-zoom/ngecilnya presisi di tengah
+                className="h-full w-full object-cover origin-center"
               />
             </motion.div>
           </div>
           <div className="w-full desktop:w-1/2">
-            <motion.div layoutId={`info-${project.id}`}>
-              <p className="mb-2 font-display text-lg font-black uppercase tracking-widest text-pop-pink">
+            <motion.div layoutId={`info-${project.id}`} className="flex flex-col items-start gap-4">
+              <div className="rounded-full border-2 border-text-primary bg-pop-purple px-4 py-1 font-display text-sm font-black uppercase tracking-widest text-surface-light shadow-[2px_2px_0_rgba(0,0,0,1)]">
                 {project.projectType}
-              </p>
-              <h2 className="font-display text-5xl font-black uppercase leading-none tracking-tighter text-text-primary desktop:text-8xl sm:text-7xl">
+              </div>
+              <h2 className="font-display text-5xl font-black uppercase leading-none tracking-tighter text-text-primary desktop:text-8xl sm:text-7xl drop-shadow-sm">
                 {project.title}
               </h2>
             </motion.div>
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-12 desktop:flex-row">
-          <div className="flex flex-col gap-12 desktop:w-2/3">
-            <section>
-              <h3 className="mb-4 font-display text-3xl font-black uppercase tracking-tight text-text-primary">
+        {/* CONTENT DOSSIER */}
+        <motion.div 
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+          exit="exit"
+          className="mt-20 flex flex-col gap-12 desktop:flex-row"
+        >
+          {/* Main Content (Kiri) */}
+          <div className="flex flex-col gap-16 desktop:w-2/3">
+            <motion.section variants={slideUpItem}>
+              <h3 className="mb-4 font-display text-3xl font-black uppercase tracking-tight text-text-primary flex items-center gap-3">
+                <span className="bg-pop-pink w-3 h-8 border-2 border-text-primary inline-block"></span>
                 The Challenge
               </h3>
-              <p className="text-xl font-bold leading-relaxed text-text-primary/80">
+              <p className="text-lg font-medium leading-relaxed text-text-primary/80">
                 {project.challenge}
               </p>
-            </section>
-            <section>
-              <h3 className="mb-6 font-display text-3xl font-black uppercase tracking-tight text-text-primary">
+            </motion.section>
+
+            <motion.section variants={slideUpItem}>
+              <h3 className="mb-6 font-display text-3xl font-black uppercase tracking-tight text-text-primary flex items-center gap-3">
+                <span className="bg-pop-blue w-3 h-8 border-2 border-text-primary inline-block"></span>
                 The Blueprint
               </h3>
-              <div className="relative w-full rounded-3xl border-4 border-text-primary bg-surface-light p-6 shadow-[6px_6px_0_rgba(0,0,0,1)] sm:p-8">
-                <p className="whitespace-pre-line text-lg font-bold leading-relaxed text-text-primary/80">
+              <div className="relative w-full rounded-[2.5rem] border-4 border-text-primary bg-surface-light p-8 shadow-[8px_8px_0_rgba(0,0,0,1)] sm:p-10">
+                <p className="whitespace-pre-line text-lg font-medium leading-relaxed text-text-primary/80">
                   {project.requirements}
                 </p>
               </div>
-            </section>
-            <section>
-              <h3 className="mb-6 font-display text-3xl font-black uppercase tracking-tight text-text-primary">
+            </motion.section>
+
+            <motion.section variants={slideUpItem}>
+              <h3 className="mb-6 font-display text-3xl font-black uppercase tracking-tight text-text-primary flex items-center gap-3">
+                <span className="bg-pop-yellow w-3 h-8 border-2 border-text-primary inline-block"></span>
                 The Craft
               </h3>
               <div className="flex flex-wrap gap-4">
                 {project.tags.map((tech) => (
-                  <div
+                  <motion.div
                     key={tech}
-                    className="flex items-center gap-2 rounded-2xl border-2 border-text-primary bg-surface-light px-5 py-3 shadow-playful transition-transform hover:-translate-y-1"
+                    whileHover={{ y: -5, rotate: [-2, 2, 0] }} // Micro-interaction Jiggle
+                    className="flex cursor-default items-center gap-2 rounded-2xl border-4 border-text-primary bg-surface-light px-5 py-3 shadow-[4px_4px_0_rgba(0,0,0,1)] transition-colors hover:bg-pop-yellow"
                   >
-                    <div className="h-3 w-3 rounded-full bg-pop-yellow" />
+                    <div className="h-3 w-3 rounded-full border-2 border-text-primary bg-pop-green" />
                     <span className="font-display text-sm font-black uppercase tracking-wider">
                       {tech}
                     </span>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </section>
-            <section className="rounded-[2.5rem] border-2 border-text-primary bg-pop-green p-8 shadow-playful sm:p-10">
+            </motion.section>
+
+            <motion.section variants={slideUpItem} className="rounded-[2.5rem] border-4 border-text-primary bg-pop-green p-8 shadow-[8px_8px_0_rgba(0,0,0,1)] sm:p-10">
               <h3 className="mb-4 font-display text-3xl font-black uppercase tracking-tight text-text-primary">
                 The Solutions
               </h3>
-              <p className="text-xl font-black italic leading-relaxed text-text-primary">
+              <p className="text-xl font-bold italic leading-relaxed text-text-primary">
                 "{project.solutions}"
               </p>
-            </section>
+            </motion.section>
           </div>
 
-          <aside className="desktop:w-1/3">
-            <div className="sticky top-32 flex flex-col gap-6 rounded-[2.5rem] border-2 border-text-primary bg-pop-yellow p-8 shadow-playful">
-              <div className="flex items-center gap-4">
-                <div className="rounded-xl border-2 border-text-primary bg-surface-light p-2 shadow-playful">
-                  <User className="h-5 w-5" />
+          {/* Sticky Sidebar (Kanan) */}
+          <motion.aside variants={slideUpItem} className="desktop:w-1/3">
+            <div className="sticky top-32 flex flex-col gap-6 rounded-[2.5rem] border-4 border-text-primary bg-pop-yellow p-8 shadow-[8px_8px_0_rgba(0,0,0,1)]">
+              
+              <div className="flex items-center gap-4 group">
+                <div className="rounded-xl border-4 border-text-primary bg-surface-light p-3 shadow-[4px_4px_0_rgba(0,0,0,1)] transition-transform group-hover:-translate-y-1 group-hover:bg-pop-pink">
+                  <User className="h-6 w-6" />
                 </div>
                 <div>
-                  <p className="text-xs font-black uppercase opacity-50">
-                    Client
-                  </p>
-                  <p className="font-display text-lg font-black uppercase">
-                    {project.client}
-                  </p>
+                  <p className="text-xs font-black uppercase opacity-60">Client</p>
+                  <p className="font-display text-lg font-black uppercase">{project.client}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="rounded-xl border-2 border-text-primary bg-surface-light p-2 shadow-playful">
-                  <Briefcase className="h-5 w-5" />
+
+              <div className="flex items-center gap-4 group">
+                <div className="rounded-xl border-4 border-text-primary bg-surface-light p-3 shadow-[4px_4px_0_rgba(0,0,0,1)] transition-transform group-hover:-translate-y-1 group-hover:bg-pop-blue">
+                  <Briefcase className="h-6 w-6" />
                 </div>
                 <div>
-                  <p className="text-xs font-black uppercase opacity-50">
-                    Industry
-                  </p>
-                  <p className="font-display text-lg font-black uppercase">
-                    {project.industry}
-                  </p>
+                  <p className="text-xs font-black uppercase opacity-60">Industry</p>
+                  <p className="font-display text-lg font-black uppercase">{project.industry}</p>
                 </div>
               </div>
-              <div className="flex items-center gap-4">
-                <div className="rounded-xl border-2 border-text-primary bg-surface-light p-2 shadow-playful">
-                  <Calendar className="h-5 w-5" />
+
+              <div className="flex items-center gap-4 group">
+                <div className="rounded-xl border-4 border-text-primary bg-surface-light p-3 shadow-[4px_4px_0_rgba(0,0,0,1)] transition-transform group-hover:-translate-y-1 group-hover:bg-pop-green">
+                  <Calendar className="h-6 w-6" />
                 </div>
                 <div>
-                  <p className="text-xs font-black uppercase opacity-50">
-                    Date
-                  </p>
-                  <p className="font-display text-lg font-black uppercase">
-                    {project.date}
-                  </p>
+                  <p className="text-xs font-black uppercase opacity-60">Date</p>
+                  <p className="font-display text-lg font-black uppercase">{project.date}</p>
                 </div>
               </div>
-              <hr className="border-2 border-text-primary/20" />
-              <a
+
+              <hr className="my-2 border-2 border-text-primary/20" />
+              
+              <motion.a
+                whileHover={{ y: -4 }}
+                whileTap={{ scale: 0.95 }}
                 href={project.link}
                 target="_blank"
-                className="flex items-center justify-center gap-3 rounded-full border-2 border-text-primary bg-surface-light py-4 font-display text-lg font-black uppercase tracking-widest text-text-primary shadow-playful transition-all hover:-translate-y-1 hover:bg-pop-pink"
+                className="group flex items-center justify-center gap-3 rounded-full border-4 border-text-primary bg-text-primary py-4 font-display text-lg font-black uppercase tracking-widest text-surface-light shadow-[4px_4px_0_rgba(195,155,211,1)] transition-colors hover:bg-pop-pink hover:text-text-primary hover:shadow-[6px_6px_0_rgba(0,0,0,1)]"
               >
-                Live Preview <ExternalLink className="h-5 w-5" />
-              </a>
-            </div>
-          </aside>
-        </div>
+                Live Preview <ExternalLink className="h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+              </motion.a>
 
+            </div>
+          </motion.aside>
+        </motion.div>
+
+        {/* =========================================================
+            THE VISUALS (SCROLL TRIGGER REVEAL)
+        ========================================================= */}
         {project.showcaseImages?.length > 0 && (
-          <section className="mt-32 flex flex-col gap-8">
-            <div className="flex items-center gap-6">
+          <motion.section 
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={staggerContainer} 
+            className="mt-32 flex flex-col gap-8"
+          >
+            <motion.div variants={slideUpItem} className="flex items-center gap-6">
               <h3 className="font-display text-4xl font-black uppercase tracking-tight text-text-primary sm:text-5xl">
                 The Visuals
               </h3>
-              <div className="h-2 w-full flex-1 rounded-full bg-text-primary/10"></div>
-            </div>
+              <div className="h-4 w-full flex-1 rounded-full border-2 border-text-primary bg-surface-dark/10 shadow-[inset_0_4px_0_rgba(0,0,0,0.1)]"></div>
+            </motion.div>
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
               {project.showcaseImages.map((img: string, idx: number) => {
                 const isFullWidth = idx % 3 === 0;
 
                 return (
-                  <div
+                  <motion.div
+                    variants={slideUpItem}
                     key={idx}
-                    className={`group relative overflow-hidden rounded-4xl border-4 border-text-primary bg-surface-dark shadow-[8px_8px_0_rgba(0,0,0,1)] transition-transform duration-300 hover:-translate-y-2 ${
-                      isFullWidth
-                        ? "aspect-video md:col-span-2"
-                        : "aspect-square md:aspect-4/3"
+                    className={`group relative overflow-hidden rounded-[2.5rem] border-4 border-text-primary bg-surface-dark shadow-[8px_8px_0_rgba(0,0,0,1)] transition-transform duration-300 hover:-translate-y-2 hover:shadow-[12px_12px_0_rgba(0,0,0,1)] ${
+                      isFullWidth ? "aspect-video md:col-span-2" : "aspect-square md:aspect-4/3"
                     }`}
                   >
                     <img
                       src={img}
                       alt={`${project.title} showcase ${idx + 1}`}
-                      className="h-full w-full object-cover transition-transform duration-700 ease-in-out group-hover:scale-105"
+                      className="h-full w-full object-cover opacity-90 transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:opacity-100"
                     />
                     <div className="pointer-events-none absolute inset-0 bg-pop-pink/0 transition-colors duration-300 group-hover:bg-pop-pink/10" />
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
-          </section>
+          </motion.section>
         )}
       </div>
     </motion.div>
@@ -242,6 +311,7 @@ const LayeredProjectCard = ({
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
+    // 1280px di Tailwind itu sama dengan breakpoint 'xl'
     const checkMobile = () => setIsMobile(window.innerWidth < 1280);
     checkMobile();
     window.addEventListener("resize", checkMobile);
@@ -256,22 +326,21 @@ const LayeredProjectCard = ({
       initial="idle"
       animate={isMobile ? "hover" : "idle"}
       whileHover="hover"
-      className={`group relative w-full cursor-pointer overflow-hidden rounded-4xl border-2 border-text-primary bg-surface-light shadow-[6px_6px_0_rgba(0,0,0,1)] transition-shadow duration-300 hover:shadow-[10px_10px_0_rgba(0,0,0,1)] aspect-4/3`}
+      // FIX 1: Container jadi flex-col di Mobile. Di Desktop (xl) baru dikunci aspect-4/3
+      className="group relative w-full flex flex-col xl:block xl:aspect-4/3 cursor-pointer overflow-hidden overflow-x-clip rounded-4xl border-2 border-text-primary bg-surface-light shadow-[6px_6px_0_rgba(0,0,0,1)] transition-shadow duration-300 hover:shadow-[10px_10px_0_rgba(0,0,0,1)]"
     >
-      <div className={`absolute inset-0 z-0 h-full w-full ${project.color}`} />
+      {/* Warna Latar Belakang (Sembunyiin di mobile, cuma buat desktop) */}
+      <div className={`absolute inset-0 z-0 h-full w-full hidden xl:block ${project.color}`} />
 
-      <div className="absolute bottom-0 left-0 right-0 z-10 flex h-20 items-center justify-between px-6">
+      {/* FIX 2: THE BOTTOM INFO BAR */}
+      {/* Mobile: Tampil wajar di bawah flex (order-last). Desktop: Absolute nyumput di bawah */}
+      <div className={`order-last relative xl:absolute xl:bottom-0 xl:left-0 xl:right-0 z-10 flex h-20 items-center justify-between px-6 ${project.color}`}>
         <motion.div
           variants={{
             idle: { y: 20, opacity: 0 },
             hover: { y: 0, opacity: 1 },
           }}
-          transition={{
-            type: "spring",
-            stiffness: 300,
-            damping: 25,
-            delay: 0.05,
-          }}
+          transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.05 }}
           className="flex flex-col"
         >
           <p className="text-[10px] font-black uppercase tracking-widest text-text-primary/60">
@@ -287,12 +356,7 @@ const LayeredProjectCard = ({
             idle: { y: 20, opacity: 0 },
             hover: { y: 0, opacity: 1 },
           }}
-          transition={{
-            type: "spring",
-            stiffness: 300,
-            damping: 25,
-            delay: 0.1,
-          }}
+          transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.1 }}
         >
           <p className="rounded-full border-2 border-text-primary bg-surface-light px-3 py-1 text-xs font-bold uppercase tracking-widest text-text-primary shadow-[2px_2px_0_rgba(0,0,0,1)]">
             {project.projectType}
@@ -300,22 +364,19 @@ const LayeredProjectCard = ({
         </motion.div>
       </div>
 
+      {/* FIX 3: THE MAIN IMAGE LAYER */}
+      {/* THE MAIN IMAGE LAYER (Z-20) */}
       <motion.div
         layoutId={`image-${project.id}`}
-        variants={{ idle: { y: 0 }, hover: { y: -80 } }}
-        transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        className="relative z-20 w-full aspect-4/3  bg-surface-dark transition-colors duration-300"
+        variants={{ idle: { y: 0 }, hover: { y: isMobile ? 0 : -80 } }}
+        transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+        className="relative z-20 w-full aspect-4/3 bg-surface-dark transition-colors duration-300 desktop:absolute desktop:-left-[1px] desktop:top-0 desktop:h-full desktop:w-[calc(100%+2px)] desktop:aspect-auto"
       >
-        <img
-          src={project.imageUrl}
-          alt={project.title}
-          className="h-full w-full object-cover"
-        />
-        <div className="absolute inset-0 bg-linear-to-t from-surface-dark/90 via-surface-dark/20 to-transparent" />
-        <motion.div
-          layoutId={`info-${project.id}`}
-          className="absolute bottom-6 left-6 right-6 flex flex-col items-start"
-        >
+        <img src={project.imageUrl} alt={project.title} className="h-full w-full object-cover" />
+        
+        <div className="absolute inset-0 bg-linear-to-t from-surface-dark/90 via-surface-dark/20 to-transparent pointer-events-none" />
+        
+        <motion.div layoutId={`info-${project.id}`} className="absolute bottom-6 left-6 right-6 flex flex-col items-start pointer-events-none">
           <h3 className="font-display text-2xl font-black uppercase text-surface-light drop-shadow-[2px_2px_0_rgba(0,0,0,1)] sm:text-4xl">
             {project.title}
           </h3>
@@ -468,7 +529,7 @@ function PortfolioListContent() {
   };
 
   return (
-    <div className="relative">
+    <div className="relative overflow-x-clip">
       {/* ======================================================== */}
       {/* THE CURTAIN (TIRAI LOKAL DENGAN UI GLOBAL) */}
       {/* Z-Index 90: Nutupin grid, tapi Project Detail bakal tembus di atasnya */}

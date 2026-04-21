@@ -2,11 +2,17 @@
 
 import Image from "next/image";
 import { portfolioData } from "@/data/portfolio";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring, useInView, animate, AnimationPlaybackControls} from "framer-motion";
+import { useRef, useState, useEffect } from "react";
 
-// Hanya ambil 4 porto pertama untuk Card Deck
-const displayPortfolios = portfolioData.slice(0, 4);
+const targetIds = ["port-1", "port-2", "port-3", "port-4"];
+
+const displayPortfolios = [
+  ...targetIds
+    .map((id) => portfolioData.find((item) => item.id === id))
+    .filter(Boolean)
+    .map((item) => ({ ...item, type: "portfolio" }))
+];
 
 export default function Portfolio() {
   const containerRef = useRef(null);
@@ -178,7 +184,7 @@ const DiagonalDeckCard = ({ port, idx, smoothProgress }: { port: any; idx: numbe
   return (
     <motion.div
       style={{ x, y, rotate, scale, zIndex: 20 + idx }} // Z-index nambah biar yg masuk selalu di atas
-      className={`absolute flex w-[90vw] max-w-275 aspect-4/3 desktop:aspect-video flex-col overflow-hidden rounded-[2.5rem] border-[6px] border-[#000000] shadow-[12px_12px_0_#000000] ${bgColor}`}
+      className={`absolute flex w-[80vw] max-w-225 flex-col overflow-hidden rounded-[2.5rem] border-[6px] border-[#000000] shadow-[12px_12px_0_#000000] ${bgColor}`}
     >
       <div className="absolute inset-0 z-50 cursor-pointer desktop:hidden" onClick={() => window.location.href = `/work?projectId=${port.id}`} />
 
@@ -190,7 +196,7 @@ const DiagonalDeckCard = ({ port, idx, smoothProgress }: { port: any; idx: numbe
       
       {/* Konten Portofolio Asli */}
       <div className="relative z-10 flex h-full flex-col p-6 sm:p-8 desktop:p-16">
-        <div className="relative w-full grow overflow-hidden rounded-4xl border-4 border-[#000000] bg-surface-dark">
+        <div className="relative w-full aspect-4/3 grow overflow-hidden rounded-4xl border-4 border-[#000000] bg-surface-dark">
           <Image src={port.imageUrl} alt={port.headline} fill className="object-cover" />
         </div>
         <div className="flex items-end justify-between shrink-0 pt-6 desktop:pt-10">
@@ -220,23 +226,47 @@ const DiagonalDeckCard = ({ port, idx, smoothProgress }: { port: any; idx: numbe
 const OutroSection = ({ smoothProgress }: { smoothProgress: any }) => {
   // Outro mulai naik saat scroll 0.85 sampai 0.95, menutupi seluruh layar
   const y = useTransform(smoothProgress, [0.85, 0.95], ["100vh", "0vh"]);
+  const [count, setCount] = useState(0);
+    const countRef = useRef(null);
+    const isInView = useInView(countRef, { margin: "-10% 0px" });
+    
+    const TOTAL_PROJECTS = portfolioData.length;
+
+    useEffect(() => {
+        let controls: AnimationPlaybackControls | undefined;
+        
+        if (isInView) {
+          // Jalankan animasi maju saat masuk layar
+          controls = animate(0, TOTAL_PROJECTS, {
+            duration: 2,
+            ease: "easeOut",
+            onUpdate: (latest) => setCount(Math.round(latest)),
+          });
+        } else {
+          // 2. RESET: Balikin ke 0 saat kartu keluar dari layar
+          setCount(0);
+        }
+    
+        return () => controls?.stop(); // Stop animasi kalau komponen unmount
+      }, [isInView]);
 
   return (
     <motion.div 
       style={{ y, zIndex: 50 }} 
+      ref={countRef}
       className="absolute inset-0 flex h-screen w-full flex-col items-center justify-center bg-pop-pink p-8 text-center border-t-8 border-text-primary"
     >
       <div className="mb-8 rounded-full border-4 border-text-primary bg-surface-light px-6 py-2 font-display text-sm font-black uppercase tracking-widest text-text-primary shadow-[4px_4px_0_rgba(0,0,0,1)]">
-        ALL SYSTEMS GO
+        STABLE BUILD: v2.0
       </div>
       <h3 className="font-display text-5xl font-black uppercase leading-none tracking-tighter text-text-primary sm:text-7xl desktop:text-[8rem]">
-        04 Systems <br /> Deployed.
+        {count} Systems Deployed.
       </h3>
       <p className="mt-8 max-w-lg text-lg font-bold leading-relaxed text-text-primary/70 sm:text-xl">
-        We don't just build websites. We engineer scalable solutions. Dive into our full archive to see the blueprints.
+        Click to decrypt our mission reports and see how we engineered solutions for complex business logic.
       </p>
       <button onClick={() => (window.location.href = "/work")} className="mt-12 rounded-xl border-4 border-text-primary bg-pop-yellow px-12 py-5 font-display text-2xl font-black uppercase tracking-widest text-text-primary shadow-[8px_8px_0_rgba(0,0,0,1)] transition-all hover:-translate-y-1 hover:shadow-[12px_12px_0_rgba(0,0,0,1)] active:translate-y-0">
-        View Archive
+        ACCESS DATA
       </button>
     </motion.div>
   );
