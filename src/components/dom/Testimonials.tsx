@@ -117,7 +117,7 @@ export default function Testimonials() {
   return (
     <section 
       ref={containerRef} 
-      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-surface-dark py-24"
+      className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-surface-light py-24"
     >
       <div className="relative z-10 mb-16 inline-block rounded-full border-2 border-text-primary bg-surface-light px-6 py-2 text-sm font-bold uppercase tracking-widest text-text-primary shadow-playful">
         CLIENT INSIGHTS

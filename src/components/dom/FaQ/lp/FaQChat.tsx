@@ -1,30 +1,77 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 import { faQData } from "@/data/FaQ";
 
+const headingVariants: Variants = {
+  hidden: { opacity: 0, y: -30, scale: 0.9 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { type: "spring", stiffness: 300, damping: 15 },
+  },
+};
+
+const chatContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15, // Kecepatan rentetan pesan (semakin kecil semakin cepat)
+      delayChildren: 0.2, // Tunggu kontainer/header muncul dulu
+    },
+  },
+};
+
+// Varian untuk masing-masing bubble pertanyaan (masuk dari kiri)
+const bubbleVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    x: -50, // Datang dari luar kiri
+    scale: 0.8, // Mulai dari ukuran sedikit lebih kecil
+    rotate: -3, // Efek miring sedikit seolah dilempar masuk
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    rotate: 0,
+    transition: {
+      type: "spring",
+      stiffness: 400, // Pegas yang kaku agar terasa berat
+      damping: 12, // Sedikit pantulan (bouncy)
+      mass: 1.2,
+    },
+  },
+};
+
 // --- KOMPONEN BUBBLE CHAT INDIVIDUAL ---
-const ChatItem = ({ item }: { item: typeof faQData[0] }) => {
-  // PERBAIKAN 1: Gabungin state biar gampang dikontrol (closed -> typing -> open)
-  const [chatState, setChatState] = useState<"closed" | "typing" | "open">("closed");
+const ChatItem = ({ item }: { item: (typeof faQData)[0] }) => {
+  const [chatState, setChatState] = useState<"closed" | "typing" | "open">(
+    "closed",
+  );
 
   const handleClick = () => {
     if (chatState === "closed") {
       setChatState("typing");
       setTimeout(() => {
-        // Cek kalau user nggak keburu nutup lagi, baru tampilin jawaban
         setChatState((prev) => (prev === "typing" ? "open" : prev));
-      }, 1500); 
+      }, 1500);
     } else {
       setChatState("closed");
     }
   };
 
   return (
-    <motion.div layout className="flex w-full flex-col gap-4">
-      
+    // TAMBAHKAN variants DI SINI (layout tetap dipertahankan)
+    <motion.div
+      layout
+      variants={bubbleVariants}
+      className="flex w-full flex-col gap-4"
+    >
       {/* 1. PERTANYAAN (KIRI) */}
       <motion.button
         layout
@@ -41,7 +88,7 @@ const ChatItem = ({ item }: { item: typeof faQData[0] }) => {
         </p>
       </motion.button>
 
-      {/* 2. JAWABAN (KANAN) - THE MORPHING ENGINE */}
+      {/* 2. JAWABAN (KANAN) - THE MORPHING ENGINE (Tetap Sama) */}
       <AnimatePresence initial={false}>
         {chatState !== "closed" && (
           <motion.div
@@ -49,12 +96,11 @@ const ChatItem = ({ item }: { item: typeof faQData[0] }) => {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.4, ease: "easeInOut" }}
-            className="w-full overflow-hidden" 
+            className="w-full overflow-hidden"
           >
             <div className="flex w-full flex-col items-end pb-4 pr-4 pt-2">
-              
               <motion.div
-                layout 
+                layout
                 initial={{ scale: 0.8, x: 20 }}
                 animate={{ scale: 1, x: 0 }}
                 exit={{ scale: 0.8, x: 20 }}
@@ -66,9 +112,36 @@ const ChatItem = ({ item }: { item: typeof faQData[0] }) => {
                 {/* Kalau state-nya typing, tampilin titik 3 */}
                 {chatState === "typing" ? (
                   <div className="flex items-center justify-center gap-2 px-6 py-5">
-                    <motion.div animate={{ y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 0.6, ease: "easeInOut", delay: 0 }} className="h-3 w-3 rounded-full bg-text-primary" />
-                    <motion.div animate={{ y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 0.6, ease: "easeInOut", delay: 0.15 }} className="h-3 w-3 rounded-full bg-text-primary" />
-                    <motion.div animate={{ y: [0, -8, 0] }} transition={{ repeat: Infinity, duration: 0.6, ease: "easeInOut", delay: 0.3 }} className="h-3 w-3 rounded-full bg-text-primary" />
+                    <motion.div
+                      animate={{ y: [0, -8, 0] }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 0.6,
+                        ease: "easeInOut",
+                        delay: 0,
+                      }}
+                      className="h-3 w-3 rounded-full bg-text-primary"
+                    />
+                    <motion.div
+                      animate={{ y: [0, -8, 0] }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 0.6,
+                        ease: "easeInOut",
+                        delay: 0.15,
+                      }}
+                      className="h-3 w-3 rounded-full bg-text-primary"
+                    />
+                    <motion.div
+                      animate={{ y: [0, -8, 0] }}
+                      transition={{
+                        repeat: Infinity,
+                        duration: 0.6,
+                        ease: "easeInOut",
+                        delay: 0.3,
+                      }}
+                      className="h-3 w-3 rounded-full bg-text-primary"
+                    />
                   </div>
                 ) : (
                   // Kalau state-nya open, tampilin teksnya (dikasih fade-in dikit biar cakep)
@@ -87,42 +160,87 @@ const ChatItem = ({ item }: { item: typeof faQData[0] }) => {
                   </motion.div>
                 )}
               </motion.div>
-
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-
     </motion.div>
   );
 };
 
 // --- MAIN COMPONENT ---
 export default function FaqChat() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isAnimVisible, setIsAnimVisible] = useState(false);
+  // ========================================================
+  // THE DIRECTIONAL SENSOR HACK 🧠
+  // ========================================================
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // KONDISI 1: 30% Elemen masuk layar -> TAMPILKAN!
+          setIsAnimVisible(true);
+        } else {
+          // KONDISI 2: Elemen keluar layar
+          // Kita cek apakah posisi 'top' dari elemen ini bernilai positif.
+          // Kalau positif, artinya elemen ini posisinya ada di BAWAH layar.
+          // Kalau negatif, artinya dia udah ke-scroll sampai ke ATAS layar.
+          if (entry.boundingClientRect.top > 0) {
+            // HANYA RESET JIKA ELEMEN TENGGELAM KE BAWAH LAYAR
+            setIsAnimVisible(false);
+          }
+        }
+      },
+      {
+        // Threshold 0.3 = Animasi nunggu sampai 30% area grid masuk ke layar
+        // Ini obat ampuh buat masalah "animasi kelar sebelum keliatan"
+        threshold: 0.3,
+      },
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
   return (
-    <section className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-surface-dark px-4 py-24 sm:px-6 desktop:px-24">
-      
-      {/* HEADER SECTION */}
-      <div className="mb-12 flex flex-col items-center text-center desktop:mb-16">
+    <section ref={sectionRef} className="relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden bg-surface-light px-4 py-24 sm:px-6 desktop:px-24">
+      {/* HEADER SECTION (Animasi Stamp/Drop standar) */}
+      <motion.div
+        variants={headingVariants}
+        initial="hidden"
+        animate={isAnimVisible ? "visible" : "hidden"}
+        className="mb-12 flex flex-col items-center text-center desktop:mb-16"
+      >
         <div className="mb-6 inline-flex items-center gap-2 rounded-full border-2 border-text-primary bg-surface-light px-6 py-2 text-sm font-bold uppercase tracking-widest text-text-primary shadow-playful">
           <MessageCircle className="h-4 w-4" />
           Spill The Tea
         </div>
-        <h2 className="font-display text-4xl font-black uppercase leading-none tracking-tighter text-surface-light sm:text-6xl desktop:text-7xl">
+        {/* Hati-hati: Di kode awal Anda teksnya "text-surface-light" (putih di background putih). 
+            Sebaiknya diganti jadi text-text-primary agar terbaca jelas. */}
+        <h2 className="font-display text-4xl font-black uppercase leading-none tracking-tighter text-text-primary sm:text-6xl desktop:text-7xl">
           Frequently Asked
           <span className="mt-2 block text-pop-yellow drop-shadow-[4px_4px_0_rgba(0,0,0,1)]">
             Questions
           </span>
         </h2>
-      </div>
+      </motion.div>
 
       {/* CHAT THREAD CONTAINER */}
-      <motion.div layout className="relative w-full max-w-3xl flex-col flex gap-8 rounded-[3rem] border-4 border-text-primary bg-surface-light/5 p-6 backdrop-blur-sm sm:gap-10 sm:p-10 desktop:p-12">
+      <motion.div
+        layout
+        // PASANG VARIANT CONTAINER DI SINI
+        variants={chatContainerVariants}
+        initial="hidden"
+        animate={isAnimVisible ? "visible" : "hidden"}
+        className="relative w-full max-w-3xl flex-col flex gap-8 rounded-[3rem] border-4 border-text-primary bg-surface-light/5 p-6 backdrop-blur-sm sm:gap-10 sm:p-10 desktop:p-12"
+      >
         {faQData.map((item) => (
           <ChatItem key={item.id} item={item} />
         ))}
       </motion.div>
-
     </section>
   );
 }

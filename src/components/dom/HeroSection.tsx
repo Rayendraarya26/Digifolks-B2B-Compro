@@ -73,11 +73,10 @@ export default function HeroSection({
 
   return (
     <section className="relative flex min-h-screen w-full flex-col justify-end overflow-hidden px-6 pb-20 pt-[45vh] tablet:flex-row tablet:items-center tablet:justify-start desktop:px-24 tablet:pb-20 tablet:pt-20">
-      
       {/* =========================================
           ANIMASI VIDEO BARENGAN SAMA TEKS
       ========================================= */}
-      <motion.div 
+      <motion.div
         // Awalnya transparan dan agak turun sedikit
         initial={{ opacity: 0, y: 30 }}
         // Baru animate kalau shouldAnimate TRUE
@@ -102,11 +101,15 @@ export default function HeroSection({
       </motion.div>
 
       <div className="relative z-20 flex w-full max-w-2xl flex-col items-start justify-center gap-6 pointer-events-none">
+        {/* 1. BADGE: The Token Drop (Jatuh dari atas dengan pantulan kaku) */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          // Konek ke Master Trigger
-          animate={shouldAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, ease: "easeOut" }}
+          initial={{ opacity: 0, y: -40, scale: 0.8 }}
+          animate={
+            shouldAnimate
+              ? { opacity: 1, y: 0, scale: 1 }
+              : { opacity: 0, y: -40, scale: 0.8 }
+          }
+          transition={{ type: "spring", stiffness: 400, damping: 12 }}
           className="pointer-events-auto flex w-fit items-center gap-3 rounded-full border-2 border-text-primary bg-pop-purple px-4 py-1.5 text-sm font-bold uppercase tracking-widest shadow-playful"
         >
           <div className="relative flex h-3 w-3 items-center justify-center">
@@ -116,11 +119,20 @@ export default function HeroSection({
           System Online
         </motion.div>
 
+        {/* 2. HEADING: The Skew Snap (Masuk dari samping kiri dengan kemiringan ekstrem, lalu ngerem mendadak) */}
         <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          // Konek ke Master Trigger
-          animate={shouldAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          initial={{ opacity: 0, x: -80, skewX: -10 }}
+          animate={
+            shouldAnimate
+              ? { opacity: 1, x: 0, skewX: 0 }
+              : { opacity: 0, x: -80, skewX: -10 }
+          }
+          transition={{
+            type: "spring",
+            stiffness: 300,
+            damping: 14,
+            delay: 0.1,
+          }}
           className="text-5xl font-black leading-tight tracking-tighter drop-shadow-md desktop:text-7xl"
         >
           We Don't Just Build. <br />
@@ -132,11 +144,18 @@ export default function HeroSection({
           </span>
         </motion.h1>
 
+        {/* 3. PARAGRAPH: The Quick Slide (Mengikuti Heading tapi lebih ringan) */}
         <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          // Konek ke Master Trigger
-          animate={shouldAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+          initial={{ opacity: 0, x: -40 }}
+          animate={
+            shouldAnimate ? { opacity: 1, x: 0 } : { opacity: 0, x: -40 }
+          }
+          transition={{
+            type: "spring",
+            stiffness: 300,
+            damping: 15,
+            delay: 0.2,
+          }}
           className="max-w-md text-lg font-medium text-text-muted drop-shadow-sm desktop:text-xl"
         >
           We design and develop scalable operational systems that reduce
@@ -144,11 +163,20 @@ export default function HeroSection({
           growth.
         </motion.p>
 
+        {/* 4. BUTTON: The Brutalist Stamp (Ditempelkan dari depan dengan rotasi miring, membanting ke posisi lurus) */}
         <motion.button
-          initial={{ opacity: 0, y: 20 }}
-          // Konek ke Master Trigger
-          animate={shouldAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-          transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+          initial={{ opacity: 0, scale: 1.3, rotate: -5 }}
+          animate={
+            shouldAnimate
+              ? { opacity: 1, scale: 1, rotate: 0 }
+              : { opacity: 0, scale: 1.3, rotate: -5 }
+          }
+          transition={{
+            type: "spring",
+            stiffness: 350,
+            damping: 10,
+            delay: 0.35,
+          }}
           whileHover={{ y: -4, boxShadow: "var(--shadow-playful-hover)" }}
           whileTap={{ scale: 0.95 }}
           className="pointer-events-auto mt-4 rounded-xl border-2 border-text-primary bg-pop-yellow px-8 py-4 font-display font-bold text-text-primary shadow-playful transition-all"

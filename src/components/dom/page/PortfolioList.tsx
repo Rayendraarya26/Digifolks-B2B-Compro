@@ -15,6 +15,28 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { Suspense } from "react";
 import { usePageTransition } from "@/hooks/UsePageTransition";
 
+const rightPanelVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.3, // Tunggu efek morphing layoutId selesai
+    },
+  },
+  exit: { opacity: 0, transition: { duration: 0.2 } }
+};
+
+const blockVariants = {
+  hidden: { opacity: 0, y: 40, scale: 0.98 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    scale: 1,
+    transition: { type: "spring", stiffness: 300, damping: 20 }
+  }
+};
+
 const CATEGORIES = ["All", "Web App", "AI & System", "Backend", "E-Commerce"];
 
 // --- KOMPONEN: OVERLAY DETAIL (FULL SCREEN) ---
@@ -124,8 +146,12 @@ const ProjectDetail = ({
                   <User className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-black uppercase opacity-50">Client</p>
-                  <p className="font-display text-lg font-black uppercase">{project.client}</p>
+                  <p className="text-xs font-black uppercase opacity-50">
+                    Client
+                  </p>
+                  <p className="font-display text-lg font-black uppercase">
+                    {project.client}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -133,8 +159,12 @@ const ProjectDetail = ({
                   <Briefcase className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-black uppercase opacity-50">Industry</p>
-                  <p className="font-display text-lg font-black uppercase">{project.industry}</p>
+                  <p className="text-xs font-black uppercase opacity-50">
+                    Industry
+                  </p>
+                  <p className="font-display text-lg font-black uppercase">
+                    {project.industry}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-4">
@@ -142,8 +172,12 @@ const ProjectDetail = ({
                   <Calendar className="h-5 w-5" />
                 </div>
                 <div>
-                  <p className="text-xs font-black uppercase opacity-50">Date</p>
-                  <p className="font-display text-lg font-black uppercase">{project.date}</p>
+                  <p className="text-xs font-black uppercase opacity-50">
+                    Date
+                  </p>
+                  <p className="font-display text-lg font-black uppercase">
+                    {project.date}
+                  </p>
                 </div>
               </div>
               <hr className="border-2 border-text-primary/20" />
@@ -175,7 +209,9 @@ const ProjectDetail = ({
                   <div
                     key={idx}
                     className={`group relative overflow-hidden rounded-4xl border-4 border-text-primary bg-surface-dark shadow-[8px_8px_0_rgba(0,0,0,1)] transition-transform duration-300 hover:-translate-y-2 ${
-                      isFullWidth ? "aspect-video md:col-span-2" : "aspect-square md:aspect-4/3"
+                      isFullWidth
+                        ? "aspect-video md:col-span-2"
+                        : "aspect-square md:aspect-4/3"
                     }`}
                   >
                     <img
@@ -212,12 +248,6 @@ const LayeredProjectCard = ({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  let spanClasses = "col-span-1 row-span-1 h-[300px]";
-  if (project.size === "large")
-    spanClasses = "col-span-1 md:col-span-2 row-span-1 md:row-span-2 h-[300px] md:h-[632px]";
-  if (project.size === "wide")
-    spanClasses = "col-span-1 md:col-span-2 row-span-1 h-[300px]";
-
   return (
     <motion.div
       id={`project-card-${project.id}`}
@@ -226,23 +256,43 @@ const LayeredProjectCard = ({
       initial="idle"
       animate={isMobile ? "hover" : "idle"}
       whileHover="hover"
-      className={`group relative w-full cursor-pointer overflow-hidden rounded-4xl border-2 border-text-primary bg-surface-light shadow-[6px_6px_0_rgba(0,0,0,1)] transition-shadow duration-300 hover:shadow-[10px_10px_0_rgba(0,0,0,1)] ${spanClasses}`}
+      className={`group relative w-full cursor-pointer overflow-hidden rounded-4xl border-2 border-text-primary bg-surface-light shadow-[6px_6px_0_rgba(0,0,0,1)] transition-shadow duration-300 hover:shadow-[10px_10px_0_rgba(0,0,0,1)] aspect-4/3`}
     >
       <div className={`absolute inset-0 z-0 h-full w-full ${project.color}`} />
 
       <div className="absolute bottom-0 left-0 right-0 z-10 flex h-20 items-center justify-between px-6">
         <motion.div
-          variants={{ idle: { y: 20, opacity: 0 }, hover: { y: 0, opacity: 1 } }}
-          transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.05 }}
+          variants={{
+            idle: { y: 20, opacity: 0 },
+            hover: { y: 0, opacity: 1 },
+          }}
+          transition={{
+            type: "spring",
+            stiffness: 300,
+            damping: 25,
+            delay: 0.05,
+          }}
           className="flex flex-col"
         >
-          <p className="text-[10px] font-black uppercase tracking-widest text-text-primary/60">Client</p>
-          <p className="font-display text-sm font-black uppercase text-text-primary">{project.client}</p>
+          <p className="text-[10px] font-black uppercase tracking-widest text-text-primary/60">
+            Client
+          </p>
+          <p className="font-display text-sm font-black uppercase text-text-primary">
+            {project.client}
+          </p>
         </motion.div>
 
         <motion.div
-          variants={{ idle: { y: 20, opacity: 0 }, hover: { y: 0, opacity: 1 } }}
-          transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.1 }}
+          variants={{
+            idle: { y: 20, opacity: 0 },
+            hover: { y: 0, opacity: 1 },
+          }}
+          transition={{
+            type: "spring",
+            stiffness: 300,
+            damping: 25,
+            delay: 0.1,
+          }}
         >
           <p className="rounded-full border-2 border-text-primary bg-surface-light px-3 py-1 text-xs font-bold uppercase tracking-widest text-text-primary shadow-[2px_2px_0_rgba(0,0,0,1)]">
             {project.projectType}
@@ -254,11 +304,18 @@ const LayeredProjectCard = ({
         layoutId={`image-${project.id}`}
         variants={{ idle: { y: 0 }, hover: { y: -80 } }}
         transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        className="absolute bottom-0 left-0 right-0 top-0 z-20 bg-surface-dark transition-colors duration-300"
+        className="relative z-20 w-full aspect-4/3  bg-surface-dark transition-colors duration-300"
       >
-        <img src={project.imageUrl} alt={project.title} className="h-full w-full object-cover" />
+        <img
+          src={project.imageUrl}
+          alt={project.title}
+          className="h-full w-full object-cover"
+        />
         <div className="absolute inset-0 bg-linear-to-t from-surface-dark/90 via-surface-dark/20 to-transparent" />
-        <motion.div layoutId={`info-${project.id}`} className="absolute bottom-6 left-6 right-6 flex flex-col items-start">
+        <motion.div
+          layoutId={`info-${project.id}`}
+          className="absolute bottom-6 left-6 right-6 flex flex-col items-start"
+        >
           <h3 className="font-display text-2xl font-black uppercase text-surface-light drop-shadow-[2px_2px_0_rgba(0,0,0,1)] sm:text-4xl">
             {project.title}
           </h3>
@@ -295,21 +352,22 @@ function PortfolioListContent() {
       if (!queryId) return false;
 
       // THE HANDSHAKE: Cek apakah Global Preloader lagi ada di layar
-      const isGlobalPreloaderActive = document.getElementById("global-preloader");
+      const isGlobalPreloaderActive =
+        document.getElementById("global-preloader");
 
-      // Kalau Global Preloader KETEMU (artinya ini Hard Load/New Tab), 
+      // Kalau Global Preloader KETEMU (artinya ini Hard Load/New Tab),
       // Local Preloader langsung matiin diri (false) biar Global yang ngurus.
-      // Kalau Global Preloader GAK ADA (artinya ini pindah rute biasa), 
+      // Kalau Global Preloader GAK ADA (artinya ini pindah rute biasa),
       // Local Preloader baru maju jalan (true).
       return !isGlobalPreloaderActive;
     }
     // Default aman untuk Server-Side Rendering
-    return false; 
+    return false;
   });
 
   const itemsPerPage = 4;
 
-useEffect(() => {
+  useEffect(() => {
     if (queryId) {
       // ==========================================
       // 1. PASANG GEMBOK GLOBAL PRELOADER!
@@ -330,7 +388,9 @@ useEffect(() => {
         let animationFrameId: number;
 
         const checkAndScroll = () => {
-          const cardElement = document.getElementById(`project-card-${queryId}`);
+          const cardElement = document.getElementById(
+            `project-card-${queryId}`,
+          );
 
           if (!cardElement) {
             animationFrameId = requestAnimationFrame(checkAndScroll);
@@ -348,7 +408,8 @@ useEffect(() => {
 
           if (stableFrames > 5) {
             const rect = cardElement.getBoundingClientRect();
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollTop =
+              window.pageYOffset || document.documentElement.scrollTop;
             const elementMid = rect.top + scrollTop + rect.height / 2;
             const viewportMid = window.innerHeight / 2;
 
@@ -397,7 +458,8 @@ useEffect(() => {
   const handlePageChange = (newPage: number) => {
     const archiveSection = document.getElementById("archive-section");
     if (archiveSection) {
-      const y = archiveSection.getBoundingClientRect().top + window.scrollY - 100;
+      const y =
+        archiveSection.getBoundingClientRect().top + window.scrollY - 100;
       window.scrollTo({ top: y, behavior: "smooth" });
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -407,7 +469,6 @@ useEffect(() => {
 
   return (
     <div className="relative">
-      
       {/* ======================================================== */}
       {/* THE CURTAIN (TIRAI LOKAL DENGAN UI GLOBAL) */}
       {/* Z-Index 90: Nutupin grid, tapi Project Detail bakal tembus di atasnya */}
@@ -467,20 +528,27 @@ useEffect(() => {
         id="archive-section"
         className="min-h-screen w-full bg-surface-light px-4 py-24 desktop:px-24 sm:px-6"
       >
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={isTransitionReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          animate={
+            isTransitionReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+          }
           transition={{ duration: 0.6, ease: "easeOut" }}
           className="mb-16 flex flex-col items-center text-center"
         >
           <h1 className="font-display text-5xl font-black uppercase tracking-tighter text-text-primary desktop:text-8xl sm:text-7xl">
-            The <span className="block text-pop-yellow drop-shadow-[4px_4px_0_rgba(0,0,0,1)]">Archive</span>
+            The{" "}
+            <span className="block text-pop-yellow drop-shadow-[4px_4px_0_rgba(0,0,0,1)]">
+              Archive
+            </span>
           </h1>
         </motion.div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
-          animate={isTransitionReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+          animate={
+            isTransitionReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+          }
           transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           className="mb-12 flex flex-wrap justify-center gap-3"
         >
@@ -507,14 +575,66 @@ useEffect(() => {
         <AnimatePresence mode="wait">
           <motion.div
             key={`page-${currentPage}-${activeFilter}`}
-            initial={{ opacity: 0, y: 20 }}
-            animate={isTransitionReady ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="grid w-full grid-cols-1 gap-6 desktop:grid-cols-4 md:grid-cols-2"
+            // 1. Definisikan variants untuk Container
+            variants={{
+              hidden: { opacity: 0 },
+              visible: {
+                opacity: 1,
+                transition: {
+                  staggerChildren: 0.15, // Jeda waktu antar card muncul
+                  delayChildren: 0.1, // Tunggu sebentar sebelum card pertama muncul
+                },
+              },
+              exit: {
+                opacity: 0,
+                y: -20,
+                transition: { duration: 0.2 },
+              },
+            }}
+            initial="hidden"
+            // Gunakan isTransitionReady Anda
+            animate={isTransitionReady ? "visible" : "hidden"}
+            exit="exit"
+            className="mx-auto grid w-full max-w-375 grid-cols-1 gap-8 desktop:grid-cols-2 desktop:gap-12"
           >
-            {paginatedProjects.map((project) => (
-              <LayeredProjectCard key={project.id} project={project} onSelect={setSelectedId} />
+            {paginatedProjects.map((project, index) => (
+              <motion.div
+                key={project.id}
+                // 1. THE HACK: Kirim index ke dalam variants biar bisa dikalkulasi
+                custom={index}
+                // 2. Set state awal secara eksplisit ke "hidden"
+                initial="hidden"
+                // 3. THE TRIGGER: Hanya pindah ke "visible" KETIKA tirai udah kebuka
+                animate={isTransitionReady ? "visible" : "hidden"}
+                // 4. THE VARIANTS: Menyimpan semua logika visual dan timing
+                variants={{
+                  hidden: (idx) => ({
+                    opacity: 0,
+                    scale: 1.15,
+                    y: -50,
+                    rotate: idx % 2 === 0 ? -6 : 6,
+                  }),
+                  visible: (idx) => ({
+                    opacity: 1,
+                    scale: 1,
+                    y: 0,
+                    rotate: 0,
+                    transition: {
+                      type: "spring",
+                      stiffness: 300,
+                      damping: 12,
+                      mass: 1.2,
+                      // Delay selang-seling tetap aman berkat parameter custom (idx)
+                      delay: (idx % 2) * 0.1,
+                    },
+                  }),
+                }}
+              >
+                <LayeredProjectCard
+                  project={project}
+                  onSelect={setSelectedId}
+                />
+              </motion.div>
             ))}
           </motion.div>
         </AnimatePresence>
@@ -532,7 +652,9 @@ useEffect(() => {
               {currentPage} <span className="opacity-50">/ {totalPages}</span>
             </div>
             <button
-              onClick={() => handlePageChange(Math.min(totalPages, currentPage + 1))}
+              onClick={() =>
+                handlePageChange(Math.min(totalPages, currentPage + 1))
+              }
               disabled={currentPage === totalPages}
               className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-text-primary bg-pop-yellow shadow-[4px_4px_0_rgba(0,0,0,1)] transition-all hover:-translate-y-1 hover:bg-pop-pink disabled:pointer-events-none disabled:opacity-50"
             >
@@ -550,14 +672,14 @@ useEffect(() => {
           }}
         >
           {selectedId && selectedProject && (
-            <ProjectDetail 
-              project={selectedProject} 
+            <ProjectDetail
+              project={selectedProject}
               onClose={() => {
                 setSelectedId(null);
                 if (queryId) {
                   router.replace(pathname, { scroll: false });
                 }
-              }} 
+              }}
             />
           )}
         </AnimatePresence>

@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUp, Rocket, Command, Mail, Phone } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence, Variants } from "framer-motion";
+import { ArrowUp, Rocket, Mail, Phone } from "lucide-react";
 import { servicesData } from "@/data/services";
 import { GeneralData } from "@/data/general";
 import localFont from "next/font/local";
@@ -13,8 +13,52 @@ const AvayxRegular = localFont({
   variable: "--avayx-regular" 
 });
 
+// Varian untuk mengatur kemunculan berurutan (Stagger)
+const footerContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1, // Muncul berurutan dengan cepat dari kiri ke kanan
+      delayChildren: 0.1,
+    },
+  },
+};
+
+// Varian untuk efek bantingan dari bawah (Membanting & Mengunci)
+const footerItemVariants: Variants = {
+  hidden: { 
+    opacity: 0, 
+    y: 80,         // Muncul dari bawah
+    rotateX: -25,  // Miring ke belakang (efek 3D ditarik)
+    scale: 0.95
+  },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    rotateX: 0,    // Mengunci lurus
+    scale: 1,
+    transition: { 
+      type: "spring", 
+      stiffness: 250, 
+      damping: 15, 
+      mass: 1.2 
+    }
+  },
+};
+
+const bottomBarVariants: Variants = {
+  hidden: { opacity: 0, y: 50 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    // Delay 0.1s ditaruh di sini biar dia muncul setelah Pill
+    transition: { type: "spring", stiffness: 200, damping: 20, delay: 0.5},
+  },
+};
+
 export default function Footer() {
-  // --- DYNAMIC CLOCK LOGIC ---
+ // --- DYNAMIC CLOCK LOGIC ---
   const [time, setTime] = useState("");
 
   useEffect(() => {
@@ -48,20 +92,62 @@ export default function Footer() {
     }, 400);
   };
 
+  const sectionRef = useRef<HTMLElement>(null);
+    const [isAnimVisible, setIsAnimVisible] = useState(false);
+    // ========================================================
+    // THE DIRECTIONAL SENSOR HACK 🧠
+    // ========================================================
+    useEffect(() => {
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            // KONDISI 1: 30% Elemen masuk layar -> TAMPILKAN!
+            setIsAnimVisible(true);
+          } else {
+            // KONDISI 2: Elemen keluar layar
+            // Kita cek apakah posisi 'top' dari elemen ini bernilai positif.
+            // Kalau positif, artinya elemen ini posisinya ada di BAWAH layar.
+            // Kalau negatif, artinya dia udah ke-scroll sampai ke ATAS layar.
+            if (entry.boundingClientRect.top > 0) {
+              // HANYA RESET JIKA ELEMEN TENGGELAM KE BAWAH LAYAR
+              setIsAnimVisible(false);
+            }
+          }
+        },
+        {
+          // Threshold 0.3 = Animasi nunggu sampai 30% area grid masuk ke layar
+          // Ini obat ampuh buat masalah "animasi kelar sebelum keliatan"
+          threshold: 0.3,
+        },
+      );
+  
+      if (sectionRef.current) {
+        observer.observe(sectionRef.current);
+      }
+  
+      return () => observer.disconnect();
+    }, []);
+
   return (
-    <footer className="relative w-full flex flex-col">
+    <footer ref={sectionRef} className="relative w-full flex flex-col overflow-hidden">
       {/* =========================================
           MAIN FOOTER AREA (Dark Mode)
       ========================================= */}
       <div className="flex flex-col bg-surface-dark px-6 pt-24 pb-25 desktop:pb-30 text-surface-light desktop:px-24">
-        <div className="grid grid-cols-1 gap-12 border-b-2 border-text-primary/20 pb-16 md:grid-cols-2 desktop:grid-cols-4 desktop:gap-8">
+        
+        {/* TAMBAHKAN MOTION PADA CONTAINER GRID */}
+        <motion.div 
+          variants={footerContainerVariants}
+          initial="hidden"
+          animate={isAnimVisible ? "visible" : "hidden"}
+          className="grid grid-cols-1 gap-12 border-b-2 border-text-primary/20 pb-16 md:grid-cols-2 desktop:grid-cols-4 desktop:gap-8"
+        >
           {/* Kolom 1: Brand Identity */}
-          <div className="flex flex-col gap-6">
+          <motion.div variants={footerItemVariants} className="flex flex-col gap-6">
             <motion.div
               whileHover={{ scale: 1.05 }}
               className="flex items-center gap-2 text-pop-yellow transition-colors hover:text-pop-pink"
             >
-              {/* <Command className="h-10 w-10 border-2 border-current rounded-xl p-1" /> */}
               <span className={`${AvayxRegular.className} font-display text-3xl font-black uppercase tracking-widest`}>
                 DIGIFOLKS
               </span>
@@ -78,95 +164,74 @@ export default function Footer() {
                 Systems Operational
               </span>
             </div>
-          </div>
+          </motion.div>
 
           {/* Kolom 2: Explore */}
-          <div className="flex flex-col gap-4">
+          <motion.div variants={footerItemVariants} className="flex flex-col gap-4">
             <h4 className="font-display text-lg font-black uppercase text-pop-pink">
               Explore
             </h4>
             <div className="flex flex-col gap-3">
               {[{name: "Home", href: "/"}, {name: "Services", href: "/services"}, {name: "Work", href: "/work"}, {name: "Contact", href: "/contact"}].map((link) => (
-                <HoverLink
-                  key={link.name}
-                  text={link.name}
-                  href={link.href}
-                />
+                <HoverLink key={link.name} text={link.name} href={link.href} />
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Kolom 3: Services */}
-          <div className="flex flex-col gap-4">
+          <motion.div variants={footerItemVariants} className="flex flex-col gap-4">
             <h4 className="font-display text-lg font-black uppercase text-pop-blue">
               Expertise
             </h4>
             <div className="flex flex-col gap-3">
               {servicesData.map((link) => (
-                // Kirim href-nya ke HoverLink
                 <HoverLink key={link.id} text={link.title} href={`/services#${link.id}`} />
               ))}
             </div>
-          </div>
+          </motion.div>
 
           {/* Kolom 4: Connect */}
-          <div className="flex flex-col gap-4">
+          <motion.div variants={footerItemVariants} className="flex flex-col gap-4">
             <h4 className="font-display text-lg font-black uppercase text-pop-green">
               Connect
             </h4>
             
-            {/* 1. DIRECT CONTACT (Email & Multiple Phones) */}
             <div className="flex flex-col gap-3 mb-2">
-              <ContactItem 
-                icon={Mail} 
-                text={GeneralData[0].email}
-                href={`mailto:${GeneralData[0].email}`} 
-                hoverColor="hover:text-pop-yellow" 
-              />
+              <ContactItem icon={Mail} text={GeneralData[0].email} href={`mailto:${GeneralData[0].email}`} hoverColor="hover:text-pop-yellow" />
               {GeneralData[0].contactNumber.map((contact, index) => (
-                <ContactItem 
-                  key={index}
-                  icon={Phone} 
-                  text={contact.displayNumber}
-                  href={contact.contactNumber} 
-                  label={contact.name}
-                  hoverColor={contact.hoverColor}
-                />
+                <ContactItem key={index} icon={Phone} text={contact.displayNumber} href={contact.contactNumber} label={contact.name} hoverColor={contact.hoverColor} />
               ))}
             </div>
 
-            {/* 2. SOCIAL ICONS */}
             <div className="mt-2 flex gap-4">
-              <SocialIcon href={GeneralData[0].footerContactUrl.instagram} color="hover:bg-pop-pink">
-                <IconInstagram className="h-5 w-5" />
-              </SocialIcon>
-              <SocialIcon href={GeneralData[0].footerContactUrl.linkedin} color="hover:bg-pop-blue">
-                <IconLinkedin className="h-5 w-5" />
-              </SocialIcon>
-              <SocialIcon href={GeneralData[0].footerContactUrl.github} color="hover:bg-pop-purple">
-                <IconGithub className="h-5 w-5" />
-              </SocialIcon>
+              <SocialIcon href={GeneralData[0].footerContactUrl.instagram} color="hover:bg-pop-pink"><IconInstagram className="h-5 w-5" /></SocialIcon>
+              <SocialIcon href={GeneralData[0].footerContactUrl.linkedin} color="hover:bg-pop-blue"><IconLinkedin className="h-5 w-5" /></SocialIcon>
+              <SocialIcon href={GeneralData[0].footerContactUrl.github} color="hover:bg-pop-purple"><IconGithub className="h-5 w-5" /></SocialIcon>
             </div>
 
-            {/* 3. LOCATION & TIME */}
             <div className="mt-6 flex flex-col gap-1">
-              <p className="text-sm font-bold text-surface-light/50">
-                Working from Yogyakarta, ID
-              </p>
+              <p className="text-sm font-bold text-surface-light/50">Working from Yogyakarta, ID</p>
               <p className="font-display text-xl font-black uppercase tracking-widest text-pop-yellow">
                 {time ? `${time} WIB` : "SYNCING TIME..."}
               </p>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
 
         {/* =========================================
-            GLASSMORPHISM BOTTOM BAR & EASTER EGG
+            GLASSMORPHISM BOTTOM BAR (Terikut di Stagger)
         ========================================= */}
-        <div className="relative mt-6 flex flex-col items-center justify-between gap-6 rounded-4xl bg-surface-light/5 p-6 backdrop-blur-md sm:flex-row">
+        <motion.div 
+          // Cukup tambahkan initial dan whileInView terpisah agar masuk belakangan dengan mulus
+          variants={bottomBarVariants}
+          initial="hidden"
+          animate={isAnimVisible ? "visible" : "hidden"}
+          className="relative mt-6 flex flex-col items-center justify-between gap-6 rounded-4xl bg-surface-light/5 p-6 backdrop-blur-md sm:flex-row"
+        >
+          {/* ... [KONTEN BOTTOM BAR TETAP SAMA] ... */}
           <div className="flex flex-col gap-2 text-center sm:text-left">
             <p className="font-display text-sm font-black uppercase tracking-widest text-surface-light/80">
-              © {new Date().getFullYear()} Digifolks. All rights reserved.
+              Â© {new Date().getFullYear()} Digifolks. All rights reserved.
             </p>
             <p className="text-xs font-bold text-surface-light/50">
               No bugs were harmed in the making of this website. (Maybe a few).
@@ -177,7 +242,7 @@ export default function Footer() {
             onClick={handleScrollTop}
             className="group relative flex h-14 w-14 items-center justify-center overflow-hidden rounded-full border-2 border-text-primary bg-pop-yellow shadow-[4px_4px_0_rgba(0,0,0,1)] transition-transform hover:-translate-y-1 active:translate-y-0"
           >
-            <AnimatePresence mode="wait">
+             <AnimatePresence mode="wait">
               {!isLaunched ? (
                 <motion.div
                   key="arrow"
@@ -201,7 +266,8 @@ export default function Footer() {
               )}
             </AnimatePresence>
           </button>
-        </div>
+        </motion.div>
+
       </div>
     </footer>
   );
