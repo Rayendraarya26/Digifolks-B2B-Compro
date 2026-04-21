@@ -3,6 +3,19 @@
 import { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { usePageTransition } from "@/hooks/UsePageTransition";
+import { Sora, Outfit } from "next/font/google";
+import localFont from "next/font/local";
+
+const sora = Sora({ subsets: ["latin"] });
+const outfit = Outfit({ subsets: ["latin"] });
+
+const Excon = localFont({ 
+  src: "/../../fonts/Excon-Variable.ttf",
+});
+
+const Chillax = localFont({
+  src: "/../../fonts/Chillax-Variable.ttf",
+});
 
 export default function HeroSection({
   heroAnim,
@@ -72,7 +85,7 @@ export default function HeroSection({
   const shouldAnimate = isDomReady && isVideoLoaded && isTransitionReady;
 
   return (
-    <section className="relative flex min-h-screen w-full flex-col justify-end overflow-hidden px-6 pb-20 pt-[45vh] tablet:flex-row tablet:items-center tablet:justify-start desktop:px-24 tablet:pb-20 tablet:pt-20">
+    <section className="relative flex min-h-screen w-full flex-col justify-end overflow-hidden px-6 pb-20 pt-[45vh] desktop:flex-row desktop:items-center tablet:justify-center desktop:justify-start tablet:px-24 tablet:pb-20 tablet:pt-20">
       {/* =========================================
           ANIMASI VIDEO BARENGAN SAMA TEKS
       ========================================= */}
@@ -100,7 +113,7 @@ export default function HeroSection({
         />
       </motion.div>
 
-      <div className="relative z-20 flex w-full max-w-2xl flex-col items-start justify-center gap-6 pointer-events-none">
+      <div className="relative z-20 flex w-full tablet:max-w-[80%] desktop:max-w-[65%] flex-col items-start justify-center gap-5 pointer-events-none">
         {/* 1. BADGE: The Token Drop (Jatuh dari atas dengan pantulan kaku) */}
         <motion.div
           initial={{ opacity: 0, y: -40, scale: 0.8 }}
@@ -133,12 +146,11 @@ export default function HeroSection({
             damping: 14,
             delay: 0.1,
           }}
-          className="text-5xl font-black leading-tight tracking-tighter drop-shadow-md desktop:text-7xl"
+          className={`${Chillax.className} text-4xl tablet-potrait:text-7xl desktop:text-8xl font-black leading-none tracking-tighter drop-shadow-md`}
         >
           We Don't Just Build. <br />
           <span
-            className="bg-linear-to-r from-pop-pink to-pop-blue bg-clip-text text-transparent stroke-text-primary stroke-2"
-            style={{ WebkitTextStroke: "2px var(--color-text-primary)" }}
+            className="bg-linear-to-r text-3xl tablet-potrait:text-6xl desktop:text-7xl from-pop-pink to-pop-blue bg-clip-text text-transparent stroke-text-primary stroke-2"
           >
             We Engineer Systems.
           </span>
@@ -156,7 +168,7 @@ export default function HeroSection({
             damping: 15,
             delay: 0.2,
           }}
-          className="max-w-md text-lg font-medium text-text-muted drop-shadow-sm desktop:text-xl"
+          className="text-sm tablet-potrait:text-lg w-full tablet:w-[65%] desktop:w-[75%] font-medium text-text-muted drop-shadow-sm desktop:text-xl"
         >
           We design and develop scalable operational systems that reduce
           complexity, improve reliability, and support long-term business

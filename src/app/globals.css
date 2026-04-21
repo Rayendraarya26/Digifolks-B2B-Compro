@@ -3,7 +3,8 @@
 @theme {
   /* Custom Breakpoints */
   --breakpoint-tablet: 900px;
-  --breakpoint-desktop: 1280px;
+  --breakpoint-tablet-potrait: 700px;
+  --breakpoint-desktop: 1211px;
 
   /* Pastel Pop Palette */
   --color-pop-pink: #FF90E8;
