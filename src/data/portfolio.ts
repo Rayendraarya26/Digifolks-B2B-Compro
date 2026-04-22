@@ -56,8 +56,8 @@ export const portfolioData: PortfolioItem[] = [
     requirements: "An independent, informative catalog system with seamless navigation for travelers and a robust backend infrastructure that allows managers to maintain full control over their property content.", // [cite: 50]
     solutions: "We developed a high-performance digital catalog focused on local SEO and user-centric navigation. The system integrates a custom CMS, enabling real-time updates for unit details, amenities, and pricing. Built with a lightweight and responsive architecture, the platform ensures rapid access for travelers, serving as a powerful alternative to third-party dependencies.", // [cite: 52, 53, 54]
     industry: "Tourism Agency",
-    date: "Unknown",
-    link: "https://wecoreofficial.com",
+    date: "Februari 2026",
+    link: "https://homestaydijogja.id/",
     showcaseImages: [
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar (Full)
       "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80",  // Bakal jadi kecil (Kiri)
@@ -103,7 +103,7 @@ export const portfolioData: PortfolioItem[] = [
     solutions: "We engineered a robust web infrastructure utilizing a scalable architecture and a flexible CMS. This system empowers the client with autonomous catalog control while ensuring consistent platform stability during traffic surges. By prioritizing a modular design, we ensured that future feature expansions can be integrated seamlessly without rebuilding the core system, securing long-term operational efficiency.", // [cite: 80, 81, 82]
     industry: "Fitness",
     date: "November 2025",
-    link: "https://wecoreofficial.com",
+    link: "https://positivestrengthofficial.com/",
     showcaseImages: [
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar (Full)
       "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80",  // Bakal jadi kecil (Kiri)

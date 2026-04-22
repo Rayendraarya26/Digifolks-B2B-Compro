@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, {useEffect} from "react";
+import React, {useRef} from "react";
 import localFont from "next/font/local";
 
 const AvayxRegular = localFont({ 
@@ -19,23 +20,11 @@ export default function TransitionLink({
   className?: string;
 }) {
   const router = useRouter();
-
-  // THE CACHE BUSTER 💥
-  // Tiru sifat asli tag <Link> bawaan Next.js yang melakukan prefetch.
-  // Ini akan me-request versi "bersih" dari halaman tujuan (tanpa query params)
-  // dan menimpa cache lama yang menyimpan state modal terbuka.
-  useEffect(() => {
-    router.prefetch(href);
-  }, [router, href]);
+  const hiddenLinkRef = useRef<HTMLAnchorElement>(null);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-
-    // THE SEARCH GUARD 🛡️
-    // Jangan langsung return kalau ada query parameter (?projectId=...)!
-    // Biar kalau user lagi di dalam modal dan ngeklik tab "Work",
-    // script tetep jalan untuk animasi dan nge-reset URL-nya.
-    if (window.location.pathname === href && window.location.search === "") return;
+    if (window.location.pathname === href) return;
 
     // 1. Kunci kursor seketika
     document.body.style.pointerEvents = "none";
@@ -90,13 +79,22 @@ export default function TransitionLink({
 
     // 6. Eksekusi pindah rute (500ms animasi + 300ms total stagger delay)
     setTimeout(() => {
-      router.push(href);
+      if (hiddenLinkRef.current) {
+        hiddenLinkRef.current.click();
+      }
     }, 800);
   };
 
   return (
-    <a href={href} onClick={handleClick} className={className}>
-      {children}
-    </a>
+    <>
+      {/* THE PHANTOM LINK: Tag Link asli Next.js yang disembunyikan. 
+          Prefetch otomatis jalan pas dirender, memastikan cache bersih dan transisi kilat! */}
+      <Link ref={hiddenLinkRef} href={href} prefetch={true} className="hidden" />
+
+      {/* Ini wrapper visual (a tag) yang diklik sama user */}
+      <a href={href} onClick={handleClick} className={className}>
+        {children}
+      </a>
+    </>
   );
 }
