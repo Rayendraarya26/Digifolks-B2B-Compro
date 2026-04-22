@@ -1,7 +1,7 @@
 "use client";
 
-import Link from "next/link";
-import React, {useRef} from "react";
+import { useRouter } from "next/navigation";
+import React from "react";
 import localFont from "next/font/local";
 
 const AvayxRegular = localFont({ 
@@ -18,7 +18,7 @@ export default function TransitionLink({
   children: React.ReactNode;
   className?: string;
 }) {
-  const hiddenLinkRef = useRef<HTMLAnchorElement>(null);
+  const router = useRouter();
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -77,22 +77,14 @@ export default function TransitionLink({
 
     // 6. Eksekusi pindah rute (500ms animasi + 300ms total stagger delay)
     setTimeout(() => {
-      if (hiddenLinkRef.current) {
-        hiddenLinkRef.current.click();
-      }
+      router.push(href);
+      router.refresh();
     }, 800);
   };
 
   return (
-    <>
-      {/* THE PHANTOM LINK: Tag Link asli Next.js yang disembunyikan. 
-          Prefetch otomatis jalan pas dirender, memastikan cache bersih dan transisi kilat! */}
-      <Link ref={hiddenLinkRef} href={href} prefetch={true} className="hidden" />
-
-      {/* Ini wrapper visual (a tag) yang diklik sama user */}
-      <a href={href} onClick={handleClick} className={className}>
-        {children}
-      </a>
-    </>
+    <a href={href} onClick={handleClick} className={className}>
+      {children}
+    </a>
   );
 }
