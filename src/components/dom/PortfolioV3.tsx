@@ -45,10 +45,10 @@ export default function Portfolio() {
     // Hasilnya? Tiap kartu bakal jalan jauh lebih lambat dan elegan melintasi layar.
     <section
       ref={containerRef}
-      className="relative w-full z-11 overflow-x-clip h-[1600vh] bg-surface-light"
+      className="relative w-full z-10 overflow-x-clip overflow-y-visible h-[1600vh] bg-surface-light"
     >
       {/* THE STICKY STAGE */}
-      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-y-visible overflow-x-clip bg-surface-light">
+      <div className="sticky top-0 flex h-screen w-full items-center justify-center bg-surface-light">
         {/* BACKGROUND DOODLES (Z-0) */}
         <ParallaxDoodles smoothProgress={smoothProgress} />
 
@@ -88,7 +88,7 @@ const IntroHeroSection = ({ smoothProgress }: { smoothProgress: any }) => {
       className="absolute inset-0 z-10 flex flex-col items-center justify-center pointer-events-none"
     >
       {/* TEKS BESAR "OUR PROJECT" (Per Huruf) */}
-      <div className="flex flex-wrap justify-center overflow-hidden px-4 text-center">
+      <div className="flex flex-wrap justify-center px-4 text-center">
         {text.map((char, idx) => (
           <AnimatedInkLetter
             key={idx}
@@ -223,7 +223,7 @@ const DiagonalDeckCard = ({
   return (
     <motion.div
       style={{ x, y, rotate, scale, zIndex: 20 + idx }} // Z-index nambah biar yg masuk selalu di atas
-      className={`absolute flex w-[80vw] max-w-175 flex-col overflow-hidden rounded-2xl desktop:rounded-[2.5rem] border-[6px] border-[#000000] shadow-[12px_12px_0_#000000] ${bgColor}`}
+      className={`absolute flex w-[80vw] max-w-175 flex-col rounded-2xl desktop:rounded-[2.5rem] border-[6px] border-[#000000] shadow-[12px_12px_0_#000000] ${bgColor}`}
     >
       <div
         className="absolute inset-0 z-50 cursor-pointer desktop:hidden"
@@ -244,7 +244,7 @@ const DiagonalDeckCard = ({
 
       {/* Konten Portofolio Asli */}
       <div className="relative z-10 flex h-full flex-col p-6 sm:p-8 desktop:p-16">
-        <div className="relative w-full aspect-4/3 grow overflow-hidden rounded-2xl desktop:rounded-4xl border-4 border-[#000000] bg-surface-dark">
+        <div className="relative w-full aspect-4/3 grow rounded-2xl desktop:rounded-4xl border-4 border-[#000000] bg-surface-dark">
           <Image
             src={port.imageUrl}
             alt={port.headline}
@@ -346,7 +346,18 @@ const ParallaxDoodles = ({ smoothProgress }: { smoothProgress: any }) => {
   if (!isMounted) return null;
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+    <div className="absolute inset-0 pointer-events-none"
+    style={{
+        /* JURUS CLIP-PATH INSET:
+          Sintaks: inset(top right bottom left)
+          - Top: -100vh (Artinya: Kasih ruang bebas 100% tinggi layar ke atas)
+          - Right: 0 (Potong pas di pinggir kanan)
+          - Bottom: 0 (Potong pas di pinggir bawah)
+          - Left: 0 (Potong pas di pinggir kiri)
+        */
+        clipPath: 'inset(-100vh 0px 0px 0px)'
+      }}
+      >
       {doodleItem.map((src, index) => (
         <DoodleItem 
           key={`${src}-${index}`} 
@@ -358,27 +369,23 @@ const ParallaxDoodles = ({ smoothProgress }: { smoothProgress: any }) => {
   );
 };
 
-
 const DoodleItem = ({ src, smoothProgress }: { src: string, smoothProgress: any }) => {
   const config = useMemo(() => {
-    // 1. Tentukan arah: true = ke bawah, false = ke atas
     const goDown = Math.random() > 0.5;
-    
-    // 2. Tentukan range Y berdasarkan arah
-    // Gerak jauh biar kerasa nembus batas section
-    const distance = Math.floor(Math.random() * 500) + 500; // Jarak 500-1000px
-    const yRange = goDown 
-      ? [-distance, distance] // Dari atas ke bawah
-      : [distance, -distance]; // Dari bawah ke atas
+    const distance = Math.floor(Math.random() * 500) + 500;
+    const yRange = goDown ? [-distance, distance] : [distance, -distance];
 
     return {
-      // Kita geser initialTop agak ke tengah (20% - 80%) 
-      // supaya titik pusat animasinya nggak terlalu mepet garis batas section
       initialTop: Math.floor(Math.random() * 60) + 20,
       initialX: Math.floor(Math.random() * 80) + 10,
       yRange,
       rotateRange: [Math.random() * 360, Math.random() * 720],
       size: Math.floor(Math.random() * 30) + 90,
+      
+      // CONFIG BARU: Untuk Floating (Idle)
+      floatDuration: Math.random() * 2 + 3, // Antara 3 - 5 detik
+      floatDistance: Math.random() * 15 + 10, // Gerak naik turun 10-25px
+      floatDelay: Math.random() * 2, // Biar nggak barengan geraknya
     };
   }, []);
 
@@ -395,9 +402,28 @@ const DoodleItem = ({ src, smoothProgress }: { src: string, smoothProgress: any 
       }}
       className="absolute z-0 pointer-events-none"
     >
-      <div style={{ width: `${config.size}px`, height: `${config.size}px` }} className="relative">
-        <Image src={src} fill alt="Doodle" className="object-contain" />
-      </div>
+      {/* DIV DALAM: Khusus untuk animasi Floating Idle */}
+      <motion.div
+        animate={{
+          y: [0, -config.floatDistance, 0], // Naik turun
+          rotate: [-2, 2, -2], // Sedikit goyang miring biar organik
+        }}
+        transition={{
+          duration: config.floatDuration,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: config.floatDelay,
+        }}
+        style={{ width: `${config.size}px`, height: `${config.size}px` }} 
+        className="relative"
+      >
+        <Image 
+          src={src} 
+          fill 
+          alt="Doodle" 
+          className="object-contain" 
+        />
+      </motion.div>
     </motion.div>
   );
 };

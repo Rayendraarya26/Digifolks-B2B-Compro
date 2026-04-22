@@ -103,7 +103,7 @@ export default function Services() {
       ref={sectionRef}
       className="relative flex min-h-screen w-full flex-col items-center bg-surface-light overflow-x-clip px-6 py-24 desktop:px-24"
     >
-      <div className="relative z-10 flex w-full max-w-7xl flex-col gap-12">
+      <div className="relative z-20 flex w-full max-w-7xl flex-col gap-12">
         {/* Header Section (Tetap Sama) */}
         <div className="flex flex-col items-start gap-4">
           <motion.div
@@ -201,7 +201,7 @@ function AnimatedMediaCard({
       onMouseLeave={handleMouseLeave}
       onClick={OnClick}
       style={{ "--hover-bg": service.theme.bg } as React.CSSProperties}
-      className={`group relative flex min-h-87.5 flex-col overflow-hidden overflow-x-clip rounded-3xl border-4 border-text-primary p-8 bg-surface-light shadow-playful transition-all duration-500 ease-out tablet:min-h-100 cursor-crosshair hover:-translate-y-2 hover:shadow-playful-hover hover:bg-(--hover-bg) ${spanClass}`}
+      className={`group relative flex min-h-87.5 flex-col overflow-hidden overflow-x-clip rounded-3xl border-4 border-text-primary p-8 bg-surface-light shadow-playful transition-all duration-500 ease-out tablet:min-h-100 cursor-crosshair hover:-translate-y-2 hover:shadow-playful-hover ${spanClass}`}
     >
       {/* KONTEN CARD TETAP SAMA */}
       <div className="relative z-10 flex h-full flex-col pointer-events-none">
