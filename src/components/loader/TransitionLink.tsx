@@ -1,7 +1,6 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, {useRef} from "react";
 import localFont from "next/font/local";
 
@@ -19,7 +18,6 @@ export default function TransitionLink({
   children: React.ReactNode;
   className?: string;
 }) {
-  const router = useRouter();
   const hiddenLinkRef = useRef<HTMLAnchorElement>(null);
 
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
