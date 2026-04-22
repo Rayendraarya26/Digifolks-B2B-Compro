@@ -11,7 +11,7 @@ import {
   User,
 } from "lucide-react";
 import { portfolioData } from "@/data/portfolio";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { Suspense } from "react";
 import { usePageTransition } from "@/hooks/UsePageTransition";
 
@@ -24,7 +24,7 @@ const staggerContainer: Variants = {
     opacity: 1,
     transition: {
       staggerChildren: 0.15,
-      delayChildren: 0.4, // Tunggu gambar terbang selesai
+      delayChildren: 0.4, 
     },
   },
   exit: {
@@ -53,8 +53,10 @@ const ProjectDetail = ({
   onClose: () => void;
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  
+  // STATE BARU: Melacak indeks gambar showcase yang sedang di-zoom
+  const [zoomedImageIdx, setZoomedImageIdx] = useState<number | null>(null);
 
-  // 1. TETAP PERTAHANKAN SCROLL TRACKING UNTUK PROGRESS BAR (Sangat berguna untuk UX)
   const { scrollYProgress } = useScroll({
     container: containerRef,
     offset: ["start start", "end end"],
@@ -74,74 +76,96 @@ const ProjectDetail = ({
     return () => { document.body.style.overflow = "unset"; };
   }, []);
 
+  useEffect(() => {
+    // Penjaga ini cuma aktif pas gambar lagi di-zoom!
+    if (zoomedImageIdx !== null) {
+      
+      // Fungsi eksekutor untuk mematikan scroll bawaan (Native Scroll Browser)
+      const killNativeScroll = (e: Event) => {
+        e.preventDefault();
+      };
+
+      // Pasang gembok di level paling akar (window)
+      // Opsi { passive: false } ini WAJIB MANTLUL ada, kalau nggak browser bakal nge-block preventDefault() lu.
+      window.addEventListener("touchmove", killNativeScroll, { passive: false });
+      window.addEventListener("wheel", killNativeScroll, { passive: false });
+
+      return () => {
+        // Buka gembok saat gambar ditutup / di-discard (drag)
+        window.removeEventListener("touchmove", killNativeScroll);
+        window.removeEventListener("wheel", killNativeScroll);
+      };
+    }
+  }, [zoomedImageIdx]);
+
   return (
-    <motion.div
-      ref={containerRef}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="fixed inset-0 z-100 h-dvh w-full overflow-y-auto overflow-x-clip overscroll-none bg-surface-light custom-scrollbar"
-    >
-      {/* TOP COMMAND BAR & PROGRESS INDICATOR */}
-      <motion.div 
-        initial={{ y: -100 }}
-        animate={{ y: 0 }}
-        exit={{ y: -100 }}
-        transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.2 }}
-        className="sticky top-0 z-110 w-full border-b-4 border-text-primary bg-surface-light shadow-[0_4px_0_rgba(0,0,0,1)]"
+    <>
+      <motion.div
+        ref={containerRef}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className={`fixed inset-0 z-100 h-dvh w-full overflow-x-clip overscroll-none bg-surface-light custom-scrollbar ${
+          zoomedImageIdx !== null ? "overflow-hidden" : "overflow-y-auto"
+        }`}
       >
-        <div className="flex w-full justify-between px-6 py-4 pointer-events-none sm:px-12 items-center">
-          <div className="flex items-center gap-3">
-             <div className="h-3 w-3 rounded-full bg-pop-pink animate-pulse" />
-             <span className="font-mono text-sm font-bold uppercase tracking-widest text-text-primary hidden sm:block">
-               Previewing: {project.id}
-             </span>
-          </div>
-          <button
-            onClick={onClose}
-            className="pointer-events-auto flex items-center gap-2 rounded-full border-4 border-text-primary bg-pop-yellow px-6 py-2 font-display text-sm font-black uppercase text-text-primary shadow-[4px_4px_0_rgba(0,0,0,1)] transition-all hover:-translate-y-1 hover:bg-pop-pink hover:shadow-[6px_6px_0_rgba(0,0,0,1)] active:translate-y-0"
-          >
-            <ArrowLeft className="h-5 w-5" /> Back to Archive
-          </button>
-        </div>
-        {/* NEO-BRUTALIST PROGRESS BAR */}
+        {/* TOP COMMAND BAR & PROGRESS INDICATOR */}
         <motion.div 
-          style={{ width: progressWidth }} 
-          className="absolute bottom-0 left-0 h-1.5 bg-pop-green border-r-2 border-text-primary z-120" 
-        />
-      </motion.div>
-
-      <div className="mx-auto w-full max-w-6xl px-6 pb-24 pt-12 desktop:px-0 sm:px-12">
-        
-        {/* HERO SECTION (Tanpa Parallax -> 100% Stabil & Bebas Bug) */}
-        <div className="flex flex-col gap-8 desktop:flex-row desktop:items-center">
-          <div className="w-full desktop:w-1/2">
-            <motion.div
-              layoutId={`image-${project.id}`}
-              className="relative aspect-4/3 w-full overflow-hidden rounded-[2.5rem] border-4 border-text-primary bg-surface-dark shadow-[8px_8px_0_rgba(0,0,0,1)]"
+          initial={{ y: -100 }}
+          animate={{ y: 0 }}
+          exit={{ y: -100 }}
+          transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.2 }}
+          className="sticky top-0 z-110 w-full border-b-4 border-text-primary bg-surface-light shadow-[0_4px_0_rgba(0,0,0,1)]"
+        >
+          <div className="flex w-full justify-between px-6 py-4 pointer-events-none sm:px-12 items-center">
+            <div className="flex items-center gap-3">
+               <div className="h-3 w-3 rounded-full bg-pop-pink animate-pulse" />
+               <span className="font-mono text-sm font-bold uppercase tracking-widest text-text-primary hidden sm:block">
+                 Previewing: {project.id}
+               </span>
+            </div>
+            <button
+              onClick={onClose}
+              className="pointer-events-auto flex items-center gap-2 rounded-full border-4 border-text-primary bg-pop-yellow px-6 py-2 font-display text-sm font-black uppercase text-text-primary shadow-[4px_4px_0_rgba(0,0,0,1)] transition-all hover:-translate-y-1 hover:bg-pop-pink hover:shadow-[6px_6px_0_rgba(0,0,0,1)] active:translate-y-0"
             >
-              <img
-                src={project.imageUrl}
-                alt={project.title}
-                // Object-cover dipertahankan, origin-center biar nge-zoom/ngecilnya presisi di tengah
-                className="h-full w-full object-cover origin-center"
-              />
-            </motion.div>
+              <ArrowLeft className="h-5 w-5" /> Back to Archive
+            </button>
           </div>
-          <div className="w-full desktop:w-1/2">
-            <motion.div layoutId={`info-${project.id}`} className="flex flex-col items-start gap-4">
-              <div className="rounded-full border-2 border-text-primary bg-pop-purple px-4 py-1 font-display text-sm font-black uppercase tracking-widest text-surface-light shadow-[2px_2px_0_rgba(0,0,0,1)]">
-                {project.projectType}
-              </div>
-              <h2 className="font-display text-5xl font-black uppercase leading-none tracking-tighter text-text-primary desktop:text-8xl sm:text-7xl drop-shadow-sm">
-                {project.title}
-              </h2>
-            </motion.div>
-          </div>
-        </div>
+          <motion.div 
+            style={{ width: progressWidth }} 
+            className="absolute bottom-0 left-0 h-1.5 bg-pop-green border-r-2 border-text-primary z-120" 
+          />
+        </motion.div>
 
-        {/* CONTENT DOSSIER */}
-        <motion.div 
+        <div className="mx-auto w-full max-w-6xl px-6 pb-24 pt-12 desktop:px-0 sm:px-12">
+          
+          {/* HERO SECTION */}
+          <div className="flex flex-col gap-8 desktop:flex-row desktop:items-center">
+            <div className="w-full desktop:w-1/2">
+              <motion.div
+                layoutId={`image-${project.id}`}
+                className="relative aspect-4/3 w-full overflow-hidden rounded-[2.5rem] border-4 border-text-primary bg-surface-dark shadow-[8px_8px_0_rgba(0,0,0,1)]"
+              >
+                <img
+                  src={project.imageUrl}
+                  alt={project.title}
+                  className="h-full w-full object-cover origin-center"
+                />
+              </motion.div>
+            </div>
+            <div className="w-full desktop:w-1/2">
+              <motion.div layoutId={`info-${project.id}`} className="flex flex-col items-start gap-4">
+                <div className="rounded-full border-2 border-text-primary bg-pop-purple px-4 py-1 font-display text-sm font-black uppercase tracking-widest text-surface-light shadow-[2px_2px_0_rgba(0,0,0,1)]">
+                  {project.projectType}
+                </div>
+                <h2 className="font-display text-5xl font-black uppercase leading-none tracking-tighter text-text-primary desktop:text-8xl sm:text-7xl drop-shadow-sm">
+                  {project.title}
+                </h2>
+              </motion.div>
+            </div>
+          </div>
+
+          <motion.div 
           variants={staggerContainer}
           initial="hidden"
           animate="show"
@@ -253,50 +277,109 @@ const ProjectDetail = ({
           </motion.aside>
         </motion.div>
 
-        {/* =========================================================
-            THE VISUALS (SCROLL TRIGGER REVEAL)
-        ========================================================= */}
-        {project.showcaseImages?.length > 0 && (
-          <motion.section 
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={staggerContainer} 
-            className="mt-32 flex flex-col gap-8"
+          {/* =========================================================
+              THE VISUALS (GRID DENGAN ONCLICK KE ZOOM)
+          ========================================================= */}
+          {project.showcaseImages?.length > 0 && (
+            <motion.section 
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={staggerContainer} 
+              className="mt-32 flex flex-col gap-8"
+            >
+              <motion.div variants={slideUpItem} className="flex items-center gap-6">
+                <h3 className="font-display text-4xl font-black uppercase tracking-tight text-text-primary sm:text-5xl">
+                  The Visuals
+                </h3>
+                <div className="h-4 w-full flex-1 rounded-full border-2 border-text-primary bg-surface-dark/10 shadow-[inset_0_4px_0_rgba(0,0,0,0.1)]"></div>
+              </motion.div>
+
+              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
+                {project.showcaseImages.map((img: string, idx: number) => {
+                  const isFullWidth = idx % 3 === 0;
+
+                  return (
+                    <motion.div
+                      variants={slideUpItem}
+                      key={idx}
+                      // 1. EVENT KLIK: Simpan index gambar yang dipilih
+                      onClick={() => setZoomedImageIdx(idx)}
+                      // 2. LAYOUT ID: Hubungkan grid statis dengan layer zoom
+                      layoutId={`showcase-${project.id}-${idx}`}
+                      className={`group relative overflow-hidden rounded-[2.5rem] border-4 border-text-primary bg-surface-dark shadow-[8px_8px_0_rgba(0,0,0,1)] transition-transform duration-300 hover:-translate-y-2 hover:shadow-[12px_12px_0_rgba(0,0,0,1)] cursor-zoom-in ${
+                        isFullWidth ? "aspect-video md:col-span-2" : "aspect-square md:aspect-4/3"
+                      }`}
+                    >
+                      <img
+                        src={img}
+                        alt={`${project.title} showcase ${idx + 1}`}
+                        className="h-full w-full object-cover opacity-90 transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:opacity-100"
+                      />
+                      <div className="pointer-events-none absolute inset-0 bg-pop-pink/0 transition-colors duration-300 group-hover:bg-pop-pink/10" />
+                      
+                      {/* Label "View" kecil saat di-hover */}
+                      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-text-primary text-pop-yellow font-display font-black uppercase tracking-widest px-6 py-2 rounded-full border-2 border-pop-yellow">
+                        View
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </motion.section>
+          )}
+        </div>
+      </motion.div>
+
+      {/* =========================================================
+          INTERACTIVE LIGHTBOX (DRAG TO DISCARD) - Z-INDEX 200
+      ========================================================= */}
+      <AnimatePresence>
+        {zoomedImageIdx !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setZoomedImageIdx(null)}
+            // THE FIX 2 🛠️: touch-none adalah kunci. Ini memblokir total native scroll dari browser HP.
+            className="fixed inset-0 z-200 flex flex-col items-center justify-center bg-surface-dark/90 backdrop-blur-sm p-4 sm:p-12 cursor-zoom-out touch-none overscroll-none"
           >
-            <motion.div variants={slideUpItem} className="flex items-center gap-6">
-              <h3 className="font-display text-4xl font-black uppercase tracking-tight text-text-primary sm:text-5xl">
-                The Visuals
-              </h3>
-              <div className="h-4 w-full flex-1 rounded-full border-2 border-text-primary bg-surface-dark/10 shadow-[inset_0_4px_0_rgba(0,0,0,0.1)]"></div>
+            {/* Tooltip Kursor Magnetik (Instruksi Gamifikasi) */}
+            <motion.div 
+              initial={{ y: 20, opacity: 0 }} 
+              animate={{ y: 0, opacity: 1 }} 
+              transition={{ delay: 0.3 }}
+              className="absolute top-8 pointer-events-none"
+            >
+               <span className="font-mono text-sm sm:text-base font-black uppercase tracking-widest text-pop-yellow bg-text-primary px-6 py-3 rounded-full border-2 border-pop-yellow shadow-[4px_4px_0_rgba(253,224,71,1)]">
+                 Drag image to discard
+               </span>
             </motion.div>
 
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
-              {project.showcaseImages.map((img: string, idx: number) => {
-                const isFullWidth = idx % 3 === 0;
-
-                return (
-                  <motion.div
-                    variants={slideUpItem}
-                    key={idx}
-                    className={`group relative overflow-hidden rounded-[2.5rem] border-4 border-text-primary bg-surface-dark shadow-[8px_8px_0_rgba(0,0,0,1)] transition-transform duration-300 hover:-translate-y-2 hover:shadow-[12px_12px_0_rgba(0,0,0,1)] ${
-                      isFullWidth ? "aspect-video md:col-span-2" : "aspect-square md:aspect-4/3"
-                    }`}
-                  >
-                    <img
-                      src={img}
-                      alt={`${project.title} showcase ${idx + 1}`}
-                      className="h-full w-full object-cover opacity-90 transition-all duration-700 ease-in-out group-hover:scale-105 group-hover:opacity-100"
-                    />
-                    <div className="pointer-events-none absolute inset-0 bg-pop-pink/0 transition-colors duration-300 group-hover:bg-pop-pink/10" />
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.section>
+            {/* Gambar yang di-Zoom */}
+            <motion.img
+              // LAYOUT ID KUNCI: Membuatnya meluncur dari grid ke tengah layar
+              layoutId={`showcase-${project.id}-${zoomedImageIdx}`}
+              src={project.showcaseImages[zoomedImageIdx]}
+              // Mencegah klik pada gambar agar tidak menutup modal (bubbling)
+              onClick={(e) => e.stopPropagation()}
+              // FUNGSI GAMIFIKASI: Drag to discard
+              drag
+              dragConstraints={{ left: 0, right: 0, top: 0, bottom: 0 }}
+              dragElastic={0.8} // Efek karet yang sangat melar
+              onDragEnd={(e, { offset, velocity }) => {
+                // Jika digeser cukup jauh atau dengan kecepatan tinggi (lemparan)
+                const swipeThreshold = 100; 
+                if (Math.abs(offset.y) > swipeThreshold || Math.abs(offset.x) > swipeThreshold || Math.abs(velocity.x) > 500 || Math.abs(velocity.y) > 500) {
+                  setZoomedImageIdx(null); // Tutup/Buang gambar!
+                }
+              }}
+              className="w-full max-w-5xl max-h-[80vh] object-contain rounded-4xl border-4 border-text-primary shadow-[16px_16px_0_rgba(0,0,0,1)] bg-surface-light cursor-grab active:cursor-grabbing"
+            />
+          </motion.div>
         )}
-      </div>
-    </motion.div>
+      </AnimatePresence>
+    </>
   );
 };
 
@@ -388,9 +471,6 @@ const LayeredProjectCard = ({
 
 // --- MAIN PORTFOLIO PAGE ---
 function PortfolioListContent() {
-  const router = useRouter();
-  const pathname = usePathname();
-
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     setIsMounted(true);

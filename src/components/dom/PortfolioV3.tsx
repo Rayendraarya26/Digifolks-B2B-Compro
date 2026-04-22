@@ -249,7 +249,7 @@ const DiagonalDeckCard = ({
             src={port.imageUrl}
             alt={port.headline}
             fill
-            className="object-cover"
+            className="object-cover rounded-2xl desktop:rounded-4xl"
           />
         </div>
         <div className="flex items-end justify-between shrink-0 pt-6 desktop:pt-10">

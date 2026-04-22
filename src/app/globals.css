@@ -28,6 +28,23 @@
   --shadow-playful-hover: 6px 6px 0px 0px rgba(17, 17, 17, 1);
 }
 
+@layer base {
+  /* 1. Hajar Scrollbar di ekosistem WebKit (Chrome, Safari, Opera) */
+  html::-webkit-scrollbar,
+  body::-webkit-scrollbar,
+  *::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* 2. Hajar Scrollbar di ekosistem Firefox & Edge/IE */
+  html,
+  body,
+  * {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}
+
 /* Base resets & styles */
 :root {
   background-color: var(--color-surface-light);
@@ -49,14 +66,4 @@ h1, h2, h3, h4, h5, h6 {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
-
-body::-webkit-scrollbar {
-  display: none;
-}
-
-/* Sembunyikan scrollbar untuk IE, Edge dan Firefox */
-body {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
 }
