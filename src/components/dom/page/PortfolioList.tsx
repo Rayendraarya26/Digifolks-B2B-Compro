@@ -388,9 +388,6 @@ const LayeredProjectCard = ({
 
 // --- MAIN PORTFOLIO PAGE ---
 function PortfolioListContent() {
-  const searchParams = useSearchParams();
-  const queryId = searchParams.get("projectId");
-
   const router = useRouter();
   const pathname = usePathname();
 
@@ -409,8 +406,9 @@ function PortfolioListContent() {
   const [isCurtainVisible, setIsCurtainVisible] = useState(() => {
     // Pastikan kode ini cuma jalan di sisi Client (Browser)
     if (typeof window !== "undefined") {
-      // Kalau nggak ada parameter project, nggak usah buka tirai
-      if (!queryId) return false;
+      const pendingId = sessionStorage.getItem("pendingProjectId");
+      // Kalau nggak ada ID yang nunggu, nggak usah buka tirai lokal
+      if (!pendingId) return false;
 
       // THE HANDSHAKE: Cek apakah Global Preloader lagi ada di layar
       const isGlobalPreloaderActive =
@@ -429,14 +427,16 @@ function PortfolioListContent() {
   const itemsPerPage = 4;
 
   useEffect(() => {
-    if (queryId) {
+    const pendingId = sessionStorage.getItem("pendingProjectId");
+    if (pendingId) {
+      sessionStorage.removeItem("pendingProjectId");
       // ==========================================
       // 1. PASANG GEMBOK GLOBAL PRELOADER!
       // Begitu script tau ada queryId, langsung kunci pintu biar preloader kuning nggak kabur duluan.
       // ==========================================
       document.body.setAttribute("data-animating", "true");
 
-      const projectIndex = portfolioData.findIndex((p) => p.id === queryId);
+      const projectIndex = portfolioData.findIndex((p) => p.id === pendingId);
 
       if (projectIndex !== -1) {
         setActiveFilter("All");
@@ -450,7 +450,7 @@ function PortfolioListContent() {
 
         const checkAndScroll = () => {
           const cardElement = document.getElementById(
-            `project-card-${queryId}`,
+            `project-card-${pendingId}`,
           );
 
           if (!cardElement) {
@@ -479,7 +479,7 @@ function PortfolioListContent() {
               behavior: "instant",
             });
 
-            setSelectedId(queryId);
+            setSelectedId(pendingId);
 
             // ==========================================
             // 2. BUKA GEMBOK SETELAH ANIMASI SELESAI (800ms)
@@ -503,7 +503,7 @@ function PortfolioListContent() {
         document.body.removeAttribute("data-animating");
       }
     }
-  }, [queryId, itemsPerPage]);
+  }, [itemsPerPage]);
 
   const filteredProjects = portfolioData.filter(
     (p) => activeFilter === "All" || p.projectType === activeFilter,
@@ -737,9 +737,6 @@ function PortfolioListContent() {
               project={selectedProject}
               onClose={() => {
                 setSelectedId(null);
-                if (queryId) {
-                  router.replace(pathname, { scroll: false });
-                }
               }}
             />
           )}

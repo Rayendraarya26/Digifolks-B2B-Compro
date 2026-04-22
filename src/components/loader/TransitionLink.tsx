@@ -78,7 +78,6 @@ export default function TransitionLink({
     // 6. Eksekusi pindah rute (500ms animasi + 300ms total stagger delay)
     setTimeout(() => {
       router.push(href);
-      router.refresh();
     }, 800);
   };
 

@@ -227,7 +227,10 @@ const DiagonalDeckCard = ({
     >
       <div
         className="absolute inset-0 z-50 cursor-pointer desktop:hidden"
-        onClick={() => (window.location.href = `/work?projectId=${port.id}`)}
+        onClick={() => {
+          sessionStorage.setItem("pendingProjectId", port.id);
+          window.location.href = "/work";
+        }}
       />
 
       {/* Pattern Titik */}
@@ -259,9 +262,10 @@ const DiagonalDeckCard = ({
             </h4>
           </div>
           <div
-            onClick={() =>
-              (window.location.href = `/work?projectId=${port.id}`)
-            }
+            onClick={() => {
+              sessionStorage.setItem("pendingProjectId", port.id);
+              window.location.href = "/work";
+            }}
             className="hidden sm:flex shrink-0 cursor-pointer items-center justify-center rounded-full border-4 border-text-primary bg-[#FDE047] px-10 py-5 font-display text-lg font-black text-text-primary shadow-[4px_4px_0_rgba(0,0,0,1)] transition-transform duration-300 hover:bg-surface-light hover:-translate-y-1 hover:shadow-[6px_6px_0_rgba(0,0,0,1)] active:translate-y-0"
           >
             VIEW
