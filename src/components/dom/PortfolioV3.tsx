@@ -78,9 +78,9 @@ export default function Portfolio() {
 const IntroHeroSection = ({ smoothProgress }: { smoothProgress: any }) => {
   const text = "OUR PROJECT".split("");
 
-  // THE FIX: Teks kecil & progress bar ditahan lebih lama! 
+  // THE FIX: Teks kecil & progress bar ditahan lebih lama!
   // Baru mulai pudar di 10% scroll, dan bener-bener hilang di 18% scroll.
-  const fadeOut = useTransform(smoothProgress, [0.10, 0.25], [1, 0]);
+  const fadeOut = useTransform(smoothProgress, [0.1, 0.25], [1, 0]);
 
   return (
     <motion.div
@@ -141,7 +141,7 @@ const AnimatedInkLetter = ({
   // THE FIX: THE CINEMATIC HOLD & WIPE 🛑
   // startWipe digeser ke 0.10 (User harus scroll agak jauh baru mulai kehapus)
   // rank * 0.008 (Penyebaran hapus antar huruf dibikin lebih lebar)
-  const startWipe = 0.10 + rank * 0.008;
+  const startWipe = 0.1 + rank * 0.008;
   // THE FIX: Jarak hapusnya dibikin 0.05 (5x lipat lebih lama dari sebelumnya!)
   // User bisa bener-bener nikmatin proses tintanya ketarik ke atas.
   const endWipe = startWipe + 0.05;
@@ -277,7 +277,7 @@ const DiagonalDeckCard = ({
 // =====================================================================
 const OutroSection = ({ smoothProgress }: { smoothProgress: any }) => {
   // Outro mulai naik saat scroll 0.85 sampai 0.95, menutupi seluruh layar
-  const y = useTransform(smoothProgress, [0.85, 0.90], ["100vh", "0vh"]);
+  const y = useTransform(smoothProgress, [0.85, 0.9], ["100vh", "0vh"]);
   const [count, setCount] = useState(0);
   const countRef = useRef(null);
   const isInView = useInView(countRef, { margin: "-10% 0px" });
@@ -342,26 +342,48 @@ const ParallaxDoodles = ({ smoothProgress }: { smoothProgress: any }) => {
     <div className="absolute inset-0 z-0 opacity-60 desktop:opacity-100">
       <motion.div
         style={{ y: y1, rotate: rotate1 }}
-        className="absolute right-[15%] top-[10%] flex h-20 w-20 items-center justify-center bg-pop-pink border-4 border-text-primary shadow-[4px_4px_0_rgba(0,0,0,1)]"
+        className="absolute right-[15%] top-[25%] h-35 w-35"
       >
-        <div className="h-6 w-6 bg-text-primary rounded-full" />
+        <Image
+          src={"/Image/Gear.webp"}
+          fill
+          alt="Gear Doodle"
+          className="w-full h-full object-contain"
+        />
       </motion.div>
       <motion.div
         style={{ y: y2, rotate: rotate2 }}
-        className="absolute left-[10%] bottom-[10%] h-16 w-32 rounded-full bg-pop-blue border-4 border-text-primary shadow-[6px_6px_0_rgba(0,0,0,1)]"
-      />
+        className="absolute left-[10%] bottom-[10%] h-35 w-35"
+      >
+        <Image
+          src={"/Image/Bolt.webp"}
+          fill
+          alt="Bolt Doodle"
+          className="w-full h-full object-contain"
+        />
+      </motion.div>
       <motion.div
         style={{ y: y3, rotate: rotate1 }}
-        className="absolute right-[10%] top-[40%] flex h-24 w-24 items-center justify-center rounded-3xl bg-pop-yellow border-4 border-text-primary shadow-[6px_6px_0_rgba(0,0,0,1)]"
+        className="absolute right-[10%] top-[40%] h-35 w-35"
       >
-        <span className="font-display text-6xl font-black text-text-primary leading-none">
-          +
-        </span>
+        <Image
+          src={"/Image/Battery.webp"}
+          fill
+          alt="Battery Doodle"
+          className="w-full h-full object-contain"
+        />
       </motion.div>
       <motion.div
         style={{ y: y1, rotate: rotate2 }}
-        className="absolute left-[20%] top-[20%] h-0 w-0 border-l-40 border-r-40 border-b-70 border-l-transparent border-r-transparent border-b-pop-green drop-shadow-[6px_6px_0_rgba(0,0,0,1)]"
-      />
+        className="absolute left-[20%] top-[26%] h-35 w-35"
+      >
+        <Image
+          src={"/Image/Rubik.webp"}
+          fill
+          alt="Rubik Doodle"
+          className="w-full h-full object-contain"
+        />
+      </motion.div>
     </div>
   );
 };

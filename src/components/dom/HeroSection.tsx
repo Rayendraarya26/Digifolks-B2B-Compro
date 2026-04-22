@@ -191,7 +191,7 @@ export default function HeroSection({
           }}
           whileHover={{ y: -4, boxShadow: "var(--shadow-playful-hover)" }}
           whileTap={{ scale: 0.95 }}
-          className="pointer-events-auto mt-4 rounded-xl border-2 border-text-primary bg-pop-yellow px-8 py-4 font-display font-bold text-text-primary shadow-playful transition-all"
+          className="pointer-events-auto mt-4 rounded-xl border-2 border-text-primary bg-pop-yellow px-8 py-4 font-display font-bold text-text-primary shadow-playful"
           onClick={() => window.open(heroCTA, "_blank", "noopener,noreferrer")}
         >
           Initiate Sequence

@@ -57,17 +57,17 @@ export const metadata: Metadata = {
       "Operational systems built for growth, stability, and efficiency.",
     // images: ["https://www.digifolks.com/twitter-card.png"],
   },
-  // icons: {
-  //   icon: [
-  //     { url: '/IconLogo.png' },
-  //     { url: '/IconLogoDark.png', media: '(prefers-color-scheme: dark)' },
-  //   ],
-  //   apple: "/IconLogo.png", // Biasanya ukuran 180x180 px
-  // },
-  // themeColor: [
-  //   { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-  //   { media: "(prefers-color-scheme: dark)", color: "#000000" },
-  // ],
+  icons: {
+    icon: [
+      { url: '/Dih.webp' },
+      { url: '/Dih.webp', media: '(prefers-color-scheme: dark)' },
+    ],
+    apple: "/Dih.webp", // Biasanya ukuran 180x180 px
+  },
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
   // verification: {
   //   google: "y3-gFYtJ7QEsJVPPgUG7IyCTUuknHNZ4zTxWjX8fEa8",
   // },

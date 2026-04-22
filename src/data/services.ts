@@ -25,11 +25,11 @@ export const servicesData: ServiceItem[] = [
     features: ["Machine Learning Models", "NLP & Chatbots", "Predictive Analytics", "Computer Vision"],
     theme: { bg: "bg-pop-pink", text: "text-pop-pink" },
     techStack: ["Python", "TensorFlow", "PyTorch", "OpenAI"],
-    iconUrl: "/assets/services/icon-ai.png",
+    iconUrl: "/Image/Brain.webp",
     iconLPUrl: [
-      "/Image/Service/LP/Utek2.webp",
-      "/Image/Service/LP/TestCube.webp",
-      "/Image/Service/LP/TestCube.webp"
+      "/Image/Brain.webp",
+      "/Image/Cubic.webp",
+      "/Image/Obj2.webp"
     ],
     imageUrl: "https://images.unsplash.com/photo-1677442136019-21780ecad995?q=80&w=2000&auto=format&fit=crop"
   },
@@ -42,11 +42,11 @@ export const servicesData: ServiceItem[] = [
     features: ["Custom ERP Solutions", "Real-time Dashboards", "Automated Workflows", "Data Visualization"],
     theme: { bg: "bg-pop-blue", text: "text-pop-blue" },
     techStack: ["React", "Node.js", "PostgreSQL", "Docker"],
-    iconUrl: "/assets/services/icon-mgmt.png",
+    iconUrl: "/Image/Chart.webp",
     iconLPUrl: [
-      "/Image/Service/LP/TestServer.webp",
-      "/Image/Service/LP/TestServer.webp",
-      "/Image/Service/LP/TestServer.webp"
+      "/Image/Chart.webp",
+      "/Image/Server.webp",
+      "/Image/Disk.webp"
     ],
     imageUrl: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=2070&auto=format&fit=crop"
   },
@@ -59,11 +59,11 @@ export const servicesData: ServiceItem[] = [
     features: ["Interactive 3D Web", "High-Performance SSR", "Scalable Architecture", "SEO Optimization"],
     theme: { bg: "bg-pop-yellow", text: "text-pop-yellow" },
     techStack: ["Next.js", "Tailwind v4", "Framer Motion", "Three.js"],
-    iconUrl: "/assets/services/icon-web.png",
+    iconUrl: "/Image/Laptop.webp",
     iconLPUrl: [
-      "/Image/Service/LP/TestLaptop.webp",
-      "/Image/Service/LP/TestLaptop.webp",
-      "/Image/Service/LP/TestLaptop.webp"
+      "/Image/Laptop.webp",
+      "/Image/Window.webp",
+      "/Image/Text2.webp"
     ],
     imageUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop"
   },
@@ -76,11 +76,11 @@ export const servicesData: ServiceItem[] = [
     features: ["Cross-Platform Mobile", "Native Desktop Apps", "Offline Capabilities", "Hardware Integration"],
     theme: { bg: "bg-pop-green", text: "text-pop-green" },
     techStack: ["React Native", "Flutter", "Swift", "Electron"],
-    iconUrl: "/assets/services/icon-apps.png",
+    iconUrl: "/Image/Phone.webp",
     iconLPUrl: [
-      "/Image/Service/LP/TestPhoneR.webp",
-      "/Image/Service/LP/TestPhoneR.webp",
-      "/Image/Service/LP/TestPhoneR.webp"
+      "/Image/Phone.webp",
+      "/Image/DB.webp",
+      "/Image/Text3.webp"
     ],
     imageUrl: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=2070&auto=format&fit=crop"
   },
@@ -93,11 +93,11 @@ export const servicesData: ServiceItem[] = [
     features: ["Cloud Migration", "DevOps Setup", "Security Audits", "Tech Consultation"],
     theme: { bg: "bg-pop-purple", text: "text-pop-purple" },
     techStack: ["AWS", "Google Cloud", "Kubernetes", "Linux"],
-    iconUrl: "/assets/services/icon-it.png",
+    iconUrl: "/Image/Bulb.webp",
     iconLPUrl: [
-      "/Image/Service/LP/TestBulb.webp",
-      "/Image/Service/LP/TestText1.webp",
-      "/Image/Service/LP/TestText3.webp"
+      "/Image/Bulb.webp",
+      "/Image/Puzzle.webp",
+      "/Image/Screwdriver.webp"
     ],
     imageUrl: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop"
   }
