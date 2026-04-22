@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { portfolioData } from "@/data/portfolio";
+import { portfolioData, doodleItem } from "@/data/portfolio";
 import {
   motion,
   useScroll,
@@ -11,7 +11,7 @@ import {
   animate,
   AnimationPlaybackControls,
 } from "framer-motion";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo } from "react";
 
 const targetIds = ["port-1", "port-2", "port-3", "port-4"];
 
@@ -45,10 +45,10 @@ export default function Portfolio() {
     // Hasilnya? Tiap kartu bakal jalan jauh lebih lambat dan elegan melintasi layar.
     <section
       ref={containerRef}
-      className="relative w-full overflow-x-clip h-[1600vh] bg-surface-light"
+      className="relative w-full z-11 overflow-x-clip h-[1600vh] bg-surface-light"
     >
       {/* THE STICKY STAGE */}
-      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden bg-surface-light">
+      <div className="sticky top-0 flex h-screen w-full items-center justify-center overflow-y-visible overflow-x-clip bg-surface-light">
         {/* BACKGROUND DOODLES (Z-0) */}
         <ParallaxDoodles smoothProgress={smoothProgress} />
 
@@ -223,7 +223,7 @@ const DiagonalDeckCard = ({
   return (
     <motion.div
       style={{ x, y, rotate, scale, zIndex: 20 + idx }} // Z-index nambah biar yg masuk selalu di atas
-      className={`absolute flex w-[80vw] max-w-225 flex-col overflow-hidden rounded-2xl desktop:rounded-[2.5rem] border-[6px] border-[#000000] shadow-[12px_12px_0_#000000] ${bgColor}`}
+      className={`absolute flex w-[80vw] max-w-175 flex-col overflow-hidden rounded-2xl desktop:rounded-[2.5rem] border-[6px] border-[#000000] shadow-[12px_12px_0_#000000] ${bgColor}`}
     >
       <div
         className="absolute inset-0 z-50 cursor-pointer desktop:hidden"
@@ -254,10 +254,10 @@ const DiagonalDeckCard = ({
         </div>
         <div className="flex items-end justify-between shrink-0 pt-6 desktop:pt-10">
           <div className="flex flex-col pr-4">
-            <p className="font-display text-sm font-black uppercase tracking-widest text-[#000000]/60">
+            <p className="font-display text-[12px] tablet-potrait:text-sm font-black uppercase tracking-widest text-[#000000]/60">
               {port.projectType}
             </p>
-            <h4 className="font-display text-3xl sm:text-5xl desktop:text-6xl font-black uppercase text-[#000000] mt-2 leading-none">
+            <h4 className="font-display text-2xl desktop:text-[40px] font-black uppercase text-[#000000] mt-2 leading-none">
               {port.client}
             </h4>
           </div>
@@ -266,7 +266,7 @@ const DiagonalDeckCard = ({
               sessionStorage.setItem("pendingProjectId", port.id);
               window.location.href = "/work";
             }}
-            className="hidden sm:flex shrink-0 cursor-pointer items-center justify-center rounded-full border-4 border-text-primary bg-[#FDE047] px-10 py-5 font-display text-lg font-black text-text-primary shadow-[4px_4px_0_rgba(0,0,0,1)] transition-transform duration-300 hover:bg-surface-light hover:-translate-y-1 hover:shadow-[6px_6px_0_rgba(0,0,0,1)] active:translate-y-0"
+            className="hidden sm:flex shrink-0 cursor-pointer items-center justify-center rounded-full border-4 border-text-primary bg-[#FDE047] px-10 desktop:px-7 py-5 tablet-potrait:py-3.5 tablet:py-3 font-display text-lg desktop:text-[20px] font-black text-text-primary shadow-[4px_4px_0_rgba(0,0,0,1)] transition-transform duration-300 hover:bg-surface-light hover:-translate-y-1 hover:shadow-[6px_6px_0_rgba(0,0,0,1)] active:translate-y-0"
           >
             VIEW
           </div>
@@ -336,58 +336,68 @@ const OutroSection = ({ smoothProgress }: { smoothProgress: any }) => {
 // BACKGROUND PARALLAX DOODLES
 // =====================================================================
 const ParallaxDoodles = ({ smoothProgress }: { smoothProgress: any }) => {
-  const y1 = useTransform(smoothProgress, [0, 1], [-200, 1000]);
-  const y2 = useTransform(smoothProgress, [0, 1], [1000, -200]);
-  const y3 = useTransform(smoothProgress, [0, 1], [200, 800]);
-  const rotate1 = useTransform(smoothProgress, [0, 1], [0, 360]);
-  const rotate2 = useTransform(smoothProgress, [0, 1], [45, -360]);
+  const [isMounted, setIsMounted] = useState(false);
+
+  // Mencegah hydration error
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) return null;
 
   return (
-    <div className="absolute inset-0 z-0 opacity-60 desktop:opacity-100">
-      <motion.div
-        style={{ y: y1, rotate: rotate1 }}
-        className="absolute right-[15%] top-[25%] h-35 w-35"
-      >
-        <Image
-          src={"/Image/Gear.webp"}
-          fill
-          alt="Gear Doodle"
-          className="w-full h-full object-contain"
+    <div className="absolute inset-0 overflow-hidden pointer-events-none">
+      {doodleItem.map((src, index) => (
+        <DoodleItem 
+          key={`${src}-${index}`} 
+          src={src} 
+          smoothProgress={smoothProgress} 
         />
-      </motion.div>
-      <motion.div
-        style={{ y: y2, rotate: rotate2 }}
-        className="absolute left-[10%] bottom-[10%] h-35 w-35"
-      >
-        <Image
-          src={"/Image/Bolt.webp"}
-          fill
-          alt="Bolt Doodle"
-          className="w-full h-full object-contain"
-        />
-      </motion.div>
-      <motion.div
-        style={{ y: y3, rotate: rotate1 }}
-        className="absolute right-[10%] top-[40%] h-35 w-35"
-      >
-        <Image
-          src={"/Image/Battery.webp"}
-          fill
-          alt="Battery Doodle"
-          className="w-full h-full object-contain"
-        />
-      </motion.div>
-      <motion.div
-        style={{ y: y1, rotate: rotate2 }}
-        className="absolute left-[20%] top-[26%] h-35 w-35"
-      >
-        <Image
-          src={"/Image/Rubik.webp"}
-          fill
-          alt="Rubik Doodle"
-          className="w-full h-full object-contain"
-        />
-      </motion.div>
+      ))}
     </div>
+  );
+};
+
+
+const DoodleItem = ({ src, smoothProgress }: { src: string, smoothProgress: any }) => {
+  const config = useMemo(() => {
+    // 1. Tentukan arah: true = ke bawah, false = ke atas
+    const goDown = Math.random() > 0.5;
+    
+    // 2. Tentukan range Y berdasarkan arah
+    // Gerak jauh biar kerasa nembus batas section
+    const distance = Math.floor(Math.random() * 500) + 500; // Jarak 500-1000px
+    const yRange = goDown 
+      ? [-distance, distance] // Dari atas ke bawah
+      : [distance, -distance]; // Dari bawah ke atas
+
+    return {
+      // Kita geser initialTop agak ke tengah (20% - 80%) 
+      // supaya titik pusat animasinya nggak terlalu mepet garis batas section
+      initialTop: Math.floor(Math.random() * 60) + 20,
+      initialX: Math.floor(Math.random() * 80) + 10,
+      yRange,
+      rotateRange: [Math.random() * 360, Math.random() * 720],
+      size: Math.floor(Math.random() * 30) + 90,
+    };
+  }, []);
+
+  const y = useTransform(smoothProgress, [0, 1], config.yRange);
+  const rotate = useTransform(smoothProgress, [0, 1], config.rotateRange);
+
+  return (
+    <motion.div
+      style={{ 
+        y, 
+        rotate,
+        left: `${config.initialX}%`,
+        top: `${config.initialTop}%`,
+      }}
+      className="absolute z-0 pointer-events-none"
+    >
+      <div style={{ width: `${config.size}px`, height: `${config.size}px` }} className="relative">
+        <Image src={src} fill alt="Doodle" className="object-contain" />
+      </div>
+    </motion.div>
   );
 };
