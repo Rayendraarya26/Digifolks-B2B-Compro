@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, {useEffect} from "react";
 import localFont from "next/font/local";
 
 const AvayxRegular = localFont({ 
@@ -20,9 +20,22 @@ export default function TransitionLink({
 }) {
   const router = useRouter();
 
+  // THE CACHE BUSTER 💥
+  // Tiru sifat asli tag <Link> bawaan Next.js yang melakukan prefetch.
+  // Ini akan me-request versi "bersih" dari halaman tujuan (tanpa query params)
+  // dan menimpa cache lama yang menyimpan state modal terbuka.
+  useEffect(() => {
+    router.prefetch(href);
+  }, [router, href]);
+
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    if (window.location.pathname === href) return;
+
+    // THE SEARCH GUARD 🛡️
+    // Jangan langsung return kalau ada query parameter (?projectId=...)!
+    // Biar kalau user lagi di dalam modal dan ngeklik tab "Work",
+    // script tetep jalan untuk animasi dan nge-reset URL-nya.
+    if (window.location.pathname === href && window.location.search === "") return;
 
     // 1. Kunci kursor seketika
     document.body.style.pointerEvents = "none";

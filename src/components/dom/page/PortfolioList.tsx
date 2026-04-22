@@ -738,6 +738,11 @@ function PortfolioListContent() {
               onClose={() => {
                 setSelectedId(null);
                 if (queryId) {
+                  // Hapus jejak query parameter secara paksa dari browser history
+                  // biar pas balik, browser HP gak punya memori soal URL lama ini.
+                  window.history.replaceState(null, '', pathname);
+                  
+                  // Baru lapor ke Next.js buat update internal router-nya
                   router.replace(pathname, { scroll: false });
                 }
               }}
