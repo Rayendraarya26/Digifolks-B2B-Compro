@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { GeneralData } from "@/data/general";
 import { usePageTransition } from "@/hooks/UsePageTransition";
+import { sendLaunchpadEmail } from "@/app/actions/ContactEmail";
 
 // --- STATE MANAGEMENT ---
 type FormData = {
@@ -74,12 +75,29 @@ export default function ContactLaunchpad() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     setIsSubmitting(true);
-    setTimeout(() => {
+
+    // Panggil server action ke Resend
+    const result = await sendLaunchpadEmail(formData);
+
+    if (result.success) {
       setIsSubmitting(false);
-      setIsSuccess(true);
-    }, 2000);
+      setIsSuccess(true); // Layar bakal ganti ke animasi Success buatan lu
+
+      // Opsional: Balikin form ke awal kalau lu mau user bisa ngirim ulang setelah beberapa detik
+      setTimeout(() => {
+        setIsSuccess(false);
+        setStep(1);
+        setFormData({ ...formData, name: "", company: "", email: "", service: "", budget: "", details: "" });
+      }, 5000);
+    } else {
+      setIsSubmitting(false);
+      // Tampilkan error kalau koneksi/API gagal (pakai alert bawaan dulu gpp, atau modal kalau lu udah siapin)
+      alert(
+        "Mission Control Error: Failed to transmit data. Please try again.",
+      );
+    }
   };
 
   const handleCopyEmail = () => {

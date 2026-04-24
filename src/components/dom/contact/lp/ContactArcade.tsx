@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
 import { AlertCircle, Loader2 } from "lucide-react";
+import { sendContactEmail } from "@/app/actions/LPEmail";
 
 const pillVariants: Variants = {
   hidden: { opacity: 0, x: -20 },
@@ -30,10 +31,7 @@ const formVariants: Variants = {
     opacity: 1,
     x: 0,
     skewX: 0,
-    transition: { type: "spring",
-            stiffness: 250,
-            damping: 15,
-            delay: 0.15, },
+    transition: { type: "spring", stiffness: 250, damping: 15, delay: 0.15 },
   },
 };
 
@@ -89,64 +87,84 @@ export default function ContactArcade() {
       if (status === "idle") setStatus("typing");
     };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setStatus("submitting");
 
     // Animasi Terminal saat Submit
     setTerminalLog((prev) => [...prev, "> UPLOADING SYSTEM..."]);
 
-    // Simulasi API API Call
-    setTimeout(() => {
-      setStatus("success");
-      setTerminalLog((prev) => [...prev, "> TRANSFER COMPLETE."]);
+    // 🚀 PANGGIL SERVER ACTION KE RESEND
+    const result = await sendContactEmail({ name, email, message });
 
-      // Reset form ke awal
+    if (result.success) {
+      // JIKA BERHASIL
+      setStatus("success");
+      setTerminalLog((prev) => [
+        ...prev,
+        "> TRANSFER COMPLETE.",
+        "> AWAITING RESPONSE...",
+      ]);
+
+      // Reset form ke awal setelah 5 detik
       setTimeout(() => {
         setStatus("idle");
         setName("");
         setEmail("");
         setMessage("");
-        setTerminalLog([]); // Bersihkan layar
+        setTerminalLog([]); // Bersihkan layar terminal
       }, 5000);
-    }, 2500);
+    } else {
+      // JIKA GAGAL (Sinyal jelek / API Limit)
+      setStatus("error");
+      setTerminalLog((prev) => [
+        ...prev,
+        "> SYSTEM OVERLOAD!",
+        "> TRANSFER FAILED.",
+      ]);
+
+      // Balikin ke status idle biar user bisa pencet tombol submit lagi
+      setTimeout(() => {
+        setStatus("idle");
+      }, 3000);
+    }
   };
 
-    const sectionRef = useRef<HTMLElement>(null);
-    const [isAnimVisible, setIsAnimVisible] = useState(false);
-    // ========================================================
-    // THE DIRECTIONAL SENSOR HACK 🧠
-    // ========================================================
-    useEffect(() => {
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            // KONDISI 1: 30% Elemen masuk layar -> TAMPILKAN!
-            setIsAnimVisible(true);
-          } else {
-            // KONDISI 2: Elemen keluar layar
-            // Kita cek apakah posisi 'top' dari elemen ini bernilai positif.
-            // Kalau positif, artinya elemen ini posisinya ada di BAWAH layar.
-            // Kalau negatif, artinya dia udah ke-scroll sampai ke ATAS layar.
-            if (entry.boundingClientRect.top > 0) {
-              // HANYA RESET JIKA ELEMEN TENGGELAM KE BAWAH LAYAR
-              setIsAnimVisible(false);
-            }
+  const sectionRef = useRef<HTMLElement>(null);
+  const [isAnimVisible, setIsAnimVisible] = useState(false);
+  // ========================================================
+  // THE DIRECTIONAL SENSOR HACK 🧠
+  // ========================================================
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          // KONDISI 1: 30% Elemen masuk layar -> TAMPILKAN!
+          setIsAnimVisible(true);
+        } else {
+          // KONDISI 2: Elemen keluar layar
+          // Kita cek apakah posisi 'top' dari elemen ini bernilai positif.
+          // Kalau positif, artinya elemen ini posisinya ada di BAWAH layar.
+          // Kalau negatif, artinya dia udah ke-scroll sampai ke ATAS layar.
+          if (entry.boundingClientRect.top > 0) {
+            // HANYA RESET JIKA ELEMEN TENGGELAM KE BAWAH LAYAR
+            setIsAnimVisible(false);
           }
-        },
-        {
-          // Threshold 0.3 = Animasi nunggu sampai 30% area grid masuk ke layar
-          // Ini obat ampuh buat masalah "animasi kelar sebelum keliatan"
-          threshold: 0.3,
-        },
-      );
-  
-      if (sectionRef.current) {
-        observer.observe(sectionRef.current);
-      }
-  
-      return () => observer.disconnect();
-    }, []);
+        }
+      },
+      {
+        // Threshold 0.3 = Animasi nunggu sampai 30% area grid masuk ke layar
+        // Ini obat ampuh buat masalah "animasi kelar sebelum keliatan"
+        threshold: 0.3,
+      },
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
