@@ -122,7 +122,7 @@ export const portfolioData: PortfolioItem[] = [
       "We engineered a comprehensive digital ecosystem that digitizes the entire shrimp farming lifecycle, featuring real-time water quality monitoring and automated daily feed management. At its core, we integrated AI to analyze multidimensional relationships between environmental variables and shrimp biomass, delivering high-precision managerial insights. The system is fortified with atomic inventory management to prevent race conditions and an automated risk dashboard, ensuring operational efficiency and biological stability throughout every cultivation cycle.", // [cite: 65, 66, 67]
     industry: "Aquaculture",
     date: "On Going",
-    link: "https://wecoreofficial.com",
+    link: "",
     showcaseImages: [
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar (Full)
       "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kiri)
@@ -174,7 +174,7 @@ export const portfolioData: PortfolioItem[] = [
       "We developed a web-based assessment application designed to digitize the entire employee evaluation lifecycle. The platform integrates comprehensive question bank management, automated scoring, and real-time analytical dashboards. This solution eliminates manual administrative bottlenecks, enhances data integrity, and empowers management to make objective, data-driven decisions at an accelerated pace.", // [cite: 98]
     industry: "Human Resources",
     date: "Unknown",
-    link: "https://wecoreofficial.com",
+    link: "",
     showcaseImages: [
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar (Full)
       "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kiri)
@@ -200,7 +200,7 @@ export const portfolioData: PortfolioItem[] = [
       "We engineered an integrated digital ecosystem that merges high-quality video streaming, classroom management, and assessment tools into a unified portal. By consolidating the full user journey, we ensured a seamless transition from registration to evaluation. The system is designed with a centralized architecture to simplify operational control while significantly driving user engagement and retention.", // [cite: 106, 107, 108]
     industry: "Education",
     date: "Unknown",
-    link: "https://wecoreofficial.com",
+    link: "",
     showcaseImages: [
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar (Full)
       "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kiri)
@@ -226,7 +226,7 @@ export const portfolioData: PortfolioItem[] = [
       "Kami merancang template dashboard modern dengan fokus pada desain yang bersih, modularitas tinggi, dan performa optimal. Template ini dibangun dengan arsitektur komponen yang memungkinkan pengembang untuk dengan mudah menyesuaikan dan memperluas fungsionalitas sesuai kebutuhan proyek mereka. Dengan menggunakan teknologi terbaru, kami memastikan bahwa template ini tidak hanya estetis tetapi juga siap untuk menangani beban kerja yang kompleks dan skalabilitas di masa depan.",
     industry: "Software Development",
     date: "Unknown",
-    link: "https://wecoreofficial.com",
+    link: "",
     showcaseImages: [
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar (Full)
       "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kiri)
@@ -252,7 +252,7 @@ export const portfolioData: PortfolioItem[] = [
       "Kami mengembangkan sistem analitik bola basket berbasis AI yang menggunakan teknologi computer vision untuk melacak pergerakan pemain, pola permainan, dan statistik performa secara real-time. Sistem ini memberikan wawasan mendalam tentang kekuatan dan kelemahan pemain, serta membantu pelatih dalam membuat keputusan strategis selama pertandingan. Dengan mengotomatiskan proses analisis, kami memastikan bahwa data yang dihasilkan akurat, objektif, dan dapat diakses dengan mudah untuk meningkatkan performa tim.",
     industry: "Sports Analytics",
     date: "Juni 2025",
-    link: "https://wecoreofficial.com",
+    link: "",
     showcaseImages: [
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar (Full)
       "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kiri)
@@ -278,7 +278,7 @@ export const portfolioData: PortfolioItem[] = [
       "Kami membangun solusi e-commerce high-performance yang dirancang untuk memenuhi kebutuhan bisnis modern. Dengan menggunakan teknologi terbaru seperti Golang untuk backend yang cepat, Kubernetes untuk skalabilitas otomatis, dan Elastic Search untuk pencarian produk yang efisien, kami menciptakan platform yang tidak hanya cepat tetapi juga mampu menangani lonjakan trafik dengan mulus. Desain modular memungkinkan penyesuaian fitur sesuai kebutuhan bisnis, memastikan bahwa platform ini dapat tumbuh bersama bisnis Anda tanpa hambatan teknis.",
     industry: "Software Development",
     date: "Unknown",
-    link: "https://wecoreofficial.com",
+    link: "",
     showcaseImages: [
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar (Full)
       "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kiri)

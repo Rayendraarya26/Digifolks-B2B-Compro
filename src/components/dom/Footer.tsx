@@ -206,7 +206,7 @@ export default function Footer() {
             <div className="mt-2 flex gap-4">
               <SocialIcon href={GeneralData[0].footerContactUrl.instagram} color="hover:bg-pop-pink"><IconInstagram className="h-5 w-5" /></SocialIcon>
               <SocialIcon href={GeneralData[0].footerContactUrl.linkedin} color="hover:bg-pop-blue"><IconLinkedin className="h-5 w-5" /></SocialIcon>
-              <SocialIcon href={GeneralData[0].footerContactUrl.github} color="hover:bg-pop-purple"><IconGithub className="h-5 w-5" /></SocialIcon>
+              {/* <SocialIcon href={GeneralData[0].footerContactUrl.github} color="hover:bg-pop-purple"><IconGithub className="h-5 w-5" /></SocialIcon> */}
             </div>
 
             <div className="mt-6 flex flex-col gap-1">

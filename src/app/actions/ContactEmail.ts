@@ -17,7 +17,7 @@ type LaunchpadData = {
 export async function sendLaunchpadEmail(formData: LaunchpadData) {
   try {
     const { name, company, email, service, budget, currency, details } = formData;
-    const senderDomain = 'Digifolks System <donotreply@mail.digifolks.id>';
+    const senderDomain = 'Digifolks System <hello@mail.digifolks.id>';
     const adminEmail = process.env.ADMIN_EMAIL || 'yahya.idris.dev@gmail.com';
 
     const { data, error } = await resend.batch.send([

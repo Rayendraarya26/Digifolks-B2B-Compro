@@ -7,7 +7,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function sendContactEmail(formData: { name: string; email: string; message: string }) {
   try {
     const { name, email, message } = formData;
-    const senderDomain = 'Digifolks System <donotreply@mail.digifolks.id>';
+    const senderDomain = 'Digifolks System <hello@mail.digifolks.id>';
     const adminEmail = process.env.ADMIN_EMAIL || 'yahyaidrisabdurrahmanz@gmail.com';
 
     // KITA PAKAI BATCH SEND: Kirim 2 email sekaligus dalam 1 request!

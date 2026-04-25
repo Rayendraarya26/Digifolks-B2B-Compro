@@ -268,7 +268,7 @@ const ProjectDetail = ({
                 whileTap={{ scale: 0.95 }}
                 href={project.link}
                 target="_blank"
-                className="group flex items-center justify-center gap-3 rounded-full border-4 border-text-primary bg-text-primary py-4 font-display text-lg font-black uppercase tracking-widest text-surface-light shadow-[4px_4px_0_rgba(195,155,211,1)] transition-colors hover:bg-pop-pink hover:text-text-primary hover:shadow-[6px_6px_0_rgba(0,0,0,1)]"
+                className={`${project.link ? 'block' : 'hidden'} group flex items-center justify-center gap-3 rounded-full border-4 border-text-primary bg-text-primary py-4 font-display text-lg font-black uppercase tracking-widest text-surface-light shadow-[4px_4px_0_rgba(195,155,211,1)] transition-colors hover:bg-pop-pink hover:text-text-primary hover:shadow-[6px_6px_0_rgba(0,0,0,1)]`}
               >
                 Live Preview <ExternalLink className="h-5 w-5 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
               </motion.a>
