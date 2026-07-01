@@ -16,7 +16,7 @@ export default function Home() {
       <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-navy-base">
         <div className="absolute top-0 right-0 w-96 h-96 bg-accent-emerald/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-navy-light/50 rounded-full blur-[100px] pointer-events-none" />
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid md:grid-cols-12 gap-12 items-center">
             <div className="md:col-span-7">
@@ -26,13 +26,13 @@ export default function Home() {
                   Engineering Excellence
                 </div>
                 <h1 className="text-5xl md:text-7xl font-bold text-text-pure leading-tight mb-6 tracking-tight">
-                  Engineered for <br/>
+                  Engineered for <br />
                   <span className="text-accent-emerald">Scale & Stability.</span>
                 </h1>
               </Reveal>
               <Reveal delay={0.1}>
                 <p className="text-xl text-text-off-white mb-8 max-w-2xl leading-relaxed">
-                  We build robust B2B operational systems and enterprise software that reduce complexity, improve reliability, and accelerate your business growth.
+                  We build robust operational systems and enterprise software that reduce complexity, improve reliability, and accelerate your business growth.
                 </p>
               </Reveal>
               <Reveal delay={0.2}>
@@ -53,22 +53,22 @@ export default function Home() {
                 <div className="aspect-square rounded-2xl bg-navy-light/30 border border-border-flat/20 flex items-center justify-center p-8 relative overflow-hidden">
                   {/* Mockup Dashboard Card */}
                   <div className="w-full h-full bg-navy-base border border-navy-light rounded-xl p-6 flex flex-col justify-between relative shadow-lg">
-                     <div className="flex justify-between items-center mb-6">
-                        <div className="w-1/2 h-4 bg-navy-light rounded-md"></div>
-                        <div className="w-8 h-8 rounded-full bg-accent-emerald/20 flex items-center justify-center">
-                           <div className="w-2 h-2 rounded-full bg-accent-emerald animate-pulse"></div>
+                    <div className="flex justify-between items-center mb-6">
+                      <div className="w-1/2 h-4 bg-navy-light rounded-md"></div>
+                      <div className="w-8 h-8 rounded-full bg-accent-emerald/20 flex items-center justify-center">
+                        <div className="w-2 h-2 rounded-full bg-accent-emerald animate-pulse"></div>
+                      </div>
+                    </div>
+                    <div className="flex-1 flex items-end gap-3 relative">
+                      <div className="w-full h-[30%] bg-navy-light rounded-t-md hover:bg-navy-light/80 transition-colors"></div>
+                      <div className="w-full h-[50%] bg-navy-light rounded-t-md hover:bg-navy-light/80 transition-colors"></div>
+                      <div className="w-full h-[70%] bg-accent-emerald/40 rounded-t-md hover:bg-accent-emerald/60 transition-colors"></div>
+                      <div className="w-full h-[95%] bg-accent-emerald rounded-t-md hover:bg-accent-emerald/90 transition-colors relative">
+                        <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-navy-base text-accent-emerald text-xs font-mono py-1 px-2 rounded border border-navy-light opacity-0 hover:opacity-100 transition-opacity">
+                          +40%
                         </div>
-                     </div>
-                     <div className="flex-1 flex items-end gap-3 relative">
-                        <div className="w-full h-[30%] bg-navy-light rounded-t-md hover:bg-navy-light/80 transition-colors"></div>
-                        <div className="w-full h-[50%] bg-navy-light rounded-t-md hover:bg-navy-light/80 transition-colors"></div>
-                        <div className="w-full h-[70%] bg-accent-emerald/40 rounded-t-md hover:bg-accent-emerald/60 transition-colors"></div>
-                        <div className="w-full h-[95%] bg-accent-emerald rounded-t-md hover:bg-accent-emerald/90 transition-colors relative">
-                          <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-navy-base text-accent-emerald text-xs font-mono py-1 px-2 rounded border border-navy-light opacity-0 hover:opacity-100 transition-opacity">
-                            +40%
-                          </div>
-                        </div>
-                     </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </Reveal>
@@ -86,7 +86,7 @@ export default function Home() {
               <p className="text-text-muted max-w-2xl mx-auto text-lg">Tiga pilar keahlian utama kami dalam memberikan solusi teknologi B2B kelas enterprise.</p>
             </div>
           </Reveal>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
@@ -106,7 +106,7 @@ export default function Home() {
               }
             ].map((item, i) => (
               <Reveal key={i} delay={0.1 * (i + 1)}>
-                <div className="p-8 h-full bg-bg-pure border border-border-flat rounded-2xl relative hover:border-accent-forest/30 transition-all duration-300 shadow-lg">
+                <div className="p-8 h-67 bg-bg-pure border border-border-flat rounded-2xl relative hover:border-accent-forest/30 transition-all duration-300 shadow-lg">
                   {item.icon}
                   <h3 className="text-xl font-bold text-navy-base mb-3">{item.title}</h3>
                   <p className="text-text-muted leading-relaxed">{item.desc}</p>
@@ -136,7 +136,7 @@ export default function Home() {
               </Link>
             </div>
           </Reveal>
-          
+
           {/* Bento Grid */}
           <Reveal delay={0.1}>
             <div className="grid md:grid-cols-12 gap-4">
@@ -151,7 +151,7 @@ export default function Home() {
                       <LayoutTemplate className="w-10 h-10 text-accent-emerald mb-4" />
                       <h3 className="text-2xl md:text-3xl font-bold mb-3 text-text-pure">Custom Web Applications</h3>
                       <p className="text-text-off-white text-lg max-w-lg leading-relaxed">Sistem manajemen operasional kustom berbasis web yang dirancang untuk memecahkan bottleneck spesifik pada bisnis Anda.</p>
-                      
+
                       <div className="mt-8 flex gap-2">
                         {['React', 'Next.js', 'Node.js'].map(tag => (
                           <span key={tag} className="px-3 py-1 bg-[#1e293b]/50 text-text-pure text-sm rounded-md border border-border-flat/10">{tag}</span>
@@ -171,9 +171,9 @@ export default function Home() {
                     <h3 className="text-xl font-bold mb-2 text-text-pure">Cloud Architecture</h3>
                     <p className="text-text-off-white leading-relaxed">Arsitektur serverless dan containerized yang terukur, efisien, serta dioptimasi untuk biaya operasional minimal.</p>
                     <div className="mt-4 flex gap-2">
-                        {['AWS', 'GCP'].map(tag => (
-                          <span key={tag} className="px-3 py-1 bg-[#1e293b]/50 text-text-pure text-sm rounded-md border border-border-flat/10">{tag}</span>
-                        ))}
+                      {['AWS', 'GCP'].map(tag => (
+                        <span key={tag} className="px-3 py-1 bg-[#1e293b]/50 text-text-pure text-sm rounded-md border border-border-flat/10">{tag}</span>
+                      ))}
                     </div>
                   </div>
                 </Link>
@@ -184,9 +184,9 @@ export default function Home() {
                     <h3 className="text-xl font-bold mb-2 text-text-pure">AI & Automation</h3>
                     <p className="text-text-off-white leading-relaxed">Otomatisasi proses bisnis dan integrasi model AI untuk efisiensi operasional.</p>
                     <div className="mt-4 flex gap-2">
-                        {['Python', 'OpenAI'].map(tag => (
-                          <span key={tag} className="px-3 py-1 bg-[#1e293b]/50 text-text-pure text-sm rounded-md border border-border-flat/10">{tag}</span>
-                        ))}
+                      {['Python', 'OpenAI'].map(tag => (
+                        <span key={tag} className="px-3 py-1 bg-[#1e293b]/50 text-text-pure text-sm rounded-md border border-border-flat/10">{tag}</span>
+                      ))}
                     </div>
                   </div>
                 </Link>
@@ -233,7 +233,7 @@ export default function Home() {
                           <div className="w-2.5 h-2.5 rounded-full bg-border-flat/20"></div>
                         </div>
                         <div className="flex-1 bg-navy-light rounded-t-md opacity-50 relative overflow-hidden">
-                           <div className="absolute inset-0 bg-gradient-to-b from-transparent to-navy-base"></div>
+                          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-navy-base"></div>
                         </div>
                       </div>
                     </div>
@@ -250,7 +250,7 @@ export default function Home() {
               </Reveal>
             ))}
           </div>
-          
+
           <div className="mt-12 text-center">
             <Reveal delay={0.2}>
               <Link href="/work" tabIndex={-1}>
@@ -306,11 +306,11 @@ export default function Home() {
       <section className="relative py-24 bg-navy-base overflow-hidden">
         <div className="absolute w-96 h-96 bg-accent-emerald/10 rounded-full blur-[100px] -top-24 right-0 pointer-events-none" />
         <div className="absolute w-64 h-64 bg-accent-emerald/5 rounded-full blur-[80px] bottom-0 left-16 pointer-events-none" />
-        
+
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <Reveal>
             <h2 className="text-3xl md:text-5xl font-bold text-text-pure mb-6 leading-tight">
-              Siap Membangun Sistem <br className="hidden md:block"/>
+              Siap Membangun Sistem <br className="hidden md:block" />
               <span className="text-accent-emerald">yang Benar-benar Bekerja?</span>
             </h2>
             <p className="text-text-off-white text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
