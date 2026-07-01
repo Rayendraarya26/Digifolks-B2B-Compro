@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
-import { Space_Grotesk, Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Plus_Jakarta_Sans, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 // import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import Preloader from "@/components/loader/Preloader";
 import TransitionProvider from "@/components/providers/TransitionProvider";
+import { Navbar } from "@/components/ui/Navbar";
 
 // Inisialisasi Font
-const spaceGrotesk = Space_Grotesk({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-display",
 });
@@ -15,6 +16,18 @@ const inter = Inter({
   subsets: ["latin"],
   variable: "--font-body",
 });
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-mono",
+});
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#000000" },
+  ],
+};
 
 // Metadata Global yang SEO Friendly
 export const metadata: Metadata = {
@@ -64,14 +77,11 @@ export const metadata: Metadata = {
     ],
     apple: "/Dih.webp", // Biasanya ukuran 180x180 px
   },
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#000000" },
-  ],
   // verification: {
   //   google: "y3-gFYtJ7QEsJVPPgUG7IyCTUuknHNZ4zTxWjX8fEa8",
   // },
 };
+
 
 export default function RootLayout({
   children,
@@ -79,12 +89,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${spaceGrotesk.variable} ${inter.variable}`}>
-      <body className="antialiased selection:bg-pop-yellow selection:text-text-primary">
+    <html lang="en" className={`${plusJakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
+      <body className="antialiased bg-navy-base text-text-off-white flex flex-col min-h-screen">
         <Preloader />
         {/* <SmoothScrollProvider> */}
         <TransitionProvider />
-        {children}
+        <Navbar />
+        <main className="flex-1">
+          {children}
+        </main>
         {/* </SmoothScrollProvider> */}
       </body>
     </html>

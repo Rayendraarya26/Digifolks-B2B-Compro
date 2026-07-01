@@ -1,5 +1,4 @@
-import FloatingDock from "@/components/dom/FloatingDock";
-import Footer from "@/components/dom/Footer";
+import { Footer } from "@/components/ui/Footer";
 
 export default function MainLayout({
   children,
@@ -9,7 +8,6 @@ export default function MainLayout({
   return (
     <>
       <main className="relative min-h-screen w-full">{children}</main>
-      <FloatingDock />
       <Footer />
     </>
   );

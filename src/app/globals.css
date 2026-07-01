@@ -6,26 +6,30 @@
   --breakpoint-tablet-potrait: 700px;
   --breakpoint-desktop: 1211px;
 
-  /* Pastel Pop Palette */
-  --color-pop-pink: #FF90E8;
-  --color-pop-blue: #90E0EF;
-  --color-pop-yellow: #FFEA00;
-  --color-pop-green: #B9FBC0;
-  --color-pop-purple: #CDB4DB;
-  
-  --color-surface-light: #FAFAFA;
-  --color-surface-dark: #1A1A1A;
-  
-  --color-text-primary: #111111;
-  --color-text-muted: #666666;
+  /* Growth & Trust Palette (Dark Mode Default) */
+  --color-navy-base: #0E1E38; /* Deep Electric Navy */
+  --color-navy-light: #162A4A; /* Slate Blue Medium */
+  --color-navy-teal: #041E26; /* Deep Teal / Ocean Ink (Retained if needed) */
+  --color-text-pure: #FFFFFF;
+  --color-text-off-white: #E2E8F0;
+  --color-accent-emerald: #00DF89;
 
-  /* Font yang bold dan modern untuk mendukung vibe playful */
-  --font-display: "Space Grotesk", sans-serif;
-  --font-body: "Inter", sans-serif;
+  /* Light Sections Palette / Muted Light (Anti-Glare) */
+  --color-bg-terang-warm: #F8F9FA;
+  --color-bg-terang-cool: #F4F6F8;
+  --color-bg-slate-soft: #F1F5F9; /* Slate Soft */
+  --color-bg-ice-blue: #F0F4F8; /* Ice Blue Light */
+  --color-bg-pure: #FFFFFF;
+  --color-text-ink: #0F172A;
+  --color-text-muted: #475569;
+  --color-accent-forest: #064E3B;
+  
+  --color-border-flat: #E2E8F0;
 
-  /* Custom shadows untuk efek playful/neo-brutalism ringan */
-  --shadow-playful: 4px 4px 0px 0px rgba(17, 17, 17, 1);
-  --shadow-playful-hover: 6px 6px 0px 0px rgba(17, 17, 17, 1);
+  /* Fonts */
+  --font-display: var(--font-display);
+  --font-body: var(--font-body);
+  --font-mono: var(--font-mono);
 }
 
 @layer base {
@@ -47,8 +51,8 @@
 
 /* Base resets & styles */
 :root {
-  background-color: var(--color-surface-light);
-  color: var(--color-text-primary);
+  background-color: var(--color-navy-base);
+  color: var(--color-text-off-white);
   font-family: var(--font-body);
   /* Mencegah scroll horizontal saat animasi berjalan */
   overflow-x: hidden; 
@@ -57,6 +61,7 @@
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 /* Utilitas untuk menyembunyikan scrollbar pada area horizontal scroll (Portfolio) */
@@ -66,4 +71,4 @@ h1, h2, h3, h4, h5, h6 {
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
-}
+}
