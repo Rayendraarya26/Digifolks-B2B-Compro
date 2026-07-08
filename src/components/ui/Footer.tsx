@@ -27,7 +27,7 @@ export function Footer() {
               We build scalable operational systems that reduce complexity, improve reliability, and support long-term business growth.
             </p>
           </div>
-          
+
           <div>
             <h4 className="text-bg-pure font-bold mb-4 uppercase tracking-wider text-xs">Sitemap</h4>
             <ul className="space-y-3">
@@ -37,18 +37,17 @@ export function Footer() {
               <li><Link href="/contact" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">Hubungi Kami</Link></li>
             </ul>
           </div>
-          
+
           <div>
             <h4 className="text-bg-pure font-bold mb-4 uppercase tracking-wider text-xs">Connect</h4>
             <ul className="space-y-3">
-              <li><a href="#" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">LinkedIn</a></li>
-              <li><a href="#" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">Twitter</a></li>
-              <li><a href="#" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">Instagram</a></li>
-              <li><a href="mailto:solutions@digifolks.id" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">solutions@digifolks.id</a></li>
+              <li><a href="mailto:digifolkstech@gmail.com" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">digifolkstech@gmail.com</a></li>
+              <li><a href="mailto:marketing@digifolks.id" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">marketing@digifolks.id</a></li>
+              <li><a href="https://id.linkedin.com/company/digifolks-id" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">LinkedIn</a></li>
             </ul>
           </div>
         </div>
-        
+
         <div className="pt-8 border-t border-bg-pure/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-border-flat/50 text-xs">
             &copy; {new Date().getFullYear()} Digifolks Solutions. All rights reserved.

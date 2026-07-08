@@ -209,16 +209,16 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-8">
             {[
               {
-                slug: "fleet-tracking",
-                partner: "LOGISTICS CORP",
-                title: "Real-time Fleet Tracking",
-                metric: "40% Fuel Efficiency",
+                slug: "gorillacoach",
+                partner: "GORILLACOACHID",
+                title: "Integrated Web e-Commerce & POS System",
+                metric: "3-in-1 Unified Platform",
               },
               {
-                slug: "fintech-core",
-                partner: "FINTECH STARTUP",
-                title: "High-Volume Transaction Core",
-                metric: "99.99% Uptime",
+                slug: "kazeer",
+                partner: "KAZEER SOLUSI DIGITAL",
+                title: "Next-Generation FnB POS & AI Business Consultant",
+                metric: "AI-Powered Analytics",
               }
             ].map((study, idx) => (
               <Reveal key={idx} delay={0.1 * idx}>

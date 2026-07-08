@@ -24,6 +24,7 @@ export function Reveal({ children, width = '100%', delay = 0, className = '' }: 
         initial="hidden"
         animate={isInView ? 'visible' : 'hidden'}
         transition={{ duration: 0.6, delay: delay, ease: [0.4, 0, 0.2, 1] }}
+        className="h-full w-full"
       >
         {children}
       </motion.div>

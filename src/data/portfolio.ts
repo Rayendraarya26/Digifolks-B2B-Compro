@@ -49,15 +49,68 @@ export interface PortfolioItem {
   date: string;
   link: string;
   showcaseImages: string[];
+  isProposal?: boolean;
 }
 
 export const portfolioData: PortfolioItem[] = [
+  {
+    id: "port-10",
+    client: "GorillaCoachID",
+    projectType: "E-Commerce & POS",
+    headline: "Integrated Web e-Commerce & POS System",
+    imageUrl: "/Image/Portfolio/gorillacoach/cover.png",
+    tags: ["Next.js", "Node.js", "PostgreSQL", "POS Integration"],
+    title: "GorillaCoach e-Commerce & POS",
+    color: "bg-pop-green",
+    size: "large",
+    challenge:
+      "Managing retail sales, online orders, inventory, and business operations through separate systems creates data inconsistencies, duplicate administrative work, and limited visibility into overall business performance.",
+    requirements:
+      "A unified business management platform that centralizes point-of-sale operations, online commerce, inventory, customer data, and back-office administration into a single system with real-time synchronization.",
+    solutions:
+      "We developed an integrated business platform that combines a Point of Sale (POS), Online Store, and Back Office Management System into a single ecosystem. The solution synchronizes sales transactions, inventory, product catalogs, and customer information across online and offline channels in real time. Through a centralized administrative dashboard, the Gorilla Coach team can efficiently manage daily operations, monitor business performance, and deliver a seamless purchasing experience for customers.",
+    industry: "Retail / E-Commerce",
+    date: "2026",
+    link: "",
+    showcaseImages: [
+      "/Image/Portfolio/gorillacoach/gallery-01.png",
+      "/Image/Portfolio/gorillacoach/gallery-02.png",
+      "/Image/Portfolio/gorillacoach/gallery-03.png",
+      "/Image/Portfolio/gorillacoach/gallery-04.png",
+    ],
+  },
+  {
+    id: "port-11",
+    client: "Kazeer Solusi Digital",
+    projectType: "POS & AI System",
+    headline: "Next-Generation FnB POS & AI Business Consultant",
+    imageUrl: "/Image/Portfolio/kazeer/cover.png",
+    tags: ["Next.js", "AI Chatbot", "WhatsApp API", "Payment Gateway"],
+    title: "Kazeer FnB POS & AI Consultant",
+    color: "bg-pop-blue",
+    size: "large",
+    challenge:
+      "The client's point-of-sale system development was stalled by the previous vendor, resulting in unstable source code, a broken core ordering flow, and asynchronous frontend-backend communication, rendering the application non-functional.",
+    requirements:
+      "A complete code overhaul to fix the core transaction workflow, stabilize system synchronization, and integrate AI-driven business analytics.",
+    solutions:
+      "We optimized the application and performed further development, such as refining the open-bill ordering flow and integrating a local payment gateway for transaction automation. We also embedded an AI Business Consultant Chatbot via WhatsApp and the application to automate turnover analysis, stock tracking, profit and loss reporting, and real-time Cost of Goods Sold (COGS) estimation.",
+    industry: "Food & Beverage",
+    date: "2026",
+    link: "",
+    showcaseImages: [
+      "/Image/Portfolio/kazeer/gallery-01.png",
+      "/Image/Portfolio/kazeer/gallery-02.png",
+      "/Image/Portfolio/kazeer/gallery-03.png",
+      "/Image/Portfolio/kazeer/gallery-04.png",
+    ],
+  },
   {
     id: "port-2",
     client: "We Core",
     projectType: "Web App",
     headline: "Professional Agency Company Profile for We Core",
-    imageUrl: "/Image/Portfolio/WeCoreCompro.png",
+    imageUrl: "/Image/Portfolio/wecore/cover.png",
     tags: ["Next.js", "WebGL", "Stripe"],
     title: "WeCore Agency",
     color: "bg-pop-blue",
@@ -72,10 +125,10 @@ export const portfolioData: PortfolioItem[] = [
     date: "Januari 2026",
     link: "https://wecoreofficial.com",
     showcaseImages: [
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar (Full)
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kiri)
-      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kanan)
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar lagi (Full)
+      "/Image/Portfolio/wecore/gallery-01.png",
+      "/Image/Portfolio/wecore/gallery-02.png",
+      "/Image/Portfolio/wecore/gallery-03.png",
+      "/Image/Portfolio/wecore/gallery-04.png",
     ],
   },
   {
@@ -83,7 +136,7 @@ export const portfolioData: PortfolioItem[] = [
     client: "Homestay di jogja",
     projectType: "Web App",
     headline: "Digital Tourism Catalog & Management Platform",
-    imageUrl: "/Image/Portfolio/Homestay.png",
+    imageUrl: "/Image/Portfolio/homestay/cover.png",
     tags: ["React", "Framer Motion", "Supabase"],
     title: "Tourism Catalog",
     color: "bg-pop-pink",
@@ -98,10 +151,10 @@ export const portfolioData: PortfolioItem[] = [
     date: "Februari 2026",
     link: "https://homestaydijogja.id/",
     showcaseImages: [
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar (Full)
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kiri)
-      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kanan)
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar lagi (Full)
+      "/Image/Portfolio/homestay/gallery-01.png",
+      "/Image/Portfolio/homestay/gallery-02.png",
+      "/Image/Portfolio/homestay/gallery-03.png",
+      "/Image/Portfolio/homestay/gallery-04.png",
     ],
   },
   {
@@ -109,7 +162,7 @@ export const portfolioData: PortfolioItem[] = [
     client: "PT Kawan Kita Semua",
     projectType: "Web App",
     headline: "Smart Aquaculture Decision Support System",
-    imageUrl: "/Image/Portfolio/TambakUdang.png",
+    imageUrl: "/Image/Portfolio/kawan-kita-semua/cover.png",
     tags: ["React", "Framer Motion", "Supabase"],
     title: "Smart Aquaculture System",
     color: "bg-pop-pink",
@@ -124,10 +177,10 @@ export const portfolioData: PortfolioItem[] = [
     date: "On Going",
     link: "",
     showcaseImages: [
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar (Full)
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kiri)
-      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kanan)
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar lagi (Full)
+      "/Image/Portfolio/kawan-kita-semua/gallery-01.png",
+      "/Image/Portfolio/kawan-kita-semua/gallery-02.png",
+      "/Image/Portfolio/kawan-kita-semua/gallery-03.png",
+      "/Image/Portfolio/kawan-kita-semua/gallery-04.png",
     ],
   },
   {
@@ -135,7 +188,7 @@ export const portfolioData: PortfolioItem[] = [
     client: "Positive Strength",
     projectType: "Web App",
     headline: "Scalable Business Website for Positive Strength",
-    imageUrl: "/Image/Portfolio/PositiveStrength.png",
+    imageUrl: "/Image/Portfolio/positive-strength/cover.png",
     tags: ["React", "Framer Motion", "Supabase"],
     title: "Positive Strength Gym Catalog",
     color: "bg-pop-green",
@@ -150,20 +203,21 @@ export const portfolioData: PortfolioItem[] = [
     date: "November 2025",
     link: "https://positivestrengthofficial.com/",
     showcaseImages: [
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar (Full)
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kiri)
-      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kanan)
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar lagi (Full)
+      "/Image/Portfolio/positive-strength/gallery-01.png",
+      "/Image/Portfolio/positive-strength/gallery-02.png",
+      "/Image/Portfolio/positive-strength/gallery-03.png",
+      "/Image/Portfolio/positive-strength/gallery-04.png",
     ],
   },
   {
     id: "port-5",
     client: "TMMIN",
     projectType: "Web App",
-    headline: "Web-Based App Digital Assessment for Prospective Client",
-    imageUrl: "/Image/Portfolio/TMMIN.png",
+    headline: "Introduction to Company Culture: Digital Assessment for Prospective Client",
+    imageUrl: "/Image/Portfolio/digital-assessment/cover.png",
     tags: ["React", "Framer Motion", "Supabase"],
-    title: "TMMIN Digital Assessment",
+    isProposal: true,
+    title: "Company Culture Digital Assessment",
     color: "bg-pop-pink",
     size: "normal",
     challenge:
@@ -176,19 +230,20 @@ export const portfolioData: PortfolioItem[] = [
     date: "Unknown",
     link: "",
     showcaseImages: [
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar (Full)
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kiri)
-      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kanan)
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar lagi (Full)
+      "/Image/Portfolio/digital-assessment/gallery-01.png",
+      "/Image/Portfolio/digital-assessment/gallery-02.png",
+      "/Image/Portfolio/digital-assessment/gallery-03.png",
+      "/Image/Portfolio/digital-assessment/gallery-04.png",
     ],
   },
   {
     id: "port-6",
     client: "Malaka Project",
     projectType: "Web App",
-    headline: "Integrated Learning Platform for Prospective Client",
-    imageUrl: "/Image/Portfolio/Malaka.png",
+    headline: "Integrated Learning Platform (Malaka Project)",
+    imageUrl: "/Image/Portfolio/malaka/cover.png",
     tags: ["React", "Framer Motion", "Supabase"],
+    isProposal: true,
     title: "Malaka Learning Ecosystem",
     color: "bg-pop-pink",
     size: "normal",
@@ -202,10 +257,10 @@ export const portfolioData: PortfolioItem[] = [
     date: "Unknown",
     link: "",
     showcaseImages: [
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar (Full)
-      "https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kiri)
-      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800&q=80", // Bakal jadi kecil (Kanan)
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80", // Bakal jadi besar lagi (Full)
+      "/Image/Portfolio/malaka/gallery-01.png",
+      "/Image/Portfolio/malaka/gallery-02.png",
+      "/Image/Portfolio/malaka/gallery-03.png",
+      "/Image/Portfolio/malaka/gallery-04.png",
     ],
   },
   {
