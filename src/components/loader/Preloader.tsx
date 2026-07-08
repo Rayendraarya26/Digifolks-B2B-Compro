@@ -68,16 +68,16 @@ export default function Preloader() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <Image 
-                src="/Digifolks-Logo.png" 
-                alt="Digifolks Logo" 
-                width={200} 
-                height={60} 
-                className="w-auto h-12 object-contain"
+              <Image
+                src="/Digifolks-Logo.png"
+                alt="Digifolks Logo"
+                width={200}
+                height={60}
+                className="w-auto h-60 object-contain"
                 priority
               />
             </motion.div>
-            
+
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
