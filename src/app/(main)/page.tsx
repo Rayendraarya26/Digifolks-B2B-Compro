@@ -2,7 +2,22 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/animations/Reveal";
-import { ChevronDown, ArrowRight, Code, Server, Shield, LayoutTemplate, Database, Cpu } from "lucide-react";
+import { ChevronDown, ArrowRight, Code, Server, Shield, LayoutTemplate, Database, Cpu, ArrowUpRight } from "lucide-react";
+import fs from "fs";
+import path from "path";
+import { portfolioData } from "@/data/portfolio";
+
+// Helper for dynamic cover image resolution
+const getCoverImage = (slug: string) => {
+  const exts = ['.webp', '.png', '.jpg', '.jpeg'];
+  for (const ext of exts) {
+    const filePath = path.join(process.cwd(), 'public', 'Image', 'Portfolio', slug, `cover${ext}`);
+    if (fs.existsSync(filePath)) {
+      return `/Image/Portfolio/${slug}/cover${ext}`;
+    }
+  }
+  return `/Image/Portfolio/${slug}/cover.png`; // Fallback
+};
 
 export const metadata: Metadata = {
   title: "Build Scalable Operational Systems for Your Business",
@@ -207,48 +222,60 @@ export default function Home() {
           </Reveal>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {[
-              {
-                slug: "gorillacoach",
-                partner: "GORILLACOACHID",
-                title: "Integrated Web e-Commerce & POS System",
-                metric: "3-in-1 Unified Platform",
-              },
-              {
-                slug: "kazeer",
-                partner: "KAZEER SOLUSI DIGITAL",
-                title: "Next-Generation FnB POS & AI Business Consultant",
-                metric: "AI-Powered Analytics",
-              }
-            ].map((study, idx) => (
-              <Reveal key={idx} delay={0.1 * idx}>
-                <Link href={`/work/${study.slug}`} className="group block">
-                  <div className="bg-bg-pure border border-border-flat rounded-2xl overflow-hidden hover:border-accent-forest/30 hover:shadow-xl transition-all duration-300">
-                    <div className="aspect-video bg-navy-base relative overflow-hidden flex items-center justify-center p-6 border-b border-border-flat/50">
-                      {/* Screenshot Mockup Container */}
-                      <div className="w-full h-full border border-navy-light rounded-t-lg bg-[#0F172A] relative flex flex-col pt-3 px-4 shadow-lg overflow-hidden group-hover:scale-105 transition-transform duration-500">
-                        <div className="flex gap-1.5 mb-3">
-                          <div className="w-2.5 h-2.5 rounded-full bg-border-flat/20"></div>
-                          <div className="w-2.5 h-2.5 rounded-full bg-border-flat/20"></div>
-                          <div className="w-2.5 h-2.5 rounded-full bg-border-flat/20"></div>
+            {portfolioData.slice(0, 2).map((study, idx) => {
+              const slug = study.imageUrl.split('/').slice(-2)[0];
+              return (
+                <Reveal key={idx} delay={0.1 * idx} className="h-full">
+                  <Link href={`/work/${slug}`} className="group block h-full focus:outline-none focus:ring-2 focus:ring-accent-emerald rounded-2xl">
+                    <div className="h-full bg-bg-pure border border-border-flat rounded-2xl overflow-hidden hover:border-accent-forest/30 hover:shadow-2xl transition-all duration-300 flex flex-col">
+                      {/* Card Header Visual: Project Image */}
+                      <div className="aspect-[16/10] bg-navy-base relative overflow-hidden">
+                        <img
+                          src={getCoverImage(slug)}
+                          alt={study.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                        {/* Gradient overlay */}
+                        <div className="absolute inset-0 bg-gradient-to-t from-navy-base/60 via-transparent to-transparent" />
+
+                        {/* Proposal Badge */}
+                        {study.isProposal && (
+                          <div className="absolute top-4 left-4 bg-[#10B981]/90 text-navy-base text-[9px] sm:text-[10px] font-mono px-2.5 py-1 rounded-md backdrop-blur-md z-10 shadow-lg border border-[#10B981]/50">
+                            Professional Portfolio for Stakeholder Proposals
+                          </div>
+                        )}
+
+                        {/* Hover arrow */}
+                        <div className="absolute top-4 right-4 w-10 h-10 bg-navy-base/50 backdrop-blur-md rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 border border-navy-light">
+                          <ArrowUpRight className="w-4 h-4 text-accent-emerald" />
                         </div>
-                        <div className="flex-1 bg-navy-light rounded-t-md opacity-50 relative overflow-hidden">
-                          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-navy-base"></div>
+                      </div>
+
+                      {/* Card Body */}
+                      <div className="p-6 flex flex-col flex-1">
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="text-xs font-mono text-text-muted uppercase tracking-wider">{study.client}</span>
+                          <span className="text-text-muted/30">·</span>
+                          <span className="text-xs font-medium text-accent-forest uppercase tracking-wider">{study.industry}</span>
+                        </div>
+
+                        <h2 className="text-lg font-bold text-navy-base mb-4 leading-snug group-hover:text-accent-forest transition-colors duration-300 flex-1">
+                          {study.title}
+                        </h2>
+
+                        <div className="flex flex-wrap gap-2 pt-4 border-t border-border-flat">
+                          {study.tags.map((tag) => (
+                            <span key={tag} className="px-2.5 py-1 text-xs font-mono bg-[#1e293b]/5 text-text-muted border border-border-flat rounded-md">
+                              {tag}
+                            </span>
+                          ))}
                         </div>
                       </div>
                     </div>
-                    <div className="p-8">
-                      <div className="text-accent-forest font-mono text-sm tracking-widest mb-2">{study.partner}</div>
-                      <h3 className="text-2xl font-bold text-navy-base mb-6 group-hover:text-accent-forest transition-colors">{study.title}</h3>
-                      <div className="flex flex-col border-t border-border-flat pt-4">
-                        <div className="text-sm font-medium text-text-muted uppercase tracking-wider mb-1">Business Impact</div>
-                        <div className="text-3xl md:text-4xl font-bold text-accent-forest">{study.metric}</div>
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </Reveal>
-            ))}
+                  </Link>
+                </Reveal>
+              );
+            })}
           </div>
 
           <div className="mt-12 text-center">
