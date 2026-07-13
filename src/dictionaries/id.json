@@ -313,8 +313,10 @@
         "Lainnya"
       ],
       "name": "Nama Lengkap *",
+      "company": "Perusahaan / Organisasi",
       "email": "Email *",
       "message": "Detail Proyek *",
+      "budget": "Estimasi Budget (IDR)",
       "submit": "Kirim Permintaan"
     },
     "info": {

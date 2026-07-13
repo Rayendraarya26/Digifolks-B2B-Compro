@@ -312,7 +312,9 @@
         "Legacy Modernization",
         "Other"
       ],
+      "budget": "Estimated Budget (IDR)",
       "name": "Full Name *",
+      "company": "Company / Organization",
       "email": "Email *",
       "message": "Project Details *",
       "submit": "Send Request"
