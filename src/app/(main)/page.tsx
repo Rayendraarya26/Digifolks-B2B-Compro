@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/animations/Reveal";
-import { ChevronDown, ArrowRight, Code, Server, Shield, LayoutTemplate, Database, Cpu, ArrowUpRight } from "lucide-react";
+import { ChevronDown, ArrowRight, Code, Server, Shield, LayoutTemplate, Database, Cpu, ArrowUpRight, Users, Rocket, Lightbulb, TrendingUp, CheckCircle2 } from "lucide-react";
 import fs from "fs";
 import path from "path";
 import { portfolioData } from "@/data/portfolio";
@@ -92,39 +92,78 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Core DNA Section */}
+      {/* Core Values Section */}
       <section className="py-24 bg-bg-ice-blue relative border-b border-border-flat">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal>
             <div className="mb-16 text-center">
-              <h2 className="text-3xl font-bold text-navy-base mb-4">Our Core DNA</h2>
-              <p className="text-text-muted max-w-2xl mx-auto text-lg">Tiga pilar keahlian utama kami dalam memberikan solusi teknologi B2B kelas enterprise.</p>
+              <h2 className="text-3xl font-bold text-navy-base mb-4">Core Values</h2>
+              <p className="text-text-muted max-w-2xl mx-auto text-lg">Prinsip yang memandu kami dalam setiap baris kode yang kami tulis dan solusi yang kami bangun.</p>
             </div>
           </Reveal>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
               {
-                icon: <Code className="w-8 h-8 text-accent-emerald mb-6" />,
-                title: "Custom Software Engineering",
-                desc: "Pengembangan sistem kustom dari nol yang dirancang khusus untuk memecahkan bottleneck operasional unik pada bisnis Anda."
+                icon: <Users className="w-8 h-8 text-accent-emerald mb-6" />,
+                title: "Think Like a Partner",
+                desc: "Kami bekerja sebagai partner, bukan sekadar vendor. Kami memahami tujuan bisnis sebelum menulis satu baris kode."
               },
               {
-                icon: <Server className="w-8 h-8 text-accent-emerald mb-6" />,
-                title: "Scalable Infrastructure",
-                desc: "Arsitektur cloud yang tangguh dan terukur untuk memastikan uptime 99.9% meski dengan lonjakan transaksi yang tinggi."
+                icon: <Rocket className="w-8 h-8 text-accent-emerald mb-6" />,
+                title: "Build Fast. Build Right.",
+                desc: "Kami mengembangkan software secara agile untuk mempercepat delivery tanpa mengorbankan kualitas, keamanan, maupun stabilitas sistem."
               },
               {
-                icon: <Shield className="w-8 h-8 text-accent-emerald mb-6" />,
-                title: "Enterprise Security",
-                desc: "Implementasi standar keamanan tertinggi untuk melindungi data sensitif klien dan memastikan kepatuhan regulasi industri."
+                icon: <Lightbulb className="w-8 h-8 text-accent-emerald mb-6" />,
+                title: "Solve Problems, Not Just Requirements",
+                desc: "Kami tidak hanya mengembangkan fitur, tetapi memahami proses bisnis di baliknya untuk menghasilkan solusi yang benar-benar memberikan dampak."
+              },
+              {
+                icon: <TrendingUp className="w-8 h-8 text-accent-emerald mb-6" />,
+                title: "Design for Growth",
+                desc: "Setiap sistem dirancang modular, scalable, dan mudah dipelihara sehingga mampu beradaptasi dengan kebutuhan bisnis di masa depan."
               }
             ].map((item, i) => (
               <Reveal key={i} delay={0.1 * (i + 1)}>
-                <div className="p-8 h-67 bg-bg-pure border border-border-flat rounded-2xl relative hover:border-accent-forest/30 transition-all duration-300 shadow-lg">
+                <div className="p-8 h-full bg-bg-pure border border-border-flat rounded-2xl relative hover:border-accent-forest/30 transition-all duration-300 shadow-lg">
                   {item.icon}
                   <h3 className="text-xl font-bold text-navy-base mb-3">{item.title}</h3>
-                  <p className="text-text-muted leading-relaxed">{item.desc}</p>
+                  <p className="text-text-muted leading-relaxed text-sm">{item.desc}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Our Expertise Section */}
+      <section className="py-24 bg-navy-base text-text-pure relative border-b border-border-flat/10">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <Reveal>
+            <div className="mb-16 text-center">
+              <h2 className="text-3xl font-bold text-text-pure mb-4">Our Expertise</h2>
+              <p className="text-text-off-white max-w-2xl mx-auto text-lg">Keahlian kami dalam teknologi terdepan untuk menghadirkan solusi inovatif.</p>
+            </div>
+          </Reveal>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              "AI Chatbot & Virtual Assistant",
+              "Computer Vision",
+              "Object Detection & Counting",
+              "OCR & Document Processing",
+              "Recommendation System",
+              "Predictive Analytics",
+              "Generative AI",
+              "AI Automation"
+            ].map((expertise, i) => (
+              <Reveal key={i} delay={0.05 * i}>
+                <div className="flex items-center gap-4 p-5 bg-navy-light/30 border border-border-flat/20 rounded-xl hover:border-accent-emerald/50 hover:bg-navy-light/50 transition-all duration-300">
+                  <div className="w-10 h-10 rounded-lg bg-accent-emerald/10 flex items-center justify-center flex-shrink-0">
+                    <CheckCircle2 className="w-5 h-5 text-accent-emerald" />
+                  </div>
+                  <h3 className="text-text-pure font-medium">{expertise}</h3>
                 </div>
               </Reveal>
             ))}

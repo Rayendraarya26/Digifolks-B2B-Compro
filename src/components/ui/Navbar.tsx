@@ -16,6 +16,7 @@ export function Navbar() {
 
   const navLinks = [
     { name: 'Beranda', href: '/' },
+    { name: 'Tentang Kami', href: '/about' },
     { name: 'Layanan', href: '/services' },
     { name: 'Studi Kasus', href: '/work' },
   ];

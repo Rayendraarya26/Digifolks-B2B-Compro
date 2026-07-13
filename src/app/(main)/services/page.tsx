@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/animations/Reveal";
 import { Button } from "@/components/ui/Button";
-import { Database, LayoutTemplate, Layers, Cpu, Code, Lock, CheckCircle2, ArrowRight } from "lucide-react";
+import { Database, LayoutTemplate, Layers, Cpu, Code, Lock, CheckCircle2, ArrowRight, Smartphone, PenTool, Wrench, Briefcase, Globe } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "Services — Scalable System Development",
@@ -12,82 +12,95 @@ export const metadata: Metadata = {
 const services = [
   {
     id: "01",
-    title: "Custom Web Applications",
-    icon: <LayoutTemplate className="w-10 h-10 text-accent-forest" />,
-    summary: "Sistem manajemen operasional kustom berbasis web yang dirancang untuk memecahkan bottleneck spesifik pada bisnis Anda.",
+    title: "Custom Software Development",
+    icon: <Code className="w-10 h-10 text-accent-forest" />,
+    summary: "Pengembangan sistem perangkat lunak kustom dan scalable yang dirancang khusus untuk memenuhi kebutuhan proses bisnis operasional Anda.",
     details: [
-      "Dashboard analitik real-time untuk monitoring KPI operasional.",
-      "Platform transaksi dan manajemen order dengan workflow kustom.",
-      "Sistem CRM dan ERP terintegrasi yang disesuaikan kebutuhan industri.",
-      "Progressive Web Apps (PWA) untuk akses mobile tanpa instalasi.",
+      "Sistem Enterprise Resource Planning (ERP).",
+      "Customer Relationship Management (CRM).",
+      "Sistem Informasi Manajemen spesifik industri.",
+      "Arsitektur Microservices yang scalable."
     ],
-    tech: ["Next.js", "React", "Node.js", "PostgreSQL", "Redis"],
+    tech: ["Next.js", "Node.js", "PostgreSQL", "Go"],
   },
   {
     id: "02",
-    title: "Cloud Architecture & Infrastructure",
-    icon: <Database className="w-10 h-10 text-accent-forest" />,
-    summary: "Arsitektur serverless dan containerized yang terukur, efisien, serta dioptimasi untuk biaya operasional minimal.",
+    title: "Website Development",
+    icon: <Globe className="w-10 h-10 text-accent-forest" />,
+    summary: "Pembuatan website company profile, e-commerce, hingga web portal dengan performa tinggi dan desain yang modern.",
     details: [
-      "Desain arsitektur microservices dengan Kubernetes orchestration.",
-      "Serverless deployment untuk optimasi biaya dan auto-scaling.",
-      "Multi-region setup dengan automated failover dan disaster recovery.",
-      "Infrastructure as Code (IaC) untuk reproducible environments.",
+      "Company Profile dan Landing Page interaktif.",
+      "Sistem e-commerce terintegrasi payment gateway.",
+      "Portal B2B dengan akses pengguna kustom.",
+      "Optimasi SEO dan performa (Core Web Vitals)."
     ],
-    tech: ["AWS", "GCP", "Docker", "Kubernetes", "Terraform"],
+    tech: ["React", "Next.js", "TailwindCSS", "CMS"],
   },
   {
     id: "03",
-    title: "AI & Data Automation",
-    icon: <Cpu className="w-10 h-10 text-accent-forest" />,
-    summary: "Otomatisasi proses bisnis dan integrasi model AI untuk meningkatkan efisiensi operasional secara signifikan.",
+    title: "Mobile App Development",
+    icon: <Smartphone className="w-10 h-10 text-accent-forest" />,
+    summary: "Pengembangan aplikasi mobile native dan cross-platform untuk iOS dan Android demi jangkauan pengguna yang lebih luas.",
     details: [
-      "Computer vision untuk quality assurance dan deteksi anomali.",
-      "NLP dan chatbot cerdas untuk customer service automation.",
-      "Predictive analytics untuk forecasting dan pengambilan keputusan.",
-      "ETL pipeline dan data warehouse untuk business intelligence.",
+      "Aplikasi iOS dan Android berbasis React Native / Flutter.",
+      "Aplikasi internal untuk produktivitas karyawan.",
+      "Integrasi notifikasi push dan fitur device-native.",
+      "Publikasi dan manajemen App Store & Play Store."
     ],
-    tech: ["Python", "TensorFlow", "OpenAI", "Apache Kafka", "Spark"],
+    tech: ["React Native", "Flutter", "Swift", "Kotlin"],
   },
   {
     id: "04",
-    title: "API & System Integration",
-    icon: <Layers className="w-10 h-10 text-accent-forest" />,
-    summary: "Menghubungkan ekosistem aplikasi terpisah menjadi satu sistem terpusat yang seamless.",
+    title: "AI Development",
+    icon: <Cpu className="w-10 h-10 text-accent-forest" />,
+    summary: "Solusi kecerdasan buatan, machine learning, dan automasi untuk membantu mempercepat proses pengambilan keputusan dan operasional bisnis.",
     details: [
-      "RESTful & GraphQL API design dengan dokumentasi OpenAPI.",
-      "Integrasi payment gateway, shipping, dan third-party services.",
-      "Event-driven architecture untuk real-time data synchronization.",
-      "API gateway dan rate limiting untuk keamanan dan performa.",
+      "AI Chatbot & Virtual Assistant.",
+      "Computer Vision & Object Detection.",
+      "OCR & Document Processing.",
+      "Predictive Analytics & Recommendation System."
     ],
-    tech: ["GraphQL", "REST", "Webhooks", "RabbitMQ", "gRPC"],
+    tech: ["Python", "TensorFlow", "OpenAI", "PyTorch"],
   },
   {
     id: "05",
-    title: "Legacy System Modernization",
-    icon: <Code className="w-10 h-10 text-accent-forest" />,
-    summary: "Refactoring dan migrasi sistem lawas Anda ke teknologi modern tanpa downtime operasional.",
+    title: "UI/UX Design",
+    icon: <PenTool className="w-10 h-10 text-accent-forest" />,
+    summary: "Desain antarmuka pengguna yang intuitif, estetis, dan fungsional untuk pengalaman pengguna yang maksimal.",
     details: [
-      "Assessment dan audit arsitektur sistem existing.",
-      "Strangler fig pattern untuk migrasi bertahap tanpa risiko.",
-      "Database migration dan data transformation pipeline.",
-      "Pelatihan tim internal untuk adopsi teknologi baru.",
+      "Wireframing dan prototyping.",
+      "User research dan usability testing.",
+      "Desain antarmuka modern dan responsif.",
+      "Pembuatan Design System perusahaan."
     ],
-    tech: ["Migration Tools", "CI/CD", "Monitoring", "Testing"],
+    tech: ["Figma", "Adobe XD", "Prototyping Tools"],
   },
   {
     id: "06",
-    title: "Cybersecurity & Compliance",
-    icon: <Lock className="w-10 h-10 text-accent-forest" />,
-    summary: "Audit keamanan komprehensif dan implementasi standar compliance untuk proteksi data enterprise.",
+    title: "Maintenance & Support",
+    icon: <Wrench className="w-10 h-10 text-accent-forest" />,
+    summary: "Dukungan teknis berkelanjutan, pemeliharaan sistem, dan pembaruan keamanan agar sistem Anda selalu berjalan optimal.",
     details: [
-      "Penetration testing dan vulnerability assessment.",
-      "Implementasi standar keamanan (ISO 27001, HIPAA, PCI-DSS).",
-      "Zero-trust architecture dan identity management.",
-      "Security monitoring dan incident response planning.",
+      "Monitoring performa dan uptime server 24/7.",
+      "Pembaruan patch keamanan secara berkala.",
+      "Dukungan teknis responsif dan SLA terjamin.",
+      "Backup data rutin dan pemulihan sistem."
     ],
-    tech: ["OWASP", "OAuth 2.0", "SSO", "WAF", "SIEM"],
+    tech: ["Monitoring", "Cloud Services", "CI/CD"],
   },
+  {
+    id: "07",
+    title: "IT Consulting",
+    icon: <Briefcase className="w-10 h-10 text-accent-forest" />,
+    summary: "Konsultasi strategis untuk transformasi digital, pemilihan teknologi, dan arsitektur IT guna mendukung pertumbuhan bisnis Anda.",
+    details: [
+      "Audit arsitektur sistem existing.",
+      "Perencanaan transformasi digital.",
+      "Pemilihan teknologi dan infrastruktur cloud.",
+      "Konsultasi keamanan siber dan kepatuhan data."
+    ],
+    tech: ["Cloud Strategy", "Architecture", "Security"],
+  }
 ];
 
 export default function ServicesPage() {
