@@ -128,8 +128,8 @@ export default function ContactClient({ dict }: { dict: any }) {
                         type="button"
                         onClick={() => setSelectedBudget(prev => prev === option ? "" : option)}
                         className={`px-4 py-2 text-sm rounded-full transition-all duration-300 border ${isSelected
-                          ? 'bg-accent-forest text-text-pure border-accent-forest font-semibold'
-                          : 'bg-transparent text-text-off-white/70 border-border-flat/20 hover:border-accent-forest hover:text-accent-forest'
+                          ? 'bg-accent-emerald text-navy-base border-accent-emerald font-semibold'
+                          : 'bg-transparent text-text-off-white/70 border-border-flat/20 hover:border-accent-emerald hover:text-accent-emerald'
                           }`}
                       >
                         {option}

@@ -67,12 +67,13 @@ export function Navbar({ dict, lang }: { dict: any; lang: string }) {
 
           {/* Sisi Kanan: Action Hub */}
           <div className="flex items-center gap-4">
-            {/* Language Switcher */}
+            {/* Language Switcher — hidden while only EN is enabled
             <div className="flex gap-2 text-xs font-mono">
               <Link href={pathname.replace(`/${lang}`, '/en')} className={`${lang === 'en' ? 'text-accent-emerald' : 'text-text-muted hover:text-text-pure'}`}>EN</Link>
               <span className="text-border-flat">|</span>
               <Link href={pathname.replace(`/${lang}`, '/id')} className={`${lang === 'id' ? 'text-accent-emerald' : 'text-text-muted hover:text-text-pure'}`}>ID</Link>
             </div>
+            */}
             
             <Link href={`/${lang}/contact`} tabIndex={-1}>
               <Button variant="ghost">

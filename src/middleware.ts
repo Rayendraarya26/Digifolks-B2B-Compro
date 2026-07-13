@@ -4,10 +4,13 @@ import type { NextRequest } from 'next/server';
 const locales = ['en', 'id'];
 const defaultLocale = 'en';
 
+// Locales that are currently enabled (hide 'id' for now)
+const enabledLocales = ['en'];
+
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Cek apakah ada file publik atau resource yang tidak perlu dilokalkan (contoh: gambar, css)
+  // Skip public files, api routes, and Next.js internals
   if (
     pathname.includes('.') || 
     pathname.startsWith('/api') || 
@@ -16,14 +19,26 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Cek jika pathname sudah memuat locale
-  const pathnameHasLocale = locales.some(
+  // Redirect disabled locales (e.g. /id/...) to default locale
+  const disabledLocale = locales.find(
+    (locale) =>
+      !enabledLocales.includes(locale) &&
+      (pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`)
+  );
+  if (disabledLocale) {
+    const newPath = pathname.replace(`/${disabledLocale}`, `/${defaultLocale}`);
+    request.nextUrl.pathname = newPath || `/${defaultLocale}`;
+    return NextResponse.redirect(request.nextUrl);
+  }
+
+  // Check if pathname already has an enabled locale
+  const pathnameHasLocale = enabledLocales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
   if (pathnameHasLocale) return NextResponse.next();
 
-  // Redirect jika belum ada locale (default ke /en)
+  // Redirect to default locale
   request.nextUrl.pathname = `/${defaultLocale}${pathname}`;
   return NextResponse.redirect(request.nextUrl);
 }
