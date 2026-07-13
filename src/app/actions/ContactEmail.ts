@@ -18,7 +18,7 @@ export async function sendLaunchpadEmail(formData: LaunchpadData) {
   try {
     const { name, company, email, service, budget, currency, details } = formData;
     const senderDomain = 'Digifolks System <hello@mail.digifolks.id>';
-    const adminEmail = process.env.ADMIN_EMAIL || 'yahya.idris.dev@gmail.com';
+    const adminEmail = ['digifolkstech@gmail.com', 'marketing@digifolks.id'];
 
     const { data, error } = await resend.batch.send([
       // ==========================================
@@ -26,7 +26,7 @@ export async function sendLaunchpadEmail(formData: LaunchpadData) {
       // ==========================================
       {
         from: senderDomain,
-        to: [adminEmail],
+        to: adminEmail,
         replyTo: email,
         subject: `[NEW MISSION] Launch sequence from ${name} (${company})`,
         html: `
@@ -70,7 +70,7 @@ export async function sendLaunchpadEmail(formData: LaunchpadData) {
       {
         from: senderDomain,
         to: [email], 
-        replyTo: adminEmail, 
+        replyTo: adminEmail[0],
         subject: `Coordinates Received! Welcome aboard, ${name}.`,
         html: `
           <div style="font-family: 'Courier New', Courier, monospace; padding: 40px 20px; background-color: #f4f4f5; color: #000;">

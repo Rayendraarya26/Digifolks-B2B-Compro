@@ -1,10 +1,11 @@
 import type { Metadata, Viewport } from "next";
 import { Plus_Jakarta_Sans, Inter, JetBrains_Mono } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 // import { SmoothScrollProvider } from "@/components/providers/SmoothScrollProvider";
 import Preloader from "@/components/loader/Preloader";
 import TransitionProvider from "@/components/providers/TransitionProvider";
 import { Navbar } from "@/components/ui/Navbar";
+import { getDictionary } from "@/lib/dictionaries";
 
 // Inisialisasi Font
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -83,18 +84,26 @@ export const metadata: Metadata = {
 };
 
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
+  params
 }: Readonly<{
   children: React.ReactNode;
+  params: Promise<{ lang: string }> | { lang: string };
 }>) {
+  // Resolve params if it's a promise (Next.js 15+ best practice)
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+
+  const dict = await getDictionary(lang as 'en' | 'id');
+
   return (
-    <html lang="en" className={`${plusJakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
+    <html lang={lang} className={`${plusJakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="antialiased bg-navy-base text-text-off-white flex flex-col min-h-screen">
         <Preloader />
         {/* <SmoothScrollProvider> */}
         <TransitionProvider />
-        <Navbar />
+        <Navbar dict={dict.navbar} lang={lang} />
         <main className="flex-1">
           {children}
         </main>

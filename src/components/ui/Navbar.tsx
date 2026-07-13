@@ -11,24 +11,30 @@ const AvayxRegular = localFont({
   variable: '--font-avayx',
 });
 
-export function Navbar() {
+export function Navbar({ dict, lang }: { dict: any; lang: string }) {
   const pathname = usePathname();
 
+  // Helper to check if current path matches link
+  const isActive = (path: string) => {
+    if (path === '/' && (pathname === `/${lang}` || pathname === `/${lang}/`)) return true;
+    return pathname.startsWith(`/${lang}${path}`) && path !== '/';
+  };
+
   const navLinks = [
-    { name: 'Beranda', href: '/' },
-    { name: 'Tentang Kami', href: '/about' },
-    { name: 'Layanan', href: '/services' },
-    { name: 'Studi Kasus', href: '/work' },
+    { name: dict.home, href: '/' },
+    // { name: dict.about, href: '/about' },
+    { name: dict.services, href: '/services' },
+    { name: dict.work, href: '/work' },
   ];
 
   return (
     <header className="sticky top-0 z-50 w-full bg-navy-base/80 backdrop-blur-[12px] border-b border-navy-light transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
-          
+
           {/* Sisi Kiri: Brand Anchor */}
           <div className="flex-shrink-0 flex items-center">
-            <Link href="/" className="flex items-center gap-2">
+            <Link href={`/${lang}`} className="flex items-center gap-2">
               <span
                 className={`${AvayxRegular.className} text-2xl text-text-pure uppercase hover:text-accent-emerald transition-colors duration-300`}
                 style={{ letterSpacing: '-0.2em' }}
@@ -41,20 +47,18 @@ export function Navbar() {
           {/* Sisi Tengah: Navigation Links */}
           <nav className="hidden md:flex space-x-8">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href;
+              const active = isActive(link.href);
               return (
                 <Link
                   key={link.name}
-                  href={link.href}
-                  className={`relative text-sm font-medium transition-colors duration-300 ${
-                    isActive ? 'text-accent-emerald' : 'text-text-off-white hover:text-accent-emerald'
-                  } group`}
+                  href={`/${lang}${link.href === '/' ? '' : link.href}`}
+                  className={`relative text-sm font-medium transition-colors duration-300 ${active ? 'text-accent-emerald' : 'text-text-off-white hover:text-accent-emerald'
+                    } group`}
                 >
                   {link.name}
                   <span
-                    className={`absolute left-0 -bottom-1 w-full h-[2px] bg-accent-emerald origin-center transition-transform duration-300 ease-out ${
-                      isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                    }`}
+                    className={`absolute left-0 -bottom-1 w-full h-[2px] bg-accent-emerald origin-center transition-transform duration-300 ease-out ${active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                      }`}
                   ></span>
                 </Link>
               );
@@ -62,10 +66,17 @@ export function Navbar() {
           </nav>
 
           {/* Sisi Kanan: Action Hub */}
-          <div className="flex items-center">
-            <Link href="/contact" tabIndex={-1}>
+          <div className="flex items-center gap-4">
+            {/* Language Switcher */}
+            <div className="flex gap-2 text-xs font-mono">
+              <Link href={pathname.replace(`/${lang}`, '/en')} className={`${lang === 'en' ? 'text-accent-emerald' : 'text-text-muted hover:text-text-pure'}`}>EN</Link>
+              <span className="text-border-flat">|</span>
+              <Link href={pathname.replace(`/${lang}`, '/id')} className={`${lang === 'id' ? 'text-accent-emerald' : 'text-text-muted hover:text-text-pure'}`}>ID</Link>
+            </div>
+            
+            <Link href={`/${lang}/contact`} tabIndex={-1}>
               <Button variant="ghost">
-                Hubungi Kami
+                {dict.contact}
               </Button>
             </Link>
           </div>

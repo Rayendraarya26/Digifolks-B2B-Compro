@@ -1,0 +1,327 @@
+{
+  "navbar": {
+    "home": "Home",
+    "services": "Services",
+    "work": "Case Studies",
+    "contact": "Contact Us"
+  },
+  "footer": {
+    "sitemap": "Sitemap",
+    "contact": "Contact",
+    "rights": "All rights reserved.",
+    "navbar": {
+      "home": "Home",
+      "services": "Services",
+      "work": "Case Studies",
+      "contact": "Contact Us"
+    }
+  },
+  "home": {
+    "hero": {
+      "tag": "Engineering Excellence",
+      "titleLine1": "Engineered for",
+      "titleLine2": "Scale & Stability.",
+      "desc": "We build robust operational systems and enterprise software that reduce complexity, improve reliability, and accelerate your business growth.",
+      "cta1": "Schedule Consultation",
+      "cta2": "View Our Work"
+    },
+    "coreValues": {
+      "title": "Core Values",
+      "desc": "The principles that guide us in every line of code we write and solution we build.",
+      "items": [
+        {
+          "title": "Think Like a Partner",
+          "desc": "We work as a partner, not just a vendor. We understand business goals before writing a single line of code."
+        },
+        {
+          "title": "Build Fast. Build Right.",
+          "desc": "We develop software agilely to accelerate delivery without sacrificing quality, security, or system stability."
+        },
+        {
+          "title": "Solve Problems, Not Just Requirements",
+          "desc": "We don't just develop features, we understand the business process behind them to produce solutions that truly make an impact."
+        },
+        {
+          "title": "Design for Growth",
+          "desc": "Every system is designed to be modular, scalable, and easy to maintain so it can adapt to future business needs."
+        }
+      ]
+    },
+    "services": {
+      "tag": "Our Services",
+      "title": "Our Services",
+      "desc": "Software engineering and infrastructure designed for complex enterprise needs.",
+      "viewAll": "View All Services",
+      "items": [
+        {
+          "title": "Custom Software Development",
+          "desc": "Custom and scalable software system development specifically designed to meet your operational business process needs."
+        },
+        {
+          "title": "AI Development",
+          "desc": "Artificial intelligence, machine learning, and automation solutions to help accelerate business decision making."
+        },
+        {
+          "title": "Website Development",
+          "desc": "Creation of interactive websites, company profiles, e-commerce, to high-performance web portals."
+        }
+      ]
+    },
+    "aiCapabilities": {
+      "title": "AI Capabilities",
+      "desc": "Comprehensive artificial intelligence solutions to transform your business operations.",
+      "categories": [
+        {
+          "title": "Vision & Intelligence",
+          "items": [
+            {
+              "title": "Computer Vision",
+              "desc": "Real-time visual analysis for automated object classification and precise visual data-based monitoring."
+            },
+            {
+              "title": "Object Detection & Counting",
+              "desc": "Accurate detection algorithms for automatically counting and tracking entities in field operations."
+            }
+          ]
+        },
+        {
+          "title": "Data & Insights",
+          "items": [
+            {
+              "title": "Predictive Analytics",
+              "desc": "Leveraging historical data to predict future trends, helping you make evidence-based business decisions."
+            },
+            {
+              "title": "Recommendation System",
+              "desc": "Personalization engine to optimize user experience and increase conversion through smart recommendation systems."
+            }
+          ]
+        },
+        {
+          "title": "Process Automation",
+          "items": [
+            {
+              "title": "AI Chatbot & Virtual Assistant",
+              "desc": "24/7 interaction services capable of understanding context to improve business communication efficiency."
+            },
+            {
+              "title": "OCR & Document Processing",
+              "desc": "Digitization and automated data extraction from physical documents to eliminate manual administrative burdens."
+            },
+            {
+              "title": "Generative AI & Automation",
+              "desc": "Integration of generative models and automated workflows to accelerate operational processes from end to end."
+            }
+          ]
+        }
+      ]
+    },
+    "featuredWork": {
+      "title": "Featured Work",
+      "desc": "How our systems solve operational problems in the field.",
+      "viewAll": "View All Case Studies",
+      "proposalBadge": "Professional Portfolio for Stakeholder Proposals"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "desc": "Common questions about our services and methodology.",
+      "items": [
+        {
+          "q": "How does the collaboration process with Digifolks work?",
+          "a": "We start with a discovery session to deeply understand your operational challenges. Then, we design an architecture blueprint, conduct iterative development (Agile), through to deployment and continuous maintenance."
+        },
+        {
+          "q": "Does Digifolks handle maintenance after the system goes live?",
+          "a": "Yes. We provide enterprise-level SLA (Service Level Agreement) that includes 24/7 monitoring, routine maintenance, and proactive technical support."
+        },
+        {
+          "q": "How long does it typically take to develop a system?",
+          "a": "Development time depends heavily on system complexity. An MVP (Minimum Viable Product) typically takes 3-4 months, while full-scale enterprise systems can take 6-12 months."
+        }
+      ]
+    },
+    "cta": {
+      "titleLine1": "Ready to Build a System",
+      "titleLine2": "that Actually Works?",
+      "desc": "Schedule a free discovery session with our engineering team. We'll help you design the right architecture blueprint for your business challenges.",
+      "cta1": "Schedule Free Consultation",
+      "cta2": "View Portfolio"
+    }
+  },
+  "services": {
+    "hero": {
+      "tag": "What We Do",
+      "titleLine1": "Our",
+      "titleAccent": "Engineering",
+      "titleLine2": "Services",
+      "desc": "We don't just build applications. We design end-to-end operational system architectures that guarantee scalability, stability, and enterprise-level performance."
+    },
+    "items": [
+      {
+        "title": "Custom Software Development",
+        "summary": "Custom and scalable software system development specifically designed to meet your operational business process needs.",
+        "details": [
+          "Enterprise Resource Planning (ERP) systems.",
+          "Customer Relationship Management (CRM).",
+          "Industry-specific Management Information Systems.",
+          "Scalable Microservices architecture."
+        ]
+      },
+      {
+        "title": "Website Development",
+        "summary": "Building high-performance company profile websites, e-commerce platforms, and web portals with modern design.",
+        "details": [
+          "Interactive Company Profile and Landing Pages.",
+          "E-commerce system integrated with payment gateway.",
+          "B2B Portal with custom user access.",
+          "SEO and performance optimization (Core Web Vitals)."
+        ]
+      },
+      {
+        "title": "Mobile App Development",
+        "summary": "Native and cross-platform mobile application development for iOS and Android to reach a wider audience.",
+        "details": [
+          "iOS and Android apps built with React Native / Flutter.",
+          "Internal apps for employee productivity.",
+          "Push notification integration and device-native features.",
+          "App Store & Play Store publishing and management."
+        ]
+      },
+      {
+        "title": "AI Development",
+        "summary": "Artificial intelligence, machine learning, and automation solutions to accelerate business decision-making and operations.",
+        "details": [
+          "AI Chatbot & Virtual Assistant.",
+          "Computer Vision & Object Detection.",
+          "OCR & Document Processing.",
+          "Predictive Analytics & Recommendation System."
+        ]
+      },
+      {
+        "title": "UI/UX Design",
+        "summary": "Intuitive, aesthetic, and functional user interface design for maximum user experience.",
+        "details": [
+          "Wireframing and prototyping.",
+          "User research and usability testing.",
+          "Modern and responsive interface design.",
+          "Company Design System creation."
+        ]
+      },
+      {
+        "title": "Maintenance & Support",
+        "summary": "Continuous technical support, system maintenance, and security updates to keep your system running optimally.",
+        "details": [
+          "24/7 performance and server uptime monitoring.",
+          "Regular security patch updates.",
+          "Responsive technical support with guaranteed SLA.",
+          "Routine data backup and system recovery."
+        ]
+      },
+      {
+        "title": "IT Consulting",
+        "summary": "Strategic consulting for digital transformation, technology selection, and IT architecture to support your business growth.",
+        "details": [
+          "Existing system architecture audit.",
+          "Digital transformation planning.",
+          "Cloud technology and infrastructure selection.",
+          "Cybersecurity and data compliance consulting."
+        ]
+      }
+    ],
+    "cta": {
+      "titleLine1": "Need a",
+      "titleAccent": "Specific",
+      "titleLine2": "Solution?",
+      "desc": "Every business has unique challenges. Contact us to discuss how we can design the right solution for your needs.",
+      "cta": "Schedule Free Consultation"
+    }
+  },
+  "about": {
+    "hero": {
+      "tag": "About Us",
+      "titleLine1": "End-to-End",
+      "titleAccent": "Digital Transformation",
+      "titleLine2": "for Your Business",
+      "desc": "Digifolks is a technology company focused on developing end-to-end digital solutions. We help companies transform their business processes through website development, applications, artificial intelligence, enterprise systems, and technology integration tailored to business needs."
+    },
+    "stats": {
+      "founded": "Founded",
+      "projects": "Projects Completed",
+      "industries": "Industries",
+      "coreServices": "Core Services"
+    },
+    "focus": {
+      "title": "Our Focus",
+      "desc": "Our areas of specialization in delivering technology solutions."
+    },
+    "coreValues": {
+      "title": "Core Values",
+      "desc": "The principles that guide us in every line of code we write and solution we build.",
+      "items": [
+        {
+          "title": "Think Like a Partner",
+          "desc": "We work as a partner, not just a vendor. We understand business goals before writing a single line of code."
+        },
+        {
+          "title": "Build Fast. Build Right.",
+          "desc": "We develop software agilely to accelerate delivery without sacrificing quality, security, or system stability."
+        },
+        {
+          "title": "Solve Problems, Not Just Requirements",
+          "desc": "We don't just develop features, we understand the business process behind them to produce solutions that truly make an impact."
+        },
+        {
+          "title": "Design for Growth",
+          "desc": "Every system is designed to be modular, scalable, and easy to maintain so it can adapt to future business needs."
+        }
+      ]
+    },
+    "expertise": {
+      "title": "AI Capabilities & Expertise",
+      "desc": "Our specific expertise in delivering future-ready solutions."
+    },
+    "cta": {
+      "titleLine1": "Ready to Start",
+      "titleAccent": "Digital Transformation?",
+      "desc": "Schedule a consultation with us to discuss your system needs and company digitalization strategy.",
+      "cta1": "Schedule Consultation",
+      "cta2": "Explore Our Services"
+    }
+  },
+  "work": {
+    "hero": {
+      "titleLine1": "Real Systems.",
+      "titleLine2": "Real Impact.",
+      "desc": "We collaborate with enterprises to solve operational complexity through precision software engineering.",
+      "proposalBadge": "Professional Portfolio for Stakeholder Proposals"
+    }
+  },
+  "contact": {
+    "hero": {
+      "titleLine1": "Let's Build",
+      "titleLine2": "Something Solid.",
+      "desc": "Tell us about your operational challenges. Our engineering team will design a scalable and efficient architecture solution."
+    },
+    "form": {
+      "lookingFor": "What are you looking for?",
+      "categories": [
+        "Custom Management System",
+        "AI Automation",
+        "IT Infrastructure Consulting",
+        "Cloud Migration",
+        "Legacy Modernization",
+        "Other"
+      ],
+      "name": "Full Name *",
+      "email": "Email *",
+      "message": "Project Details *",
+      "submit": "Send Request"
+    },
+    "info": {
+      "directContact": "Direct Contact",
+      "headquarters": "Headquarters",
+      "hqAddress": "Yogyakarta, Indonesia",
+      "hqLabel": "Tech & Engineering Hub"
+    }
+  }
+}

@@ -3,18 +3,12 @@
 import { useState } from "react";
 import { Reveal } from "@/components/animations/Reveal";
 import { Button } from "@/components/ui/Button";
+import { sendLaunchpadEmail } from "@/app/actions/ContactEmail";
 
-const projectCategories = [
-  "Custom Management System",
-  "AI Automation",
-  "IT Infrastructure Consulting",
-  "Cloud Migration",
-  "Legacy Modernization",
-  "Other"
-];
-
-export default function ContactPage() {
+export default function ContactClient({ dict }: { dict: any }) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev =>
@@ -24,6 +18,39 @@ export default function ContactPage() {
     );
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    setStatus("idle");
+
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
+    const email = formData.get("email") as string;
+    const message = formData.get("message") as string;
+
+    try {
+      await sendLaunchpadEmail({
+        name,
+        company: "Not Provided",
+        email,
+        service: selectedCategories.length > 0 ? selectedCategories.join(", ") : "Not Provided",
+        budget: "Not Provided",
+        currency: "IDR",
+        details: message,
+      });
+      setStatus("success");
+      (e.target as HTMLFormElement).reset();
+      setSelectedCategories([]);
+    } catch (error) {
+      console.error(error);
+      setStatus("error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const t = dict.contact;
+
   return (
     <div className="flex w-full flex-col min-h-screen bg-navy-base pt-32 pb-24 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-96 h-96 bg-accent-emerald/5 rounded-full blur-[100px] pointer-events-none" />
@@ -31,22 +58,22 @@ export default function ContactPage() {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
         <Reveal>
           <div className="mb-16">
-            <h1 className="text-4xl md:text-6xl font-bold text-text-pure mb-6">Let's Build <br />Something Solid.</h1>
+            <h1 className="text-4xl md:text-6xl font-bold text-text-pure mb-6">{t.hero.titleLine1} <br />{t.hero.titleLine2}</h1>
             <p className="text-xl text-text-off-white max-w-2xl">
-              Ceritakan tantangan operasional Anda. Tim engineer kami akan merancang solusi arsitektur yang terukur dan efisien.
+              {t.hero.desc}
             </p>
           </div>
         </Reveal>
 
         <Reveal delay={0.1}>
           <div className="bg-navy-light border border-border-flat/10 rounded-2xl p-8 md:p-12 shadow-lg">
-            <form className="space-y-12">
+            <form onSubmit={handleSubmit} className="space-y-12">
 
               {/* Project Categories */}
               <div>
-                <label className="block text-sm font-bold text-text-pure mb-4 uppercase tracking-wider">What are you looking for?</label>
+                <label className="block text-sm font-bold text-text-pure mb-4 uppercase tracking-wider">{t.form.lookingFor}</label>
                 <div className="flex flex-wrap gap-3">
-                  {projectCategories.map((cat) => {
+                  {t.form.categories.map((cat: string) => {
                     const isSelected = selectedCategories.includes(cat);
                     return (
                       <button
@@ -70,6 +97,7 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                   <div className="relative group">
                     <input
+                      name="name"
                       type="text"
                       id="name"
                       className="w-full bg-transparent border-b border-border-flat/30 py-3 px-0 text-text-pure focus:outline-none focus:border-accent-emerald transition-colors peer placeholder-transparent"
@@ -77,11 +105,12 @@ export default function ContactPage() {
                       required
                     />
                     <label htmlFor="name" className="absolute left-0 top-3 text-text-off-white/50 transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent-emerald peer-valid:-top-4 peer-valid:text-xs">
-                      Full Name *
+                      {t.form.name}
                     </label>
                   </div>
                   <div className="relative group">
                     <input
+                      name="email"
                       type="email"
                       id="email"
                       className="w-full bg-transparent border-b border-border-flat/30 py-3 px-0 text-text-pure focus:outline-none focus:border-accent-emerald transition-colors peer placeholder-transparent"
@@ -89,13 +118,14 @@ export default function ContactPage() {
                       required
                     />
                     <label htmlFor="email" className="absolute left-0 top-3 text-text-off-white/50 transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent-emerald peer-valid:-top-4 peer-valid:text-xs">
-                      Email *
+                      {t.form.email}
                     </label>
                   </div>
                 </div>
 
                 <div className="relative group">
                   <textarea
+                    name="message"
                     id="message"
                     rows={4}
                     className="w-full bg-transparent border-b border-border-flat/30 py-3 px-0 text-text-pure focus:outline-none focus:border-accent-emerald transition-colors peer placeholder-transparent resize-none"
@@ -103,14 +133,18 @@ export default function ContactPage() {
                     required
                   ></textarea>
                   <label htmlFor="message" className="absolute left-0 top-3 text-text-off-white/50 transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-accent-emerald peer-valid:-top-4 peer-valid:text-xs">
-                    Project Details *
+                    {t.form.message}
                   </label>
                 </div>
               </div>
 
-              <Button size="lg" type="submit" className="w-full md:w-auto">
-                Send Request
-              </Button>
+              <div className="flex items-center gap-4">
+                <Button size="lg" type="submit" disabled={loading} className="w-full md:w-auto disabled:opacity-50">
+                  {loading ? 'Sending...' : t.form.submit}
+                </Button>
+                {status === "success" && <span className="text-accent-emerald text-sm">Message sent successfully!</span>}
+                {status === "error" && <span className="text-red-500 text-sm">Failed to send message. Please try again.</span>}
+              </div>
             </form>
           </div>
         </Reveal>
@@ -119,7 +153,7 @@ export default function ContactPage() {
         <Reveal delay={0.2}>
           <div className="mt-16 pt-8 border-t border-border-flat/10 grid grid-cols-1 md:grid-cols-2 gap-8">
             <div>
-              <h4 className="text-sm font-bold text-text-pure mb-2 uppercase tracking-wider">Direct Contact</h4>
+              <h4 className="text-sm font-bold text-text-pure mb-2 uppercase tracking-wider">{t.info.directContact}</h4>
               <a href="mailto:digifolkstech@gmail.com" className="text-lg text-accent-emerald hover:underline">
                 digifolkstech@gmail.com
               </a>
@@ -129,10 +163,10 @@ export default function ContactPage() {
               </a>
             </div>
             <div>
-              <h4 className="text-sm font-bold text-text-pure mb-2 uppercase tracking-wider">Headquarters</h4>
+              <h4 className="text-sm font-bold text-text-pure mb-2 uppercase tracking-wider">{t.info.headquarters}</h4>
               <p className="text-text-off-white/70 leading-relaxed">
-                Yogyakarta, Indonesia<br />
-                Tech & Engineering Hub
+                {t.info.hqAddress}<br />
+                {t.info.hqLabel}
               </p>
             </div>
           </div>

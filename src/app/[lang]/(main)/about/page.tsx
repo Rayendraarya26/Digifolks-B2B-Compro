@@ -3,13 +3,45 @@ import { Reveal } from "@/components/animations/Reveal";
 import { Users, Rocket, Lightbulb, TrendingUp, CheckCircle2, ArrowRight, Building2, Briefcase, FileCode2, LineChart, Globe } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
+import { getDictionary } from "@/lib/dictionaries";
 
 export const metadata: Metadata = {
   title: "About Us — Digifolks",
   description: "Digifolks merupakan perusahaan teknologi yang berfokus pada pengembangan solusi digital end-to-end.",
 };
 
-export default function AboutPage() {
+const focusIcons = [
+  <Globe key="globe" className="w-8 h-8 text-accent-emerald mb-4" />,
+  <Building2 key="building" className="w-8 h-8 text-accent-emerald mb-4" />,
+  <Lightbulb key="lightbulb" className="w-8 h-8 text-accent-emerald mb-4" />,
+  <LineChart key="linechart" className="w-8 h-8 text-accent-emerald mb-4" />
+];
+
+const valuesIcons = [
+  <Users key="users" className="w-8 h-8 text-accent-emerald mb-6" />,
+  <Rocket key="rocket" className="w-8 h-8 text-accent-emerald mb-6" />,
+  <Lightbulb key="lightbulb" className="w-8 h-8 text-accent-emerald mb-6" />,
+  <TrendingUp key="trendingup" className="w-8 h-8 text-accent-emerald mb-6" />
+];
+
+const expertiseList = [
+  "AI Chatbot & Virtual Assistant",
+  "Computer Vision",
+  "Object Detection & Counting",
+  "OCR & Document Processing",
+  "Recommendation System",
+  "Predictive Analytics",
+  "Generative AI",
+  "AI Automation"
+];
+
+export default async function AboutPage({ params }: { params: Promise<{ lang: string }> | { lang: string } }) {
+  const resolvedParams = await params;
+  const lang = (resolvedParams?.lang || 'en') as 'en' | 'id';
+  const dict = await getDictionary(lang);
+  const t = dict.about;
+  const prefix = `/${lang}`;
+
   return (
     <div className="flex w-full flex-col min-h-screen bg-navy-base">
       {/* Hero Section */}
@@ -19,13 +51,13 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-light text-text-off-white font-mono text-xs mb-6 border border-border-flat/10 uppercase tracking-widest">
-              Tentang Kami
+              {t.hero.tag}
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-text-pure mb-6 max-w-4xl leading-tight">
-              Transformasi Digital <span className="text-accent-emerald">End-to-End</span> untuk Bisnis Anda
+              {t.hero.titleLine1} <span className="text-accent-emerald">{t.hero.titleAccent}</span> {t.hero.titleLine2}
             </h1>
             <p className="text-xl text-text-off-white max-w-3xl leading-relaxed">
-              Digifolks merupakan perusahaan teknologi yang berfokus pada pengembangan solusi digital end-to-end. Kami membantu perusahaan mentransformasikan proses bisnis melalui pengembangan website, aplikasi, artificial intelligence, enterprise system, dan integrasi teknologi yang disesuaikan dengan kebutuhan bisnis.
+              {t.hero.desc}
             </p>
           </Reveal>
         </div>
@@ -38,25 +70,25 @@ export default function AboutPage() {
             <Reveal delay={0.1}>
               <div className="text-center p-6">
                 <div className="text-5xl font-bold text-navy-base mb-2">2026</div>
-                <p className="text-text-muted font-mono uppercase tracking-wider text-sm">Founded</p>
+                <p className="text-text-muted font-mono uppercase tracking-wider text-sm">{t.stats.founded}</p>
               </div>
             </Reveal>
             <Reveal delay={0.2}>
               <div className="text-center p-6">
                 <div className="text-5xl font-bold text-navy-base mb-2">10+</div>
-                <p className="text-text-muted font-mono uppercase tracking-wider text-sm">Projects Completed</p>
+                <p className="text-text-muted font-mono uppercase tracking-wider text-sm">{t.stats.projects}</p>
               </div>
             </Reveal>
             <Reveal delay={0.3}>
               <div className="text-center p-6">
                 <div className="text-5xl font-bold text-navy-base mb-2">5</div>
-                <p className="text-text-muted font-mono uppercase tracking-wider text-sm">Industries</p>
+                <p className="text-text-muted font-mono uppercase tracking-wider text-sm">{t.stats.industries}</p>
               </div>
             </Reveal>
             <Reveal delay={0.4}>
               <div className="text-center p-6">
                 <div className="text-5xl font-bold text-navy-base mb-2">7</div>
-                <p className="text-text-muted font-mono uppercase tracking-wider text-sm">Core Services</p>
+                <p className="text-text-muted font-mono uppercase tracking-wider text-sm">{t.stats.coreServices}</p>
               </div>
             </Reveal>
           </div>
@@ -68,21 +100,21 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal>
             <div className="mb-16 text-center">
-              <h2 className="text-3xl font-bold text-text-pure mb-4">Our Focus</h2>
-              <p className="text-text-off-white max-w-2xl mx-auto text-lg">Area spesialisasi kami dalam memberikan solusi teknologi.</p>
+              <h2 className="text-3xl font-bold text-text-pure mb-4">{t.focus.title}</h2>
+              <p className="text-text-off-white max-w-2xl mx-auto text-lg">{t.focus.desc}</p>
             </div>
           </Reveal>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { title: "Digital Transformation", icon: <Globe className="w-8 h-8 text-accent-emerald mb-4" /> },
-              { title: "Enterprise Software", icon: <Building2 className="w-8 h-8 text-accent-emerald mb-4" /> },
-              { title: "Artificial Intelligence", icon: <Lightbulb className="w-8 h-8 text-accent-emerald mb-4" /> },
-              { title: "Cloud Technology", icon: <LineChart className="w-8 h-8 text-accent-emerald mb-4" /> }
+              { title: "Digital Transformation" },
+              { title: "Enterprise Software" },
+              { title: "Artificial Intelligence" },
+              { title: "Cloud Technology" }
             ].map((item, i) => (
               <Reveal key={i} delay={0.1 * i}>
                 <div className="p-8 h-full bg-navy-light/30 border border-border-flat/20 rounded-2xl text-center hover:border-accent-emerald/50 transition-all duration-300">
-                  <div className="flex justify-center">{item.icon}</div>
+                  <div className="flex justify-center">{focusIcons[i]}</div>
                   <h3 className="text-xl font-bold text-text-pure">{item.title}</h3>
                 </div>
               </Reveal>
@@ -96,37 +128,16 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal>
             <div className="mb-16 text-center">
-              <h2 className="text-3xl font-bold text-navy-base mb-4">Core Values</h2>
-              <p className="text-text-muted max-w-2xl mx-auto text-lg">Prinsip yang memandu kami dalam setiap baris kode yang kami tulis dan solusi yang kami bangun.</p>
+              <h2 className="text-3xl font-bold text-navy-base mb-4">{t.coreValues.title}</h2>
+              <p className="text-text-muted max-w-2xl mx-auto text-lg">{t.coreValues.desc}</p>
             </div>
           </Reveal>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                icon: <Users className="w-8 h-8 text-accent-emerald mb-6" />,
-                title: "Think Like a Partner",
-                desc: "Kami bekerja sebagai partner, bukan sekadar vendor. Kami memahami tujuan bisnis sebelum menulis satu baris kode."
-              },
-              {
-                icon: <Rocket className="w-8 h-8 text-accent-emerald mb-6" />,
-                title: "Build Fast. Build Right.",
-                desc: "Kami mengembangkan software secara agile untuk mempercepat delivery tanpa mengorbankan kualitas, keamanan, maupun stabilitas sistem."
-              },
-              {
-                icon: <Lightbulb className="w-8 h-8 text-accent-emerald mb-6" />,
-                title: "Solve Problems, Not Just Requirements",
-                desc: "Kami tidak hanya mengembangkan fitur, tetapi memahami proses bisnis di baliknya untuk menghasilkan solusi yang benar-benar memberikan dampak."
-              },
-              {
-                icon: <TrendingUp className="w-8 h-8 text-accent-emerald mb-6" />,
-                title: "Design for Growth",
-                desc: "Setiap sistem dirancang modular, scalable, dan mudah dipelihara sehingga mampu beradaptasi dengan kebutuhan bisnis di masa depan."
-              }
-            ].map((item, i) => (
+            {t.coreValues.items.map((item: { title: string; desc: string }, i: number) => (
               <Reveal key={i} delay={0.1 * (i + 1)}>
                 <div className="p-8 h-full bg-bg-pure border border-border-flat rounded-2xl relative hover:border-accent-forest/30 transition-all duration-300 shadow-lg">
-                  {item.icon}
+                  {valuesIcons[i]}
                   <h3 className="text-xl font-bold text-navy-base mb-3">{item.title}</h3>
                   <p className="text-text-muted leading-relaxed text-sm">{item.desc}</p>
                 </div>
@@ -141,22 +152,13 @@ export default function AboutPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal>
             <div className="mb-16 text-center">
-              <h2 className="text-3xl font-bold text-text-pure mb-4">AI Capabilities & Expertise</h2>
-              <p className="text-text-off-white max-w-2xl mx-auto text-lg">Keahlian spesifik kami dalam menghadirkan solusi masa depan.</p>
+              <h2 className="text-3xl font-bold text-text-pure mb-4">{t.expertise.title}</h2>
+              <p className="text-text-off-white max-w-2xl mx-auto text-lg">{t.expertise.desc}</p>
             </div>
           </Reveal>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              "AI Chatbot & Virtual Assistant",
-              "Computer Vision",
-              "Object Detection & Counting",
-              "OCR & Document Processing",
-              "Recommendation System",
-              "Predictive Analytics",
-              "Generative AI",
-              "AI Automation"
-            ].map((expertise, i) => (
+            {expertiseList.map((expertise, i) => (
               <Reveal key={i} delay={0.05 * i}>
                 <div className="flex items-center gap-4 p-5 bg-navy-light/30 border border-border-flat/20 rounded-xl hover:border-accent-emerald/50 hover:bg-navy-light/50 transition-all duration-300">
                   <div className="w-10 h-10 rounded-lg bg-accent-emerald/10 flex items-center justify-center flex-shrink-0">
@@ -177,21 +179,21 @@ export default function AboutPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <Reveal>
             <h2 className="text-3xl md:text-5xl font-bold text-text-pure mb-6 leading-tight">
-              Siap Memulai <span className="text-accent-emerald">Transformasi Digital?</span>
+              {t.cta.titleLine1} <span className="text-accent-emerald">{t.cta.titleAccent}</span>
             </h2>
             <p className="text-text-off-white text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
-              Jadwalkan konsultasi dengan kami untuk mendiskusikan kebutuhan sistem dan strategi digitalisasi perusahaan Anda.
+              {t.cta.desc}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact" tabIndex={-1}>
+              <Link href={`${prefix}/contact`} tabIndex={-1}>
                 <Button size="lg" className="px-8">
-                  Jadwalkan Konsultasi
+                  {t.cta.cta1}
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
-              <Link href="/services" tabIndex={-1}>
+              <Link href={`${prefix}/services`} tabIndex={-1}>
                 <Button size="lg" variant="ghost" className="px-8">
-                  Pelajari Layanan Kami
+                  {t.cta.cta2}
                 </Button>
               </Link>
             </div>

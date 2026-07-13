@@ -2,10 +2,12 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { Reveal } from "@/components/animations/Reveal";
-import { ChevronDown, ArrowRight, Code, Server, Shield, LayoutTemplate, Database, Cpu, ArrowUpRight, Users, Rocket, Lightbulb, TrendingUp, CheckCircle2 } from "lucide-react";
+import { AiCapabilities } from "@/components/ui/AiCapabilities";
+import { ChevronDown, ArrowRight, Code, Server, Shield, LayoutTemplate, Database, Cpu, ArrowUpRight, Users, Rocket, Lightbulb, TrendingUp, CheckCircle2, Globe } from "lucide-react";
 import fs from "fs";
 import path from "path";
 import { portfolioData } from "@/data/portfolio";
+import { getDictionary } from "@/lib/dictionaries";
 
 // Helper for dynamic cover image resolution
 const getCoverImage = (slug: string) => {
@@ -24,7 +26,13 @@ export const metadata: Metadata = {
   description: "We design and develop scalable systems that reduce operational complexity, improve reliability, and support long-term business growth. Talk to our team today.",
 };
 
-export default function Home() {
+export default async function Home({ params }: { params: Promise<{ lang: string }> | { lang: string } }) {
+  const resolvedParams = await params;
+  const lang = (resolvedParams?.lang || 'en') as 'en' | 'id';
+  const dict = await getDictionary(lang);
+  const t = dict.home;
+  const prefix = `/${lang}`;
+
   return (
     <div className="flex w-full flex-col bg-navy-base">
       {/* Hero Section */}
@@ -38,26 +46,26 @@ export default function Home() {
               <Reveal>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-light text-text-off-white font-mono text-sm mb-6 border border-border-flat/20">
                   <span className="w-2 h-2 rounded-full bg-accent-emerald animate-pulse" />
-                  Engineering Excellence
+                  {t.hero.tag}
                 </div>
                 <h1 className="text-5xl md:text-7xl font-bold text-text-pure leading-tight mb-6 tracking-tight">
-                  Engineered for <br />
-                  <span className="text-accent-emerald">Scale & Stability.</span>
+                  {t.hero.titleLine1} <br />
+                  <span className="text-accent-emerald">{t.hero.titleLine2}</span>
                 </h1>
               </Reveal>
               <Reveal delay={0.1}>
                 <p className="text-xl text-text-off-white mb-8 max-w-2xl leading-relaxed">
-                  We build robust operational systems and enterprise software that reduce complexity, improve reliability, and accelerate your business growth.
+                  {t.hero.desc}
                 </p>
               </Reveal>
               <Reveal delay={0.2}>
                 <div className="flex flex-wrap gap-4">
-                  <Link href="/contact" tabIndex={-1}>
-                    <Button size="lg">Jadwalkan Konsultasi</Button>
+                  <Link href={`${prefix}/contact`} tabIndex={-1}>
+                    <Button size="lg">{t.hero.cta1}</Button>
                   </Link>
-                  <Link href="/work" tabIndex={-1}>
+                  <Link href={`${prefix}/work`} tabIndex={-1}>
                     <Button size="lg" variant="ghost" className="group">
-                      Lihat Hasil Kerja <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+                      {t.hero.cta2} <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
                     </Button>
                   </Link>
                 </div>
@@ -97,39 +105,23 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal>
             <div className="mb-16 text-center">
-              <h2 className="text-3xl font-bold text-navy-base mb-4">Core Values</h2>
-              <p className="text-text-muted max-w-2xl mx-auto text-lg">Prinsip yang memandu kami dalam setiap baris kode yang kami tulis dan solusi yang kami bangun.</p>
+              <h2 className="text-3xl font-bold text-navy-base mb-4">{t.coreValues.title}</h2>
+              <p className="text-text-muted max-w-2xl mx-auto text-lg">{t.coreValues.desc}</p>
             </div>
           </Reveal>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              {
-                icon: <Users className="w-8 h-8 text-accent-emerald mb-6" />,
-                title: "Think Like a Partner",
-                desc: "Kami bekerja sebagai partner, bukan sekadar vendor. Kami memahami tujuan bisnis sebelum menulis satu baris kode."
-              },
-              {
-                icon: <Rocket className="w-8 h-8 text-accent-emerald mb-6" />,
-                title: "Build Fast. Build Right.",
-                desc: "Kami mengembangkan software secara agile untuk mempercepat delivery tanpa mengorbankan kualitas, keamanan, maupun stabilitas sistem."
-              },
-              {
-                icon: <Lightbulb className="w-8 h-8 text-accent-emerald mb-6" />,
-                title: "Solve Problems, Not Just Requirements",
-                desc: "Kami tidak hanya mengembangkan fitur, tetapi memahami proses bisnis di baliknya untuk menghasilkan solusi yang benar-benar memberikan dampak."
-              },
-              {
-                icon: <TrendingUp className="w-8 h-8 text-accent-emerald mb-6" />,
-                title: "Design for Growth",
-                desc: "Setiap sistem dirancang modular, scalable, dan mudah dipelihara sehingga mampu beradaptasi dengan kebutuhan bisnis di masa depan."
-              }
-            ].map((item, i) => (
+              { icon: <Users className="w-8 h-8 text-accent-emerald mb-6" /> },
+              { icon: <Rocket className="w-8 h-8 text-accent-emerald mb-6" /> },
+              { icon: <Lightbulb className="w-8 h-8 text-accent-emerald mb-6" /> },
+              { icon: <TrendingUp className="w-8 h-8 text-accent-emerald mb-6" /> }
+            ].map((iconItem, i) => (
               <Reveal key={i} delay={0.1 * (i + 1)}>
                 <div className="p-8 h-full bg-bg-pure border border-border-flat rounded-2xl relative hover:border-accent-forest/30 transition-all duration-300 shadow-lg">
-                  {item.icon}
-                  <h3 className="text-xl font-bold text-navy-base mb-3">{item.title}</h3>
-                  <p className="text-text-muted leading-relaxed text-sm">{item.desc}</p>
+                  {iconItem.icon}
+                  <h3 className="text-xl font-bold text-navy-base mb-3">{t.coreValues.items[i].title}</h3>
+                  <p className="text-text-muted leading-relaxed text-sm">{t.coreValues.items[i].desc}</p>
                 </div>
               </Reveal>
             ))}
@@ -137,39 +129,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Our Expertise Section */}
-      <section className="py-24 bg-navy-base text-text-pure relative border-b border-border-flat/10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-          <Reveal>
-            <div className="mb-16 text-center">
-              <h2 className="text-3xl font-bold text-text-pure mb-4">Our Expertise</h2>
-              <p className="text-text-off-white max-w-2xl mx-auto text-lg">Keahlian kami dalam teknologi terdepan untuk menghadirkan solusi inovatif.</p>
-            </div>
-          </Reveal>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              "AI Chatbot & Virtual Assistant",
-              "Computer Vision",
-              "Object Detection & Counting",
-              "OCR & Document Processing",
-              "Recommendation System",
-              "Predictive Analytics",
-              "Generative AI",
-              "AI Automation"
-            ].map((expertise, i) => (
-              <Reveal key={i} delay={0.05 * i}>
-                <div className="flex items-center gap-4 p-5 bg-navy-light/30 border border-border-flat/20 rounded-xl hover:border-accent-emerald/50 hover:bg-navy-light/50 transition-all duration-300">
-                  <div className="w-10 h-10 rounded-lg bg-accent-emerald/10 flex items-center justify-center flex-shrink-0">
-                    <CheckCircle2 className="w-5 h-5 text-accent-emerald" />
-                  </div>
-                  <h3 className="text-text-pure font-medium">{expertise}</h3>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Layanan Section — Bento-style */}
       <section className="py-24 bg-navy-base text-text-pure relative overflow-hidden border-t border-b border-border-flat/10">
@@ -180,13 +140,13 @@ export default function Home() {
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
               <div>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-emerald/10 text-accent-emerald font-mono text-xs mb-4 border border-accent-emerald/20 uppercase tracking-widest">
-                  Our Services
+                  {t.services.tag}
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold text-text-pure mb-4">Layanan Kami</h2>
-                <p className="text-text-off-white max-w-xl text-lg">Infrastruktur dan rekayasa perangkat lunak yang dirancang untuk kebutuhan enterprise yang kompleks.</p>
+                <h2 className="text-3xl md:text-4xl font-bold text-text-pure mb-4">{t.services.title}</h2>
+                <p className="text-text-off-white max-w-xl text-lg">{t.services.desc}</p>
               </div>
-              <Link href="/services" className="inline-flex items-center text-accent-emerald hover:text-text-pure transition-colors font-medium group">
-                Lihat Semua Layanan <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
+              <Link href={`${prefix}/services`} className="inline-flex items-center text-accent-emerald hover:text-text-pure transition-colors font-medium group">
+                {t.services.viewAll} <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
           </Reveal>
@@ -196,18 +156,18 @@ export default function Home() {
             <div className="grid md:grid-cols-12 gap-4">
               {/* Large Card */}
               <div className="md:col-span-7">
-                <Link href="/services" className="group block h-full">
+                <Link href={`${prefix}/services`} className="group block h-full">
                   <div className="relative h-full bg-navy-base border border-border-flat/10 rounded-2xl p-8 md:p-10 overflow-hidden hover:border-accent-emerald transition-all duration-500">
                     <div className="absolute top-6 right-6 w-20 h-20 border border-accent-emerald/20 rounded-full group-hover:scale-150 transition-transform duration-700" />
                     <div className="absolute -bottom-8 -right-8 w-40 h-40 bg-accent-emerald/10 rounded-full blur-2xl" />
                     <div className="relative z-10">
                       <div className="text-6xl md:text-7xl font-bold text-accent-emerald mb-4">01</div>
-                      <LayoutTemplate className="w-10 h-10 text-accent-emerald mb-4" />
-                      <h3 className="text-2xl md:text-3xl font-bold mb-3 text-text-pure">Custom Web Applications</h3>
-                      <p className="text-text-off-white text-lg max-w-lg leading-relaxed">Sistem manajemen operasional kustom berbasis web yang dirancang untuk memecahkan bottleneck spesifik pada bisnis Anda.</p>
+                      <Code className="w-10 h-10 text-accent-emerald mb-4" />
+                      <h3 className="text-2xl md:text-3xl font-bold mb-3 text-text-pure">{t.services.items[0].title}</h3>
+                      <p className="text-text-off-white text-lg max-w-lg leading-relaxed">{t.services.items[0].desc}</p>
 
                       <div className="mt-8 flex gap-2">
-                        {['React', 'Next.js', 'Node.js'].map(tag => (
+                        {['Next.js', 'Node.js', 'PostgreSQL'].map(tag => (
                           <span key={tag} className="px-3 py-1 bg-[#1e293b]/50 text-text-pure text-sm rounded-md border border-border-flat/10">{tag}</span>
                         ))}
                       </div>
@@ -218,27 +178,27 @@ export default function Home() {
 
               {/* Right column */}
               <div className="md:col-span-5 grid gap-4">
-                <Link href="/services" className="group block">
+                <Link href={`${prefix}/services`} className="group block h-full">
                   <div className="relative h-full bg-navy-base border border-border-flat/10 rounded-2xl p-8 overflow-hidden hover:border-accent-emerald transition-all duration-500">
                     <div className="absolute top-4 right-4 text-5xl font-bold text-accent-emerald">02</div>
-                    <Database className="w-9 h-9 text-accent-emerald mb-4" />
-                    <h3 className="text-xl font-bold mb-2 text-text-pure">Cloud Architecture</h3>
-                    <p className="text-text-off-white leading-relaxed">Arsitektur serverless dan containerized yang terukur, efisien, serta dioptimasi untuk biaya operasional minimal.</p>
+                    <Cpu className="w-9 h-9 text-accent-emerald mb-4" />
+                    <h3 className="text-xl font-bold mb-2 text-text-pure">{t.services.items[1].title}</h3>
+                    <p className="text-text-off-white leading-relaxed">{t.services.items[1].desc}</p>
                     <div className="mt-4 flex gap-2">
-                      {['AWS', 'GCP'].map(tag => (
+                      {['Python', 'OpenAI', 'TensorFlow'].map(tag => (
                         <span key={tag} className="px-3 py-1 bg-[#1e293b]/50 text-text-pure text-sm rounded-md border border-border-flat/10">{tag}</span>
                       ))}
                     </div>
                   </div>
                 </Link>
-                <Link href="/services" className="group block">
+                <Link href={`${prefix}/services`} className="group block h-full">
                   <div className="relative h-full bg-navy-base border border-border-flat/10 rounded-2xl p-8 overflow-hidden hover:border-accent-emerald transition-all duration-500">
                     <div className="absolute top-4 right-4 text-5xl font-bold text-accent-emerald">03</div>
-                    <Cpu className="w-9 h-9 text-accent-emerald mb-4" />
-                    <h3 className="text-xl font-bold mb-2 text-text-pure">AI & Automation</h3>
-                    <p className="text-text-off-white leading-relaxed">Otomatisasi proses bisnis dan integrasi model AI untuk efisiensi operasional.</p>
+                    <Globe className="w-9 h-9 text-accent-emerald mb-4" />
+                    <h3 className="text-xl font-bold mb-2 text-text-pure">{t.services.items[2].title}</h3>
+                    <p className="text-text-off-white leading-relaxed">{t.services.items[2].desc}</p>
                     <div className="mt-4 flex gap-2">
-                      {['Python', 'OpenAI'].map(tag => (
+                      {['React', 'Next.js', 'TailwindCSS'].map(tag => (
                         <span key={tag} className="px-3 py-1 bg-[#1e293b]/50 text-text-pure text-sm rounded-md border border-border-flat/10">{tag}</span>
                       ))}
                     </div>
@@ -250,13 +210,16 @@ export default function Home() {
         </div>
       </section>
 
+      {/* AI Capabilities Section */}
+      <AiCapabilities dict={t.aiCapabilities} />
+
       {/* Overview Project Section */}
       <section className="py-24 bg-bg-ice-blue">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-navy-base mb-4">Featured Work</h2>
-              <p className="text-text-muted text-lg max-w-2xl mx-auto">Bagaimana sistem kami memecahkan masalah operasional di lapangan.</p>
+              <h2 className="text-3xl font-bold text-navy-base mb-4">{t.featuredWork.title}</h2>
+              <p className="text-text-muted text-lg max-w-2xl mx-auto">{t.featuredWork.desc}</p>
             </div>
           </Reveal>
 
@@ -265,7 +228,7 @@ export default function Home() {
               const slug = study.imageUrl.split('/').slice(-2)[0];
               return (
                 <Reveal key={idx} delay={0.1 * idx} className="h-full">
-                  <Link href={`/work/${slug}`} className="group block h-full focus:outline-none focus:ring-2 focus:ring-accent-emerald rounded-2xl">
+                  <Link href={`${prefix}/work/${slug}`} className="group block h-full focus:outline-none focus:ring-2 focus:ring-accent-emerald rounded-2xl">
                     <div className="h-full bg-bg-pure border border-border-flat rounded-2xl overflow-hidden hover:border-accent-forest/30 hover:shadow-2xl transition-all duration-300 flex flex-col">
                       {/* Card Header Visual: Project Image */}
                       <div className="aspect-[16/10] bg-navy-base relative overflow-hidden">
@@ -280,7 +243,7 @@ export default function Home() {
                         {/* Proposal Badge */}
                         {study.isProposal && (
                           <div className="absolute top-4 left-4 bg-[#10B981]/90 text-navy-base text-[9px] sm:text-[10px] font-mono px-2.5 py-1 rounded-md backdrop-blur-md z-10 shadow-lg border border-[#10B981]/50">
-                            Professional Portfolio for Stakeholder Proposals
+                            {t.featuredWork.proposalBadge}
                           </div>
                         )}
 
@@ -319,8 +282,8 @@ export default function Home() {
 
           <div className="mt-12 text-center">
             <Reveal delay={0.2}>
-              <Link href="/work" tabIndex={-1}>
-                <Button variant="secondary" className="px-8">Lihat Semua Studi Kasus</Button>
+              <Link href={`${prefix}/work`} tabIndex={-1}>
+                <Button variant="secondary" className="px-8">{t.featuredWork.viewAll}</Button>
               </Link>
             </Reveal>
           </div>
@@ -332,26 +295,13 @@ export default function Home() {
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
             <div className="text-center mb-16">
-              <h2 className="text-3xl font-bold text-text-pure mb-4">Frequently Asked Questions</h2>
-              <p className="text-text-off-white text-lg">Pertanyaan umum terkait layanan dan metodologi kami.</p>
+              <h2 className="text-3xl font-bold text-text-pure mb-4">{t.faq.title}</h2>
+              <p className="text-text-off-white text-lg">{t.faq.desc}</p>
             </div>
           </Reveal>
 
           <div className="space-y-4">
-            {[
-              {
-                q: "Bagaimana proses kerja sama dengan Digifolks?",
-                a: "Kami memulai dengan sesi discovery untuk memahami tantangan operasional Anda secara mendalam. Selanjutnya, kami merancang blueprint arsitektur, melakukan pengembangan iteratif (Agile), hingga deployment dan maintenance berkelanjutan."
-              },
-              {
-                q: "Apakah Digifolks menangani maintenance setelah sistem live?",
-                a: "Ya. Kami menyediakan SLA (Service Level Agreement) tingkat enterprise yang mencakup monitoring 24/7, pemeliharaan rutin, dan dukungan teknis proaktif."
-              },
-              {
-                q: "Berapa lama waktu rata-rata pengembangan sebuah sistem?",
-                a: "Waktu pengembangan sangat bergantung pada kompleksitas sistem. MVP (Minimum Viable Product) umumnya memakan waktu 3-4 bulan, sementara sistem enterprise berskala penuh dapat memakan waktu 6-12 bulan."
-              }
-            ].map((faq, i) => (
+            {t.faq.items.map((faq: { q: string; a: string }, i: number) => (
               <Reveal key={i} delay={0.1 * i}>
                 <details className="group border border-border-flat/20 rounded-xl bg-navy-light [&_summary::-webkit-details-marker]:hidden hover:border-accent-emerald transition-colors">
                   <summary className="flex cursor-pointer items-center justify-between gap-1.5 p-6 text-text-pure font-bold">
@@ -376,22 +326,22 @@ export default function Home() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
           <Reveal>
             <h2 className="text-3xl md:text-5xl font-bold text-text-pure mb-6 leading-tight">
-              Siap Membangun Sistem <br className="hidden md:block" />
-              <span className="text-accent-emerald">yang Benar-benar Bekerja?</span>
+              {t.cta.titleLine1} <br className="hidden md:block" />
+              <span className="text-accent-emerald">{t.cta.titleLine2}</span>
             </h2>
             <p className="text-text-off-white text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
-              Jadwalkan sesi discovery gratis bersama tim engineer kami. Kami akan membantu Anda merancang blueprint arsitektur yang tepat untuk tantangan bisnis Anda.
+              {t.cta.desc}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact" tabIndex={-1}>
+              <Link href={`${prefix}/contact`} tabIndex={-1}>
                 <Button size="lg" className="px-8">
-                  Jadwalkan Konsultasi Gratis
+                  {t.cta.cta1}
                   <ArrowRight className="ml-2 w-5 h-5" />
                 </Button>
               </Link>
-              <Link href="/work" tabIndex={-1}>
+              <Link href={`${prefix}/work`} tabIndex={-1}>
                 <Button size="lg" variant="ghost" className="px-8">
-                  Lihat Portfolio
+                  {t.cta.cta2}
                 </Button>
               </Link>
             </div>

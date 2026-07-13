@@ -4,6 +4,7 @@ import { Reveal } from "@/components/animations/Reveal";
 import { ArrowUpRight } from "lucide-react";
 import fs from "fs";
 import path from "path";
+import { getDictionary } from "@/lib/dictionaries";
 
 export const metadata: Metadata = {
   title: "Portfolio — Real Systems Built for Real Problems",
@@ -87,7 +88,13 @@ const cases = [
   },
 ];
 
-export default function PortfoliosPage() {
+export default async function PortfoliosPage({ params }: { params: Promise<{ lang: string }> | { lang: string } }) {
+  const resolvedParams = await params;
+  const lang = (resolvedParams?.lang || 'en') as 'en' | 'id';
+  const dict = await getDictionary(lang);
+  const t = dict.work;
+  const prefix = `/${lang}`;
+
   const getCoverImage = (slug: string) => {
     try {
       const publicDir = path.join(process.cwd(), "public", "Image", "Portfolio", slug);
@@ -109,10 +116,10 @@ export default function PortfoliosPage() {
         <Reveal>
           <div className="mb-16">
             <h1 className="text-4xl md:text-6xl font-bold text-navy-base mb-6">
-              Real Systems. <br className="hidden md:block" />Real Impact.
+              {t.hero.titleLine1} <br className="hidden md:block" />{t.hero.titleLine2}
             </h1>
             <p className="text-xl text-text-muted max-w-3xl">
-              Kami berkolaborasi dengan enterprise untuk memecahkan kompleksitas operasional melalui rekayasa perangkat lunak yang presisi.
+              {t.hero.desc}
             </p>
           </div>
         </Reveal>
@@ -121,7 +128,7 @@ export default function PortfoliosPage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {cases.map((study, idx) => (
             <Reveal key={idx} delay={0.05 * idx} className="h-full">
-              <Link href={`/work/${study.slug}`} className="group block h-full">
+              <Link href={`${prefix}/work/${study.slug}`} className="group block h-full">
                 <div className="h-full bg-bg-pure border border-border-flat rounded-2xl overflow-hidden hover:border-accent-forest/30 hover:shadow-2xl transition-all duration-300 flex flex-col">
                   {/* Card Header Visual: Project Image */}
                   <div className="aspect-[16/10] bg-navy-base relative overflow-hidden">
@@ -136,7 +143,7 @@ export default function PortfoliosPage() {
                     {/* Proposal Badge */}
                     {study.isProposal && (
                       <div className="absolute top-4 left-4 bg-[#10B981]/70 text-white text-[9px] sm:text-[10px] font-mono px-2.5 py-1 rounded-md backdrop-blur-md z-10 shadow-lg border border-[#10B981]/50">
-                        Professional Portfolio for Stakeholder Proposals
+                        {t.hero.proposalBadge}
                       </div>
                     )}
 

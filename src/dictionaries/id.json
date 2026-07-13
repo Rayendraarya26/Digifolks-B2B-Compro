@@ -1,0 +1,327 @@
+{
+  "navbar": {
+    "home": "Beranda",
+    "services": "Layanan",
+    "work": "Studi Kasus",
+    "contact": "Hubungi Kami"
+  },
+  "footer": {
+    "sitemap": "Sitemap",
+    "contact": "Kontak",
+    "rights": "Seluruh hak cipta dilindungi.",
+    "navbar": {
+      "home": "Beranda",
+      "services": "Layanan",
+      "work": "Studi Kasus",
+      "contact": "Hubungi Kami"
+    }
+  },
+  "home": {
+    "hero": {
+      "tag": "Engineering Excellence",
+      "titleLine1": "Engineered for",
+      "titleLine2": "Scale & Stability.",
+      "desc": "Kami membangun sistem operasional dan perangkat lunak enterprise yang tangguh untuk mengurangi kompleksitas, meningkatkan keandalan, dan mempercepat pertumbuhan bisnis Anda.",
+      "cta1": "Jadwalkan Konsultasi",
+      "cta2": "Lihat Hasil Kerja"
+    },
+    "coreValues": {
+      "title": "Core Values",
+      "desc": "Prinsip yang memandu kami dalam setiap baris kode yang kami tulis dan solusi yang kami bangun.",
+      "items": [
+        {
+          "title": "Think Like a Partner",
+          "desc": "Kami bekerja sebagai partner, bukan sekadar vendor. Kami memahami tujuan bisnis sebelum menulis satu baris kode."
+        },
+        {
+          "title": "Build Fast. Build Right.",
+          "desc": "Kami mengembangkan software secara agile untuk mempercepat delivery tanpa mengorbankan kualitas, keamanan, maupun stabilitas sistem."
+        },
+        {
+          "title": "Solve Problems, Not Just Requirements",
+          "desc": "Kami tidak hanya mengembangkan fitur, tetapi memahami proses bisnis di baliknya untuk menghasilkan solusi yang benar-benar memberikan dampak."
+        },
+        {
+          "title": "Design for Growth",
+          "desc": "Setiap sistem dirancang modular, scalable, dan mudah dipelihara sehingga mampu beradaptasi dengan kebutuhan bisnis di masa depan."
+        }
+      ]
+    },
+    "services": {
+      "tag": "Our Services",
+      "title": "Layanan Kami",
+      "desc": "Infrastruktur dan rekayasa perangkat lunak yang dirancang untuk kebutuhan enterprise yang kompleks.",
+      "viewAll": "Lihat Semua Layanan",
+      "items": [
+        {
+          "title": "Custom Software Development",
+          "desc": "Pengembangan sistem perangkat lunak kustom dan scalable yang dirancang khusus untuk memenuhi kebutuhan proses bisnis operasional Anda."
+        },
+        {
+          "title": "AI Development",
+          "desc": "Solusi kecerdasan buatan, machine learning, dan automasi untuk membantu mempercepat proses pengambilan keputusan bisnis."
+        },
+        {
+          "title": "Website Development",
+          "desc": "Pembuatan website interaktif, company profile, e-commerce, hingga web portal dengan performa tinggi."
+        }
+      ]
+    },
+    "aiCapabilities": {
+      "title": "AI Capabilities",
+      "desc": "Solusi kecerdasan buatan komprehensif untuk mentransformasi operasional bisnis Anda.",
+      "categories": [
+        {
+          "title": "Vision & Intelligence",
+          "items": [
+            {
+              "title": "Computer Vision",
+              "desc": "Analisis visual real-time untuk otomasi klasifikasi objek dan pemantauan berbasis data visual yang presisi."
+            },
+            {
+              "title": "Object Detection & Counting",
+              "desc": "Algoritma deteksi akurat untuk menghitung dan melacak entitas dalam operasional lapangan secara otomatis."
+            }
+          ]
+        },
+        {
+          "title": "Data & Insights",
+          "items": [
+            {
+              "title": "Predictive Analytics",
+              "desc": "Memanfaatkan data historis untuk memprediksi tren masa depan, membantu Anda mengambil keputusan bisnis berbasis bukti."
+            },
+            {
+              "title": "Recommendation System",
+              "desc": "Mesin personalisasi untuk mengoptimalkan pengalaman pengguna dan meningkatkan konversi melalui sistem rekomendasi cerdas."
+            }
+          ]
+        },
+        {
+          "title": "Process Automation",
+          "items": [
+            {
+              "title": "AI Chatbot & Virtual Assistant",
+              "desc": "Layanan interaksi 24/7 yang mampu memahami konteks untuk meningkatkan efisiensi komunikasi bisnis."
+            },
+            {
+              "title": "OCR & Document Processing",
+              "desc": "Digitalisasi dan ekstraksi data otomatis dari dokumen fisik untuk menghilangkan beban administratif manual."
+            },
+            {
+              "title": "Generative AI & Automation",
+              "desc": "Integrasi model generatif dan workflow otomatis untuk mempercepat proses operasional dari hulu ke hilir."
+            }
+          ]
+        }
+      ]
+    },
+    "featuredWork": {
+      "title": "Featured Work",
+      "desc": "Bagaimana sistem kami memecahkan masalah operasional di lapangan.",
+      "viewAll": "Lihat Semua Studi Kasus",
+      "proposalBadge": "Professional Portfolio for Stakeholder Proposals"
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "desc": "Pertanyaan umum terkait layanan dan metodologi kami.",
+      "items": [
+        {
+          "q": "Bagaimana proses kerja sama dengan Digifolks?",
+          "a": "Kami memulai dengan sesi discovery untuk memahami tantangan operasional Anda secara mendalam. Selanjutnya, kami merancang blueprint arsitektur, melakukan pengembangan iteratif (Agile), hingga deployment dan maintenance berkelanjutan."
+        },
+        {
+          "q": "Apakah Digifolks menangani maintenance setelah sistem live?",
+          "a": "Ya. Kami menyediakan SLA (Service Level Agreement) tingkat enterprise yang mencakup monitoring 24/7, pemeliharaan rutin, dan dukungan teknis proaktif."
+        },
+        {
+          "q": "Berapa lama waktu rata-rata pengembangan sebuah sistem?",
+          "a": "Waktu pengembangan sangat bergantung pada kompleksitas sistem. MVP (Minimum Viable Product) umumnya memakan waktu 3-4 bulan, sementara sistem enterprise berskala penuh dapat memakan waktu 6-12 bulan."
+        }
+      ]
+    },
+    "cta": {
+      "titleLine1": "Siap Membangun Sistem",
+      "titleLine2": "yang Benar-benar Bekerja?",
+      "desc": "Jadwalkan sesi discovery gratis bersama tim engineer kami. Kami akan membantu Anda merancang blueprint arsitektur yang tepat untuk tantangan bisnis Anda.",
+      "cta1": "Jadwalkan Konsultasi Gratis",
+      "cta2": "Lihat Portfolio"
+    }
+  },
+  "services": {
+    "hero": {
+      "tag": "What We Do",
+      "titleLine1": "Layanan",
+      "titleAccent": "Engineering",
+      "titleLine2": "Kami",
+      "desc": "Kami tidak sekadar membuat aplikasi. Kami merancang arsitektur sistem operasional end-to-end yang menjamin skalabilitas, stabilitas, dan performa di level enterprise."
+    },
+    "items": [
+      {
+        "title": "Custom Software Development",
+        "summary": "Pengembangan sistem perangkat lunak kustom dan scalable yang dirancang khusus untuk memenuhi kebutuhan proses bisnis operasional Anda.",
+        "details": [
+          "Sistem Enterprise Resource Planning (ERP).",
+          "Customer Relationship Management (CRM).",
+          "Sistem Informasi Manajemen spesifik industri.",
+          "Arsitektur Microservices yang scalable."
+        ]
+      },
+      {
+        "title": "Website Development",
+        "summary": "Pembuatan website company profile, e-commerce, hingga web portal dengan performa tinggi dan desain yang modern.",
+        "details": [
+          "Company Profile dan Landing Page interaktif.",
+          "Sistem e-commerce terintegrasi payment gateway.",
+          "Portal B2B dengan akses pengguna kustom.",
+          "Optimasi SEO dan performa (Core Web Vitals)."
+        ]
+      },
+      {
+        "title": "Mobile App Development",
+        "summary": "Pengembangan aplikasi mobile native dan cross-platform untuk iOS dan Android demi jangkauan pengguna yang lebih luas.",
+        "details": [
+          "Aplikasi iOS dan Android berbasis React Native / Flutter.",
+          "Aplikasi internal untuk produktivitas karyawan.",
+          "Integrasi notifikasi push dan fitur device-native.",
+          "Publikasi dan manajemen App Store & Play Store."
+        ]
+      },
+      {
+        "title": "AI Development",
+        "summary": "Solusi kecerdasan buatan, machine learning, dan automasi untuk membantu mempercepat proses pengambilan keputusan dan operasional bisnis.",
+        "details": [
+          "AI Chatbot & Virtual Assistant.",
+          "Computer Vision & Object Detection.",
+          "OCR & Document Processing.",
+          "Predictive Analytics & Recommendation System."
+        ]
+      },
+      {
+        "title": "UI/UX Design",
+        "summary": "Desain antarmuka pengguna yang intuitif, estetis, dan fungsional untuk pengalaman pengguna yang maksimal.",
+        "details": [
+          "Wireframing dan prototyping.",
+          "User research dan usability testing.",
+          "Desain antarmuka modern dan responsif.",
+          "Pembuatan Design System perusahaan."
+        ]
+      },
+      {
+        "title": "Maintenance & Support",
+        "summary": "Dukungan teknis berkelanjutan, pemeliharaan sistem, dan pembaruan keamanan agar sistem Anda selalu berjalan optimal.",
+        "details": [
+          "Monitoring performa dan uptime server 24/7.",
+          "Pembaruan patch keamanan secara berkala.",
+          "Dukungan teknis responsif dan SLA terjamin.",
+          "Backup data rutin dan pemulihan sistem."
+        ]
+      },
+      {
+        "title": "IT Consulting",
+        "summary": "Konsultasi strategis untuk transformasi digital, pemilihan teknologi, dan arsitektur IT guna mendukung pertumbuhan bisnis Anda.",
+        "details": [
+          "Audit arsitektur sistem existing.",
+          "Perencanaan transformasi digital.",
+          "Pemilihan teknologi dan infrastruktur cloud.",
+          "Konsultasi keamanan siber dan kepatuhan data."
+        ]
+      }
+    ],
+    "cta": {
+      "titleLine1": "Butuh Solusi",
+      "titleAccent": "Spesifik?",
+      "titleLine2": "",
+      "desc": "Setiap bisnis memiliki tantangan unik. Hubungi kami untuk mendiskusikan bagaimana kami dapat merancang solusi yang tepat untuk kebutuhan Anda.",
+      "cta": "Jadwalkan Konsultasi Gratis"
+    }
+  },
+  "about": {
+    "hero": {
+      "tag": "Tentang Kami",
+      "titleLine1": "Transformasi Digital",
+      "titleAccent": "End-to-End",
+      "titleLine2": "untuk Bisnis Anda",
+      "desc": "Digifolks merupakan perusahaan teknologi yang berfokus pada pengembangan solusi digital end-to-end. Kami membantu perusahaan mentransformasikan proses bisnis melalui pengembangan website, aplikasi, artificial intelligence, enterprise system, dan integrasi teknologi yang disesuaikan dengan kebutuhan bisnis."
+    },
+    "stats": {
+      "founded": "Founded",
+      "projects": "Projects Completed",
+      "industries": "Industries",
+      "coreServices": "Core Services"
+    },
+    "focus": {
+      "title": "Our Focus",
+      "desc": "Area spesialisasi kami dalam memberikan solusi teknologi."
+    },
+    "coreValues": {
+      "title": "Core Values",
+      "desc": "Prinsip yang memandu kami dalam setiap baris kode yang kami tulis dan solusi yang kami bangun.",
+      "items": [
+        {
+          "title": "Think Like a Partner",
+          "desc": "Kami bekerja sebagai partner, bukan sekadar vendor. Kami memahami tujuan bisnis sebelum menulis satu baris kode."
+        },
+        {
+          "title": "Build Fast. Build Right.",
+          "desc": "Kami mengembangkan software secara agile untuk mempercepat delivery tanpa mengorbankan kualitas, keamanan, maupun stabilitas sistem."
+        },
+        {
+          "title": "Solve Problems, Not Just Requirements",
+          "desc": "Kami tidak hanya mengembangkan fitur, tetapi memahami proses bisnis di baliknya untuk menghasilkan solusi yang benar-benar memberikan dampak."
+        },
+        {
+          "title": "Design for Growth",
+          "desc": "Setiap sistem dirancang modular, scalable, dan mudah dipelihara sehingga mampu beradaptasi dengan kebutuhan bisnis di masa depan."
+        }
+      ]
+    },
+    "expertise": {
+      "title": "AI Capabilities & Expertise",
+      "desc": "Keahlian spesifik kami dalam menghadirkan solusi masa depan."
+    },
+    "cta": {
+      "titleLine1": "Siap Memulai",
+      "titleAccent": "Transformasi Digital?",
+      "desc": "Jadwalkan konsultasi dengan kami untuk mendiskusikan kebutuhan sistem dan strategi digitalisasi perusahaan Anda.",
+      "cta1": "Jadwalkan Konsultasi",
+      "cta2": "Pelajari Layanan Kami"
+    }
+  },
+  "work": {
+    "hero": {
+      "titleLine1": "Real Systems.",
+      "titleLine2": "Real Impact.",
+      "desc": "Kami berkolaborasi dengan enterprise untuk memecahkan kompleksitas operasional melalui rekayasa perangkat lunak yang presisi.",
+      "proposalBadge": "Professional Portfolio for Stakeholder Proposals"
+    }
+  },
+  "contact": {
+    "hero": {
+      "titleLine1": "Let's Build",
+      "titleLine2": "Something Solid.",
+      "desc": "Ceritakan tantangan operasional Anda. Tim engineer kami akan merancang solusi arsitektur yang terukur dan efisien."
+    },
+    "form": {
+      "lookingFor": "Apa yang Anda cari?",
+      "categories": [
+        "Custom Management System",
+        "AI Automation",
+        "IT Infrastructure Consulting",
+        "Cloud Migration",
+        "Legacy Modernization",
+        "Lainnya"
+      ],
+      "name": "Nama Lengkap *",
+      "email": "Email *",
+      "message": "Detail Proyek *",
+      "submit": "Kirim Permintaan"
+    },
+    "info": {
+      "directContact": "Kontak Langsung",
+      "headquarters": "Kantor Pusat",
+      "hqAddress": "Yogyakarta, Indonesia",
+      "hqLabel": "Tech & Engineering Hub"
+    }
+  }
+}
