@@ -29,7 +29,7 @@ export default function ContactClient({ dict }: { dict: any }) {
     const message = formData.get("message") as string;
 
     try {
-      await sendLaunchpadEmail({
+      const response = await sendLaunchpadEmail({
         name,
         company: "Not Provided",
         email,
@@ -38,9 +38,15 @@ export default function ContactClient({ dict }: { dict: any }) {
         currency: "IDR",
         details: message,
       });
-      setStatus("success");
-      (e.target as HTMLFormElement).reset();
-      setSelectedCategories([]);
+
+      if (response && response.success) {
+        setStatus("success");
+        (e.target as HTMLFormElement).reset();
+        setSelectedCategories([]);
+      } else {
+        console.error("Failed to send email:", response?.message);
+        setStatus("error");
+      }
     } catch (error) {
       console.error(error);
       setStatus("error");

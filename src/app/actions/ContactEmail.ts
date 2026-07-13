@@ -22,40 +22,40 @@ export async function sendLaunchpadEmail(formData: LaunchpadData) {
 
     const { data, error } = await resend.batch.send([
       // ==========================================
-      // 1. EMAIL UNTUK ADMIN (MASUK KE INBOX LU)
+      // 1. EMAIL UNTUK ADMIN
       // ==========================================
       {
         from: senderDomain,
         to: adminEmail,
         replyTo: email,
-        subject: `[NEW MISSION] Launch sequence from ${name} (${company})`,
+        subject: `[NEW INQUIRY] Project request from ${name}`,
         html: `
-          <div style="font-family: 'Courier New', Courier, monospace; padding: 40px 20px; background-color: #f4f4f5; color: #000;">
-            <div style="max-width: 600px; margin: 0 auto; background-color: #FFF; border: 4px solid #000; box-shadow: 8px 8px 0px #000; border-radius: 16px; overflow: hidden;">
+          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 40px 20px; background-color: #0B1120; color: #FFFFFF;">
+            <div style="max-width: 600px; margin: 0 auto; background-color: #0f172a; border: 1px solid #1E293B; border-radius: 12px; overflow: hidden;">
               
-              <div style="background-color: #B8E1FF; border-bottom: 4px solid #000; padding: 20px; text-align: center;">
-                <h1 style="margin: 0; font-size: 28px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">
-                  MISSION LAUNCHED
+              <div style="background-color: #111827; border-bottom: 1px solid #1E293B; padding: 24px; text-align: center;">
+                <h1 style="margin: 0; font-size: 20px; text-transform: uppercase; font-weight: 700; letter-spacing: 1.5px; color: #FFFFFF;">
+                  NEW PROJECT INQUIRY
                 </h1>
               </div>
 
-              <div style="padding: 30px;">
-                <div style="background-color: #FF90E8; border: 3px solid #000; box-shadow: 4px 4px 0px #000; padding: 15px; border-radius: 12px; margin-bottom: 24px;">
-                  <h3 style="margin: 0 0 10px 0; border-bottom: 2px dashed #000; padding-bottom: 5px;">CLIENT DOSSIER</h3>
-                  <p style="margin: 0 0 5px 0; font-size: 16px;"><strong>Name:</strong> ${name}</p>
-                  <p style="margin: 0 0 5px 0; font-size: 16px;"><strong>Company:</strong> ${company}</p>
-                  <p style="margin: 0; font-size: 16px;"><strong>Email:</strong> <a href="mailto:${email}" style="color: #000; font-weight: bold;">${email}</a></p>
+              <div style="padding: 32px;">
+                <div style="background-color: #111827; border: 1px solid #1E293B; padding: 20px; border-radius: 8px; margin-bottom: 24px;">
+                  <h3 style="margin: 0 0 16px 0; border-bottom: 1px solid #1E293B; padding-bottom: 12px; color: #10B981; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">CLIENT DETAILS</h3>
+                  <p style="margin: 0 0 8px 0; font-size: 15px; color: #94A3B8;"><strong>Name:</strong> <span style="color: #FFFFFF;">${name}</span></p>
+                  <p style="margin: 0 0 8px 0; font-size: 15px; color: #94A3B8;"><strong>Company:</strong> <span style="color: #FFFFFF;">${company}</span></p>
+                  <p style="margin: 0; font-size: 15px; color: #94A3B8;"><strong>Email:</strong> <a href="mailto:${email}" style="color: #10B981; text-decoration: none;">${email}</a></p>
                 </div>
 
-                <div style="background-color: #FFEA00; border: 3px solid #000; box-shadow: 4px 4px 0px #000; padding: 15px; border-radius: 12px; margin-bottom: 24px;">
-                  <h3 style="margin: 0 0 10px 0; border-bottom: 2px dashed #000; padding-bottom: 5px;">PROJECT SPECS</h3>
-                  <p style="margin: 0 0 5px 0; font-size: 16px;"><strong>Service:</strong> ${service}</p>
-                  <p style="margin: 0; font-size: 16px;"><strong>Budget:</strong> ${currency} ${budget}</p>
+                <div style="background-color: #111827; border: 1px solid #1E293B; padding: 20px; border-radius: 8px; margin-bottom: 24px;">
+                  <h3 style="margin: 0 0 16px 0; border-bottom: 1px solid #1E293B; padding-bottom: 12px; color: #10B981; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">PROJECT SPECIFICATIONS</h3>
+                  <p style="margin: 0 0 8px 0; font-size: 15px; color: #94A3B8;"><strong>Service:</strong> <span style="color: #FFFFFF;">${service}</span></p>
+                  <p style="margin: 0; font-size: 15px; color: #94A3B8;"><strong>Budget:</strong> <span style="color: #FFFFFF;">${currency} ${budget}</span></p>
                 </div>
 
-                <h3 style="margin: 0 0 12px 0; font-size: 20px; text-transform: uppercase; font-weight: 900;">The Blueprint / Secret Idea:</h3>
-                <div style="background-color: #23A094; color: #FFF; border: 3px solid #000; box-shadow: 4px 4px 0px #000; padding: 20px; border-radius: 12px;">
-                  <p style="margin: 0; font-size: 16px; line-height: 1.6; white-space: pre-wrap; font-weight: bold;">${details}</p>
+                <h3 style="margin: 0 0 16px 0; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #10B981;">PROJECT DETAILS</h3>
+                <div style="background-color: #0B1120; border: 1px solid #1E293B; padding: 24px; border-radius: 8px;">
+                  <p style="margin: 0; font-size: 15px; line-height: 1.6; white-space: pre-wrap; color: #E2E8F0;">${details}</p>
                 </div>
               </div>
               
@@ -71,36 +71,40 @@ export async function sendLaunchpadEmail(formData: LaunchpadData) {
         from: senderDomain,
         to: [email], 
         replyTo: adminEmail[0],
-        subject: `Coordinates Received! Welcome aboard, ${name}.`,
+        subject: `Your Inquiry Has Been Received - Digifolks`,
         html: `
-          <div style="font-family: 'Courier New', Courier, monospace; padding: 40px 20px; background-color: #f4f4f5; color: #000;">
-            <div style="max-width: 600px; margin: 0 auto; background-color: #FFF; border: 4px solid #000; box-shadow: 8px 8px 0px #000; border-radius: 16px; overflow: hidden;">
+          <div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; padding: 40px 20px; background-color: #0B1120; color: #FFFFFF;">
+            <div style="max-width: 600px; margin: 0 auto; background-color: #0f172a; border: 1px solid #1E293B; border-radius: 12px; overflow: hidden;">
               
-              <div style="background-color: #B8E1FF; border-bottom: 4px solid #000; padding: 20px; text-align: center;">
-                <h1 style="margin: 0; font-size: 28px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">
-                  COORDINATES LOCKED!
+              <div style="background-color: #111827; border-bottom: 1px solid #1E293B; padding: 24px; text-align: center;">
+                <h1 style="margin: 0; font-size: 20px; font-weight: 700; letter-spacing: 1px; color: #FFFFFF;">
+                  Digifolks
                 </h1>
               </div>
 
-              <div style="padding: 30px;">
-                <h3 style="margin: 0 0 16px 0; font-size: 22px; text-transform: uppercase; font-weight: 900;">Houston, we have a new mission from ${company}!</h3>
+              <div style="padding: 32px;">
+                <h3 style="margin: 0 0 20px 0; font-size: 20px; font-weight: 600; color: #FFFFFF;">Request Received</h3>
                 
-                <div style="background-color: #FFEA00; border: 3px solid #000; box-shadow: 4px 4px 0px #000; padding: 20px; border-radius: 12px; margin-bottom: 24px;">
-                  <p style="margin: 0; font-size: 16px; line-height: 1.6; font-weight: bold;">
-                    Hi ${name}, thank you for reaching out! Your mission brief for <strong>${service}</strong> has safely landed on Digifolks' mainframe. Our crew is analyzing your blueprint and will beam a reply to this comm channel shortly.
-                  </p>
+                <p style="margin: 0 0 24px 0; font-size: 16px; line-height: 1.6; color: #94A3B8;">
+                  Hi <strong style="color: #FFFFFF;">${name}</strong>,<br/><br/>
+                  Thank you for reaching out to Digifolks. We have successfully received your inquiry regarding <strong style="color: #FFFFFF;">${service}</strong>. Our engineering and consultant team will review your project details and get back to you shortly.
+                </p>
+
+                <div style="background-color: #111827; border: 1px solid #1E293B; padding: 20px; border-radius: 8px; margin-bottom: 24px;">
+                  <h4 style="margin: 0 0 12px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #10B981;">INQUIRY SUMMARY</h4>
+                  <p style="margin: 0 0 8px 0; font-size: 14px; color: #94A3B8;">Budget Scope: <span style="color: #FFFFFF;">${currency} ${budget}</span></p>
+                  <p style="margin: 0; font-size: 14px; white-space: pre-wrap; font-style: italic; color: #94A3B8; line-height: 1.5;">"${details}"</p>
                 </div>
 
-                <p style="font-size: 14px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase;">Mission Summary:</p>
-                <div style="background-color: #f4f4f5; border: 2px dashed #000; padding: 15px; border-radius: 8px;">
-                  <p style="margin: 0 0 5px 0; font-size: 14px; font-weight: bold;">Budget Scope: ${currency} ${budget}</p>
-                  <p style="margin: 0; font-size: 14px; white-space: pre-wrap; font-style: italic;">"${details}"</p>
-                </div>
+                <p style="margin: 0; font-size: 15px; color: #94A3B8;">
+                  Best regards,<br/>
+                  <strong style="color: #FFFFFF;">The Digifolks Team</strong>
+                </p>
               </div>
 
-              <div style="background-color: #FF90E8; border-top: 4px solid #000; padding: 15px; text-align: center;">
-                <p style="margin: 0; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
-                  Prepare for liftoff! - The Digifolks Crew
+              <div style="background-color: #111827; border-top: 1px solid #1E293B; padding: 20px; text-align: center;">
+                <p style="margin: 0; font-size: 12px; color: #64748B;">
+                  &copy; ${new Date().getFullYear()} Digifolks. All rights reserved.
                 </p>
               </div>
               
@@ -112,12 +116,12 @@ export async function sendLaunchpadEmail(formData: LaunchpadData) {
 
     if (error) {
       console.error("Resend Error:", error);
-      return { success: false, error };
+      return { success: false, message: error.message };
     }
 
-    return { success: true, data };
-  } catch (err) {
+    return { success: true };
+  } catch (err: any) {
     console.error("Server Action Error:", err);
-    return { success: false, error: err };
+    return { success: false, message: err.message || "Unknown error" };
   }
 }
