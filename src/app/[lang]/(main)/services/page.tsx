@@ -5,10 +5,26 @@ import { Button } from "@/components/ui/Button";
 import { Database, LayoutTemplate, Layers, Cpu, Code, Lock, CheckCircle2, ArrowRight, Smartphone, PenTool, Wrench, Briefcase, Globe } from "lucide-react";
 import { getDictionary } from "@/lib/dictionaries";
 
-export const metadata: Metadata = {
-  title: "Services — Scalable System Development",
-  description: "Custom system development, enterprise tools, AI-driven platforms, and integrated ecosystems built for scalability and efficiency.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> | { lang: string } }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+  const url = `/${lang}/services`;
+
+  return {
+    title: "Services — Scalable System Development",
+    description: "Custom system development, enterprise tools, AI-driven platforms, and integrated ecosystems built for scalability and efficiency.",
+    alternates: {
+      canonical: url,
+      languages: {
+        'en': '/en/services',
+        'id': '/id/services',
+      },
+    },
+    openGraph: {
+      url: url,
+    },
+  };
+}
 
 const serviceIcons = [
   <Code key="code" className="w-10 h-10 text-accent-forest" />,

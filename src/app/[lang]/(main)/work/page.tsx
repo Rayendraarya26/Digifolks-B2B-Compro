@@ -6,10 +6,26 @@ import fs from "fs";
 import path from "path";
 import { getDictionary } from "@/lib/dictionaries";
 
-export const metadata: Metadata = {
-  title: "Portfolio — Real Systems Built for Real Problems",
-  description: "Explore case studies of scalable systems solving operational bottlenecks, data complexity, and business growth challenges.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> | { lang: string } }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+  const url = `/${lang}/work`;
+
+  return {
+    title: "Portfolio — Real Systems Built for Real Problems",
+    description: "Explore case studies of scalable systems solving operational bottlenecks, data complexity, and business growth challenges.",
+    alternates: {
+      canonical: url,
+      languages: {
+        'en': '/en/work',
+        'id': '/id/work',
+      },
+    },
+    openGraph: {
+      url: url,
+    },
+  };
+}
 
 const cases = [
   {

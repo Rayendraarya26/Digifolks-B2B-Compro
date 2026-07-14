@@ -5,10 +5,26 @@ import Link from "next/link";
 import { Button } from "@/components/ui/Button";
 import { getDictionary } from "@/lib/dictionaries";
 
-export const metadata: Metadata = {
-  title: "About Us — Digifolks",
-  description: "Digifolks merupakan perusahaan teknologi yang berfokus pada pengembangan solusi digital end-to-end.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> | { lang: string } }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+  const url = `/${lang}/about`;
+
+  return {
+    title: "About Us",
+    description: "Digifolks merupakan perusahaan teknologi yang berfokus pada pengembangan solusi digital end-to-end.",
+    alternates: {
+      canonical: url,
+      languages: {
+        'en': '/en/about',
+        'id': '/id/about',
+      },
+    },
+    openGraph: {
+      url: url,
+    },
+  };
+}
 
 const focusIcons = [
   <Globe key="globe" className="w-8 h-8 text-accent-emerald mb-4" />,

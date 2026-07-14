@@ -21,10 +21,26 @@ const getCoverImage = (slug: string) => {
   return `/Image/Portfolio/${slug}/cover.png`; // Fallback
 };
 
-export const metadata: Metadata = {
-  title: "Build Scalable Operational Systems for Your Business",
-  description: "We design and develop scalable systems that reduce operational complexity, improve reliability, and support long-term business growth. Talk to our team today.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> | { lang: string } }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const lang = resolvedParams?.lang || 'en';
+  const url = `/${lang}`;
+
+  return {
+    title: "Build Scalable Operational Systems for Your Business",
+    description: "We design and develop scalable systems that reduce operational complexity, improve reliability, and support long-term business growth. Talk to our team today.",
+    alternates: {
+      canonical: url,
+      languages: {
+        'en': '/en',
+        'id': '/id',
+      },
+    },
+    openGraph: {
+      url: url,
+    },
+  };
+}
 
 export default async function Home({ params }: { params: Promise<{ lang: string }> | { lang: string } }) {
   const resolvedParams = await params;
