@@ -45,7 +45,7 @@ export function Footer({ dict, lang }: { dict?: any; lang?: string }) {
             <ul className="space-y-3">
               <li><a href="mailto:digifolkstech@gmail.com" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">digifolkstech@gmail.com</a></li>
               <li><a href="mailto:marketing@digifolks.id" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">marketing@digifolks.id</a></li>
-              <li><a href="https://wa.me/6285814412099" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">+62 858-1441-2099 (Vellan)</a></li>
+              <li><a href="https://wa.me/6285814412099" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">+62 858-1441-2099 (Zahra)</a></li>
               <li><a href="https://wa.me/62895401088270" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">+62 895-4010-88270 (Ailsa) </a></li>
               <li><a href="https://id.linkedin.com/company/digifolks-id" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">LinkedIn</a></li>
             </ul>
