@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Plus, Edit2, ExternalLink, Briefcase, Eye, EyeOff } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 import { DeleteButton } from "../_components/DeleteButton";
+import { ImageThumbnail } from "../_components/ImageThumbnail";
 import { deletePortfolio, togglePublishPortfolio } from "../actions";
 
 export default async function AdminPortfoliosPage() {
@@ -64,13 +65,11 @@ export default async function AdminPortfoliosPage() {
                       {item.sort_order || idx + 1}
                     </td>
                     <td className="px-6 py-4">
-                      <div className="h-12 w-16 rounded-lg bg-navy-base border border-border-flat/10 overflow-hidden flex items-center justify-center">
-                        <img
-                          src={item.cover_image_url || `/Image/Portfolio/${item.slug}/cover.png`}
-                          alt={item.title}
-                          className="h-full w-full object-cover"
-                        />
-                      </div>
+                      <ImageThumbnail
+                        src={item.cover_image_url || `/Image/Portfolio/${item.slug}/cover.webp`}
+                        alt={item.title}
+                        fallbackText={item.slug}
+                      />
                     </td>
                     <td className="px-6 py-4">
                       <div className="font-semibold text-text-pure text-sm">{item.title}</div>

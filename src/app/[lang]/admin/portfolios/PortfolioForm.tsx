@@ -3,8 +3,9 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, Save, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, Save, Plus, Trash2, Image as ImageIcon } from "lucide-react";
 import { savePortfolio } from "../actions";
+import { ImageUploader } from "../_components/ImageUploader";
 
 export function PortfolioForm({ initialData }: { initialData?: any }) {
   const router = useRouter();
@@ -448,37 +449,99 @@ export function PortfolioForm({ initialData }: { initialData?: any }) {
             </div>
           </div>
 
-          {/* Image Paths */}
-          <div className="rounded-2xl border border-border-flat/10 bg-[#0F1E36]/70 p-6 space-y-4">
-            <h3 className="text-sm font-semibold text-text-pure uppercase tracking-wider font-mono">
-              Media Assets
-            </h3>
-
-            <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-text-off-white/70 mb-2">
-                Cover Image Path
-              </label>
-              <input
-                type="text"
-                value={coverImageUrl}
-                onChange={(e) => setCoverImageUrl(e.target.value)}
-                placeholder={`/Image/Portfolio/${slug || "slug"}/cover.png`}
-                className="w-full rounded-xl border border-border-flat/10 bg-navy-base px-3 py-2 text-xs text-text-pure font-mono focus:border-accent-emerald focus:outline-none"
-              />
-              <p className="text-[11px] text-text-off-white/40 mt-1">Path relative to public folder</p>
+          {/* Image Paths & Upload */}
+          <div className="rounded-2xl border border-border-flat/10 bg-[#0F1E36]/70 p-6 space-y-6">
+            <div className="flex items-center justify-between border-b border-border-flat/10 pb-3">
+              <h3 className="text-sm font-semibold text-text-pure uppercase tracking-wider font-mono flex items-center gap-2">
+                <ImageIcon className="h-4 w-4 text-accent-emerald" />
+                Media Assets (Supabase Storage)
+              </h3>
             </div>
 
-            <div>
-              <label className="block text-xs font-mono uppercase tracking-wider text-text-off-white/70 mb-2">
-                Gallery Images (one per line)
-              </label>
-              <textarea
-                rows={4}
-                value={galleryImages}
-                onChange={(e) => setGalleryImages(e.target.value)}
-                placeholder={`/Image/Portfolio/${slug || "slug"}/gallery-01.png\n/Image/Portfolio/${slug || "slug"}/gallery-02.png`}
-                className="w-full rounded-xl border border-border-flat/10 bg-navy-base px-3 py-2 text-xs text-text-pure font-mono focus:border-accent-emerald focus:outline-none"
+            {/* Drag & Drop Cover Image */}
+            <div className="space-y-2">
+              <ImageUploader
+                value={coverImageUrl}
+                onChange={setCoverImageUrl}
+                label="Cover Image (Drag & Drop)"
+                bucket="portfolio-images"
+                folder={`portfolios/${slug || "general"}`}
+                description="Drag & drop project cover image here, or click to browse. Uploads directly to Supabase Storage."
               />
+
+              {/* Optional Manual URL */}
+              <div className="pt-2">
+                <label className="block text-[10px] font-mono uppercase text-text-off-white/50 mb-1">
+                  Or Custom URL / Relative Path
+                </label>
+                <input
+                  type="text"
+                  value={coverImageUrl}
+                  onChange={(e) => setCoverImageUrl(e.target.value)}
+                  placeholder={`/Image/Portfolio/${slug || "slug"}/cover.webp`}
+                  className="w-full rounded-xl border border-border-flat/10 bg-navy-base px-3 py-2 text-xs text-text-pure font-mono focus:border-accent-emerald focus:outline-none"
+                />
+              </div>
+            </div>
+
+            {/* Drag & Drop Gallery Images */}
+            <div className="space-y-3 pt-4 border-t border-border-flat/10">
+              <label className="block text-xs font-mono uppercase tracking-wider text-text-off-white/70">
+                Gallery Images
+              </label>
+
+              <ImageUploader
+                onChange={(newUrl) => {
+                  if (newUrl) {
+                    const current = galleryImages ? galleryImages.split("\n").filter(Boolean) : [];
+                    setGalleryImages([...current, newUrl].join("\n"));
+                  }
+                }}
+                label=""
+                bucket="portfolio-images"
+                folder={`portfolios/${slug || "general"}/gallery`}
+                description="Upload additional screenshots to append to the project gallery."
+              />
+
+              {/* Gallery Preview Grid */}
+              {galleryImages && galleryImages.split("\n").filter(Boolean).length > 0 && (
+                <div className="space-y-2 pt-2">
+                  <span className="text-[10px] font-mono uppercase text-text-off-white/50 block">
+                    Current Gallery Items ({galleryImages.split("\n").filter(Boolean).length}):
+                  </span>
+                  <div className="grid grid-cols-3 gap-2">
+                    {galleryImages.split("\n").filter(Boolean).map((imgUrl, idx) => (
+                      <div key={idx} className="relative aspect-[16/10] rounded-lg overflow-hidden border border-border-flat/15 group bg-navy-base">
+                        <img src={imgUrl.trim()} alt={`Gallery ${idx + 1}`} className="w-full h-full object-cover" />
+                        <button
+                          type="button"
+                          onClick={() => {
+                            const updated = galleryImages.split("\n").filter(Boolean).filter((_, i) => i !== idx);
+                            setGalleryImages(updated.join("\n"));
+                          }}
+                          className="absolute top-1 right-1 p-1 rounded-md bg-red-500/80 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                          title="Remove from gallery"
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div>
+                <label className="block text-[10px] font-mono uppercase text-text-off-white/50 mb-1">
+                  Gallery URLs (one per line)
+                </label>
+                <textarea
+                  rows={3}
+                  value={galleryImages}
+                  onChange={(e) => setGalleryImages(e.target.value)}
+                  placeholder="https://... or /Image/Portfolio/slug/gallery-01.webp"
+                  className="w-full rounded-xl border border-border-flat/10 bg-navy-base px-3 py-2 text-xs text-text-pure font-mono focus:border-accent-emerald focus:outline-none"
+                />
+              </div>
             </div>
           </div>
         </div>
