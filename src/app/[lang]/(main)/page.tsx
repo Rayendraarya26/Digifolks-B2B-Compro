@@ -6,7 +6,7 @@ import { AiCapabilities } from "@/components/ui/AiCapabilities";
 import { ChevronDown, ArrowRight, Code, Server, Shield, LayoutTemplate, Database, Cpu, ArrowUpRight, Users, Rocket, Lightbulb, TrendingUp, CheckCircle2, Globe } from "lucide-react";
 import fs from "fs";
 import path from "path";
-import { portfolioData } from "@/data/portfolio";
+import { getPortfolios } from "@/lib/supabase/queries";
 import { getDictionary } from "@/lib/dictionaries";
 
 // Helper for dynamic cover image resolution
@@ -240,16 +240,16 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           </Reveal>
 
           <div className="grid md:grid-cols-2 gap-8">
-            {portfolioData.slice(0, 2).map((study, idx) => {
-              const slug = study.imageUrl.split('/').slice(-2)[0];
+            {(await getPortfolios()).slice(0, 2).map((study, idx) => {
+              const slug = study.slug;
               return (
-                <Reveal key={idx} delay={0.1 * idx} className="h-full">
+                <Reveal key={study.id || slug || idx} delay={0.1 * idx} className="h-full">
                   <Link href={`${prefix}/work/${slug}`} className="group block h-full focus:outline-none focus:ring-2 focus:ring-accent-emerald rounded-2xl">
                     <div className="h-full bg-bg-pure border border-border-flat rounded-2xl overflow-hidden hover:border-accent-forest/30 hover:shadow-2xl transition-all duration-300 flex flex-col">
                       {/* Card Header Visual: Project Image */}
                       <div className="aspect-[16/10] bg-navy-base relative overflow-hidden">
                         <img
-                          src={getCoverImage(slug)}
+                          src={study.cover_image_url || getCoverImage(slug)}
                           alt={study.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
@@ -257,7 +257,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
                         <div className="absolute inset-0 bg-gradient-to-t from-navy-base/60 via-transparent to-transparent" />
 
                         {/* Proposal Badge */}
-                        {study.isProposal && (
+                        {study.is_proposal && (
                           <div className="absolute top-4 left-4 bg-[#10B981]/90 text-navy-base text-[9px] sm:text-[10px] font-mono px-2.5 py-1 rounded-md backdrop-blur-md z-10 shadow-lg border border-[#10B981]/50">
                             {t.featuredWork.proposalBadge}
                           </div>
@@ -282,7 +282,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
                         </h2>
 
                         <div className="flex flex-wrap gap-2 pt-4 border-t border-border-flat">
-                          {study.tags.map((tag) => (
+                          {study.tags && study.tags.map((tag) => (
                             <span key={tag} className="px-2.5 py-1 text-xs font-mono bg-[#1e293b]/5 text-text-muted border border-border-flat rounded-md">
                               {tag}
                             </span>
