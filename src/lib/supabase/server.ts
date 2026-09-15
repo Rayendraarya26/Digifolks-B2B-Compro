@@ -6,7 +6,12 @@ const DEFAULT_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 export async function createClient() {
   const cookieStore = await cookies();
-  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_URL;
+  let url = process.env.NEXT_PUBLIC_SUPABASE_URL || DEFAULT_URL;
+  // Auto-correct common typo: supabase project API URLs end with .co, not .com
+  if (url.includes('.supabase.com') && !url.includes('pooler.supabase.com')) {
+    url = url.replace('.supabase.com', '.supabase.co');
+  }
+
   const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || DEFAULT_KEY;
 
   return createServerClient(
