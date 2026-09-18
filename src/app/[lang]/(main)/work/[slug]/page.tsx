@@ -8,6 +8,7 @@ import path from "path";
 import { notFound } from "next/navigation";
 import { getPortfolioBySlug } from "@/lib/supabase/queries";
 import { getDictionary } from "@/lib/dictionaries";
+import { WorkImageGallery } from "@/components/ui/WorkImageGallery";
 
 export async function generateMetadata({
   params,
@@ -274,35 +275,19 @@ export default async function ProjectDetailPage({
           </Reveal>
 
           <Reveal delay={0.1}>
-            {/* Cover Image — Full Width */}
-            <div className="rounded-2xl overflow-hidden border border-border-flat shadow-lg mb-6 bg-navy-base">
-              <img
-                src={coverImage}
-                alt={`${project.title} — Cover`}
-                className="w-full h-auto object-cover max-h-[500px]"
-              />
-            </div>
-          </Reveal>
-
-          <Reveal delay={0.2}>
-            {/* Gallery Grid */}
-            {galleryImages.length > 0 && (
-              <div className="columns-1 md:columns-2 gap-6 space-y-6">
-                {galleryImages.map((imgSrc, idx) => (
-                  <div
-                    key={idx}
-                    className="rounded-2xl overflow-hidden border border-border-flat shadow-sm bg-navy-base relative group break-inside-avoid"
-                  >
-                    <img
-                      src={imgSrc}
-                      alt={`${project.title} — Screenshot ${idx + 1}`}
-                      className="w-full h-auto group-hover:scale-[1.02] transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-navy-base/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-                  </div>
-                ))}
-              </div>
-            )}
+            <WorkImageGallery
+              coverImage={coverImage}
+              galleryImages={galleryImages}
+              projectTitle={project.title}
+              labels={{
+                galleryTitle: t.galleryTitle,
+                galleryDesc: t.galleryDesc,
+                noGallery: t.noGallery,
+                zoomHint: currentLang === "id" ? "Klik untuk memperbesar" : "Click to zoom",
+                coverLabel: currentLang === "id" ? "Sampul Proyek" : "Cover",
+                screenshotLabel: currentLang === "id" ? "Tangkapan Layar" : "Screenshot",
+              }}
+            />
           </Reveal>
         </div>
       </section>
