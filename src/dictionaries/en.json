@@ -3,6 +3,7 @@
     "home": "Home",
     "services": "Services",
     "work": "Case Studies",
+    "blog": "Blog",
     "contact": "Contact Us"
   },
   "footer": {
@@ -13,6 +14,7 @@
       "home": "Home",
       "services": "Services",
       "work": "Case Studies",
+      "blog": "Blog",
       "contact": "Contact Us"
     }
   },
@@ -54,16 +56,29 @@
       "viewAll": "View All Services",
       "items": [
         {
-          "title": "Custom Software Development",
-          "desc": "Custom and scalable software system development specifically designed to meet your operational business process needs."
+          "slug": "svc-ai",
+          "title": "Artificial Intelligence",
+          "desc": "AI-powered systems for automation, prediction, and data-driven decision making."
         },
         {
-          "title": "AI Development",
-          "desc": "Artificial intelligence, machine learning, and automation solutions to help accelerate business decision making."
+          "slug": "svc-mgmt",
+          "title": "Management System",
+          "desc": "Custom operational systems to streamline workflows and centralize business processes."
         },
         {
-          "title": "Website Development",
-          "desc": "Creation of interactive websites, company profiles, e-commerce, to high-performance web portals."
+          "slug": "svc-web",
+          "title": "Web Platforms",
+          "desc": "Scalable web systems built for performance, stability, and growth."
+        },
+        {
+          "slug": "svc-apps",
+          "title": "iOS, Android, Desktop",
+          "desc": "Cross-platform applications designed for operational efficiency and usability."
+        },
+        {
+          "slug": "svc-it",
+          "title": "IT Solution & Consulting",
+          "desc": "System architecture planning and technical consulting for scalable infrastructure."
         }
       ]
     },
@@ -122,6 +137,14 @@
       "viewAll": "View All Case Studies",
       "proposalBadge": "Professional Portfolio for Stakeholder Proposals"
     },
+    "blog": {
+      "tag": "Engineering Perspectives",
+      "titleLine1": "Architectural Insights &",
+      "titleAccent": "Deep Dives",
+      "desc": "Articles on scalable system architectures, AI pipelines, enterprise workflows, and digital transformation.",
+      "viewAll": "View All Articles",
+      "readTime": "min read"
+    },
     "faq": {
       "title": "Frequently Asked Questions",
       "desc": "Common questions about our services and methodology.",
@@ -158,73 +181,58 @@
     },
     "items": [
       {
-        "title": "Custom Software Development",
-        "summary": "Custom and scalable software system development specifically designed to meet your operational business process needs.",
+        "slug": "svc-ai",
+        "title": "Artificial Intelligence",
+        "summary": "AI-powered systems for automation, prediction, and data-driven decision making.",
         "details": [
-          "Enterprise Resource Planning (ERP) systems.",
-          "Customer Relationship Management (CRM).",
-          "Industry-specific Management Information Systems.",
-          "Scalable Microservices architecture."
+          "Custom Machine Learning models tailored to your business data.",
+          "NLP & Context-Aware Intelligent Chatbots for operational support.",
+          "Predictive Analytics & dynamic Recommendation Systems.",
+          "Computer Vision & real-time automated visual inspection."
         ]
       },
       {
-        "title": "Website Development",
-        "summary": "Building high-performance company profile websites, e-commerce platforms, and web portals with modern design.",
+        "slug": "svc-mgmt",
+        "title": "Management System",
+        "summary": "Custom operational systems to streamline workflows and centralize business processes.",
         "details": [
-          "Interactive Company Profile and Landing Pages.",
-          "E-commerce system integrated with payment gateway.",
-          "B2B Portal with custom user access.",
-          "SEO and performance optimization (Core Web Vitals)."
+          "Custom ERP architectures designed around your real operational flow.",
+          "Real-time analytical dashboards with sub-second data refresh.",
+          "Automated operational approval and document workflows.",
+          "Centralized data visualization and cross-department intelligence."
         ]
       },
       {
-        "title": "Mobile App Development",
-        "summary": "Native and cross-platform mobile application development for iOS and Android to reach a wider audience.",
+        "slug": "svc-web",
+        "title": "Web Platforms",
+        "summary": "Scalable web systems built for performance, stability, and growth.",
         "details": [
-          "iOS and Android apps built with React Native / Flutter.",
-          "Internal apps for employee productivity.",
-          "Push notification integration and device-native features.",
-          "App Store & Play Store publishing and management."
+          "High-performance Server-Side Rendered (SSR) enterprise portals.",
+          "Scalable cloud-native architecture with 99.9% uptime SLA.",
+          "Interactive WebGL/3D digital playgrounds and customer touchpoints.",
+          "Core Web Vitals and technical search engine optimization."
         ]
       },
       {
-        "title": "AI Development",
-        "summary": "Artificial intelligence, machine learning, and automation solutions to accelerate business decision-making and operations.",
+        "slug": "svc-apps",
+        "title": "iOS, Android, Desktop",
+        "summary": "Cross-platform applications designed for operational efficiency and usability.",
         "details": [
-          "AI Chatbot & Virtual Assistant.",
-          "Computer Vision & Object Detection.",
-          "OCR & Document Processing.",
-          "Predictive Analytics & Recommendation System."
+          "Cross-platform mobile apps built with React Native and Flutter.",
+          "High-reliability internal apps for field operations and workforce.",
+          "Offline-first sync architectures for uninterrupted workflows.",
+          "Native hardware integrations (BLE, camera, biometric, POS devices)."
         ]
       },
       {
-        "title": "UI/UX Design",
-        "summary": "Intuitive, aesthetic, and functional user interface design for maximum user experience.",
+        "slug": "svc-it",
+        "title": "IT Solution & Consulting",
+        "summary": "System architecture planning and technical consulting for scalable infrastructure.",
         "details": [
-          "Wireframing and prototyping.",
-          "User research and usability testing.",
-          "Modern and responsive interface design.",
-          "Company Design System creation."
-        ]
-      },
-      {
-        "title": "Maintenance & Support",
-        "summary": "Continuous technical support, system maintenance, and security updates to keep your system running optimally.",
-        "details": [
-          "24/7 performance and server uptime monitoring.",
-          "Regular security patch updates.",
-          "Responsive technical support with guaranteed SLA.",
-          "Routine data backup and system recovery."
-        ]
-      },
-      {
-        "title": "IT Consulting",
-        "summary": "Strategic consulting for digital transformation, technology selection, and IT architecture to support your business growth.",
-        "details": [
-          "Existing system architecture audit.",
-          "Digital transformation planning.",
-          "Cloud technology and infrastructure selection.",
-          "Cybersecurity and data compliance consulting."
+          "Cloud migration, containerization, and infrastructure modernization.",
+          "DevOps setup, continuous integration, and automated deployment pipelines.",
+          "Comprehensive enterprise security audits and compliance readiness.",
+          "Strategic IT architecture advisory for long-term tech roadmap."
         ]
       }
     ],
@@ -294,6 +302,25 @@
       "titleLine2": "Real Impact.",
       "desc": "We collaborate with enterprises to solve operational complexity through precision software engineering.",
       "proposalBadge": "Professional Portfolio for Stakeholder Proposals"
+    },
+    "detail": {
+      "backLink": "Back to Case Studies",
+      "proposalBadge": "Professional Portfolio for Stakeholder Proposals",
+      "overview": "Overview",
+      "theChallenge": "The Challenge",
+      "ourSolution": "Our Solution",
+      "projectInfo": "Project Info",
+      "client": "Client",
+      "industry": "Industry",
+      "duration": "Duration",
+      "year": "Year",
+      "techStack": "Tech Stack & Tags",
+      "ctaTitle": "Looking for similar results?",
+      "ctaDesc": "Share your business challenges and we will architect the solution.",
+      "ctaBtn": "Schedule Consultation",
+      "galleryTitle": "Project Gallery",
+      "galleryDesc": "Visual showcase of the system built for this project.",
+      "noGallery": "No additional gallery images for this project."
     }
   },
   "contact": {
@@ -325,5 +352,41 @@
       "hqAddress": "Yogyakarta, Indonesia",
       "hqLabel": "Tech & Engineering Hub"
     }
+  },
+  "blog": {
+    "tag": "Insights & Engineering",
+    "titleLine1": "Perspectives on",
+    "titleLine2": "Scale & Craft.",
+    "desc": "In-depth articles, case studies, and engineering deep-dives from the Digifolks team.",
+    "allCategories": "All Topics",
+    "searchPlaceholder": "Search articles, topics, or keywords...",
+    "readArticle": "Read Article",
+    "minRead": "min read",
+    "publishedOn": "Published on",
+    "author": "Author",
+    "share": "Share",
+    "backToBlog": "Back to all articles",
+    "relatedArticles": "Related Articles",
+    "noArticlesFound": "No articles found matching your criteria.",
+    "categories": "Categories",
+    "tags": "Tags",
+    "pagination": {
+      "prev": "Previous",
+      "next": "Next",
+      "page": "Page",
+      "of": "of"
+    }
+  },
+  "serviceDetail": {
+    "backToServices": "Back to Services",
+    "overview": "Service Overview",
+    "keyFeatures": "Core Capabilities & Deliverables",
+    "techStack": "Technology & Tooling",
+    "consultationTitle": "Ready to build this for your organization?",
+    "consultationDesc": "Schedule an architecture discovery session with our engineering leads.",
+    "consultationBtn": "Book Consultation",
+    "relatedPortfolios": "Related Case Studies",
+    "nextService": "Next Service",
+    "viewDetails": "View Details"
   }
 }

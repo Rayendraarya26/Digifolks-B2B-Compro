@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import { Reveal } from "@/components/animations/Reveal";
 import { Button } from "@/components/ui/Button";
 import Link from "next/link";
@@ -6,13 +7,71 @@ import fs from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
 import { getPortfolioBySlug } from "@/lib/supabase/queries";
+import { getDictionary } from "@/lib/dictionaries";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string; lang: string }>;
+}): Promise<Metadata> {
+  const { slug, lang } = await params;
+  const project = await getPortfolioBySlug(slug);
+
+  if (!project) {
+    return { title: "Project Not Found — Digifolks" };
+  }
+
+  const title = `${project.title} — ${project.client} | Digifolks`;
+  const description = project.headline || project.overview;
+  const url = `/${lang}/work/${slug}`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: url,
+      languages: {
+        en: `/en/work/${slug}`,
+        id: `/id/work/${slug}`,
+      },
+    },
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      images: project.cover_image_url ? [{ url: project.cover_image_url }] : undefined,
+    },
+  };
+}
 
 export default async function ProjectDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; lang: string }>;
 }) {
-  const { slug } = await params;
+  const { slug, lang } = await params;
+  const currentLang = (lang || "en") as "en" | "id";
+  const dict = await getDictionary(currentLang);
+  const t = dict.work?.detail || {
+    backLink: currentLang === "id" ? "Kembali ke Studi Kasus" : "Back to Case Studies",
+    proposalBadge: "Professional Portfolio for Stakeholder Proposals",
+    overview: "Overview",
+    theChallenge: currentLang === "id" ? "Tantangan" : "The Challenge",
+    ourSolution: currentLang === "id" ? "Solusi Kami" : "Our Solution",
+    projectInfo: currentLang === "id" ? "Info Proyek" : "Project Info",
+    client: currentLang === "id" ? "Klien" : "Client",
+    industry: currentLang === "id" ? "Industri" : "Industry",
+    duration: currentLang === "id" ? "Durasi" : "Duration",
+    year: currentLang === "id" ? "Tahun" : "Year",
+    techStack: "Tech Stack & Tags",
+    ctaTitle: currentLang === "id" ? "Ingin hasil serupa?" : "Looking for similar results?",
+    ctaDesc: currentLang === "id" ? "Ceritakan tantangan bisnis Anda dan kami akan merancang solusinya." : "Share your business challenges and we will architect the solution.",
+    ctaBtn: currentLang === "id" ? "Jadwalkan Konsultasi" : "Schedule Consultation",
+    galleryTitle: currentLang === "id" ? "Galeri Proyek" : "Project Gallery",
+    galleryDesc: currentLang === "id" ? "Visual showcase dari proyek yang telah kami kerjakan." : "Visual showcase of the system built for this project.",
+    noGallery: currentLang === "id" ? "Tidak ada gambar galeri tambahan untuk proyek ini." : "No additional gallery images for this project."
+  };
+  const prefix = `/${currentLang}`;
 
   const project = await getPortfolioBySlug(slug);
 
@@ -58,9 +117,9 @@ export default async function ProjectDetailPage({
 
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal>
-            <Link href="/work" className="inline-flex items-center text-text-off-white/50 hover:text-text-pure mb-8 transition-colors text-sm">
+            <Link href={`${prefix}/work`} className="inline-flex items-center text-text-off-white/50 hover:text-text-pure mb-8 transition-colors text-sm font-mono">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Kembali ke Studi Kasus
+              {t.backLink}
             </Link>
           </Reveal>
 
@@ -68,7 +127,7 @@ export default async function ProjectDetailPage({
             <div className="flex flex-wrap gap-3 mb-6 items-center">
               {project.is_proposal && (
                 <span className="px-3 py-1.5 rounded-lg border border-[#10B981]/40 bg-[#10B981]/10 text-[10px] md:text-xs font-mono text-accent-emerald shadow-[0_0_15px_rgba(16,185,129,0.1)]">
-                  Professional Portfolio for Stakeholder Proposals
+                  {t.proposalBadge}
                 </span>
               )}
               <span className="px-3 py-1 rounded-full border border-border-flat/20 text-xs font-mono text-text-off-white/70 uppercase tracking-wider">
@@ -100,7 +159,7 @@ export default async function ProjectDetailPage({
             <div className="md:col-span-8 space-y-16">
               <Reveal>
                 <section>
-                  <h2 className="text-sm font-bold text-accent-forest uppercase tracking-widest mb-4">Overview</h2>
+                  <h2 className="text-sm font-bold text-accent-forest uppercase tracking-widest mb-4">{t.overview}</h2>
                   <p className="text-lg text-text-muted leading-relaxed">
                     {project.overview}
                   </p>
@@ -110,7 +169,7 @@ export default async function ProjectDetailPage({
               {project.challenges && project.challenges.length > 0 && (
                 <Reveal delay={0.1}>
                   <section>
-                    <h2 className="text-sm font-bold text-accent-forest uppercase tracking-widest mb-6">The Challenge</h2>
+                    <h2 className="text-sm font-bold text-accent-forest uppercase tracking-widest mb-6">{t.theChallenge}</h2>
                     <div className="space-y-4">
                       {project.challenges.map((c, i) => (
                         <div key={i} className="flex gap-4 items-start p-4 bg-bg-pure rounded-xl border border-border-flat">
@@ -128,7 +187,7 @@ export default async function ProjectDetailPage({
               {project.solutions && project.solutions.length > 0 && (
                 <Reveal delay={0.2}>
                   <section>
-                    <h2 className="text-sm font-bold text-accent-forest uppercase tracking-widest mb-6">Our Solution</h2>
+                    <h2 className="text-sm font-bold text-accent-forest uppercase tracking-widest mb-6">{t.ourSolution}</h2>
                     <div className="space-y-4">
                       {project.solutions.map((s, i) => (
                         <div key={i} className="flex gap-4 items-start p-4 bg-accent-forest/5 rounded-xl border border-accent-forest/20">
@@ -148,25 +207,25 @@ export default async function ProjectDetailPage({
                 <div className="sticky top-28 space-y-6">
                   {/* Project Info */}
                   <div className="bg-bg-pure border border-border-flat rounded-2xl p-6 shadow-sm">
-                    <h3 className="text-sm font-bold text-navy-base uppercase tracking-wider mb-6">Project Info</h3>
+                    <h3 className="text-sm font-bold text-navy-base uppercase tracking-wider mb-6">{t.projectInfo}</h3>
                     <dl className="space-y-4">
                       <div className="flex justify-between">
-                        <dt className="text-sm text-text-muted">Client</dt>
+                        <dt className="text-sm text-text-muted">{t.client}</dt>
                         <dd className="text-sm font-medium text-navy-base">{project.client}</dd>
                       </div>
                       <div className="border-t border-border-flat" />
                       <div className="flex justify-between">
-                        <dt className="text-sm text-text-muted">Industry</dt>
+                        <dt className="text-sm text-text-muted">{t.industry}</dt>
                         <dd className="text-sm font-medium text-navy-base">{project.industry}</dd>
                       </div>
                       <div className="border-t border-border-flat" />
                       <div className="flex justify-between">
-                        <dt className="text-sm text-text-muted">Duration</dt>
+                        <dt className="text-sm text-text-muted">{t.duration}</dt>
                         <dd className="text-sm font-medium text-navy-base">{project.duration}</dd>
                       </div>
                       <div className="border-t border-border-flat" />
                       <div className="flex justify-between">
-                        <dt className="text-sm text-text-muted">Year</dt>
+                        <dt className="text-sm text-text-muted">{t.year}</dt>
                         <dd className="text-sm font-medium text-navy-base">{project.year}</dd>
                       </div>
                     </dl>
@@ -175,7 +234,7 @@ export default async function ProjectDetailPage({
                   {/* Tech Stack */}
                   {project.tags && project.tags.length > 0 && (
                     <div className="bg-bg-pure border border-border-flat rounded-2xl p-6 shadow-sm">
-                      <h3 className="text-sm font-bold text-navy-base uppercase tracking-wider mb-4">Tech Stack & Tags</h3>
+                      <h3 className="text-sm font-bold text-navy-base uppercase tracking-wider mb-4">{t.techStack}</h3>
                       <div className="flex flex-wrap gap-2">
                         {project.tags.map((tag) => (
                           <span key={tag} className="px-3 py-1.5 text-xs font-mono bg-[#1e293b]/5 text-text-muted rounded-lg border border-border-flat">
@@ -188,11 +247,11 @@ export default async function ProjectDetailPage({
 
                   {/* CTA */}
                   <div className="bg-navy-base border border-border-flat/10 rounded-2xl p-6 text-text-pure">
-                    <h4 className="font-bold mb-2">Ingin hasil serupa?</h4>
-                    <p className="text-sm text-text-off-white/80 mb-4">Ceritakan tantangan bisnis Anda dan kami akan merancang solusinya.</p>
-                    <Link href="/contact" tabIndex={-1}>
+                    <h4 className="font-bold mb-2">{t.ctaTitle}</h4>
+                    <p className="text-sm text-text-off-white/80 mb-4">{t.ctaDesc}</p>
+                    <Link href={`${prefix}/contact`} tabIndex={-1}>
                       <Button className="w-full">
-                        Jadwalkan Konsultasi
+                        {t.ctaBtn}
                         <ArrowRight className="w-4 h-4 ml-2" />
                       </Button>
                     </Link>
@@ -209,8 +268,8 @@ export default async function ProjectDetailPage({
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <Reveal>
             <div className="mb-12">
-              <h2 className="text-sm font-bold text-accent-forest uppercase tracking-widest mb-4">Project Gallery</h2>
-              <p className="text-text-muted text-lg">Visual showcase dari proyek yang telah kami kerjakan.</p>
+              <h2 className="text-sm font-bold text-accent-forest uppercase tracking-widest mb-4">{t.galleryTitle}</h2>
+              <p className="text-text-muted text-lg">{t.galleryDesc}</p>
             </div>
           </Reveal>
 

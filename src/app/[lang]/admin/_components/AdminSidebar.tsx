@@ -13,7 +13,8 @@ import {
   Settings,
   LogOut,
   ExternalLink,
-  ChevronRight
+  ChevronRight,
+  BookOpen
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 
@@ -21,6 +22,7 @@ const navigation = [
   { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
   { name: "Portfolios", href: "/admin/portfolios", icon: Briefcase },
   { name: "Services", href: "/admin/services", icon: Cpu },
+  { name: "Blog Posts", href: "/admin/blog", icon: BookOpen },
   { name: "Inquiries", href: "/admin/inquiries", icon: Inbox },
   { name: "Testimonials", href: "/admin/testimonials", icon: Quote },
   { name: "FAQs", href: "/admin/faqs", icon: HelpCircle },

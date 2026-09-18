@@ -36,6 +36,7 @@ export function Footer({ dict, lang }: { dict?: any; lang?: string }) {
               <li><Link href={`${prefix}/`} className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">{dict?.navbar?.home || 'Beranda'}</Link></li>
               <li><Link href={`${prefix}/services`} className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">{dict?.navbar?.services || 'Layanan'}</Link></li>
               <li><Link href={`${prefix}/work`} className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">{dict?.navbar?.work || 'Studi Kasus'}</Link></li>
+              <li><Link href={`${prefix}/blog`} className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">{dict?.navbar?.blog || 'Blog'}</Link></li>
               <li><Link href={`${prefix}/contact`} className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">{dict?.navbar?.contact || 'Hubungi Kami'}</Link></li>
             </ul>
           </div>

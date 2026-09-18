@@ -1,8 +1,8 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Reveal } from '@/components/animations/Reveal';
-import { ScanFace, LineChart, Cpu, Bot, FileText, Sparkles, Target, Zap } from 'lucide-react';
+import { ScanFace, LineChart, Bot, FileText, Sparkles, Target, Zap } from 'lucide-react';
 
 const categoryIds = ['vision', 'data', 'process'];
 
@@ -42,37 +42,76 @@ export function AiCapabilities({ dict }: { dict?: AiCapabilitiesDict }) {
   const title = dict?.title || 'AI Capabilities';
   const desc = dict?.desc || 'Solusi kecerdasan buatan komprehensif untuk mentransformasi operasional bisnis Anda.';
   const cats = dict?.categories || [
-    { title: 'Vision & Intelligence', items: [{ title: 'Computer Vision', desc: '' }, { title: 'Object Detection & Counting', desc: '' }] },
-    { title: 'Data & Insights', items: [{ title: 'Predictive Analytics', desc: '' }, { title: 'Recommendation System', desc: '' }] },
-    { title: 'Process Automation', items: [{ title: 'AI Chatbot & Virtual Assistant', desc: '' }, { title: 'OCR & Document Processing', desc: '' }, { title: 'Generative AI & Automation', desc: '' }] }
+    { 
+      title: 'Vision & Intelligence', 
+      items: [
+        { title: 'Computer Vision', desc: 'Analisis visual real-time untuk otomasi klasifikasi objek dan pemantauan berbasis data visual yang presisi.' }, 
+        { title: 'Object Detection & Counting', desc: 'Algoritma deteksi akurat untuk menghitung dan melacak entitas dalam operasional lapangan secara otomatis.' }
+      ] 
+    },
+    { 
+      title: 'Data & Insights', 
+      items: [
+        { title: 'Predictive Analytics', desc: 'Memanfaatkan data historis untuk memprediksi tren masa depan, membantu Anda mengambil keputusan bisnis berbasis bukti.' }, 
+        { title: 'Recommendation System', desc: 'Sistem personalisasi cerdas untuk meningkatkan konversi dan kepuasan pelanggan secara terukur.' }
+      ] 
+    },
+    { 
+      title: 'Process Automation', 
+      items: [
+        { title: 'AI Chatbot & Virtual Assistant', desc: 'Asisten interaktif cerdas 24/7 untuk meningkatkan kepuasan pelanggan dan efisiensi operasional.' }, 
+        { title: 'OCR & Document Processing', desc: 'Ekstraksi dokumen otomatis berbasis AI untuk menghilangkan input manual yang memakan waktu.' }, 
+        { title: 'Generative AI & Automation', desc: 'Otomatisasi alur kerja tingkat lanjut dengan teknologi GenAI untuk produktivitas maksimal.' }
+      ] 
+    }
   ];
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = entry.target.getAttribute('data-id');
-            if (id) {
-              setActiveCategory(id);
-            }
-          }
-        });
-      },
-      {
-        rootMargin: '-30% 0px -70% 0px',
-        threshold: 0
-      }
-    );
+  const activeIndex = Math.max(0, categoryIds.indexOf(activeCategory));
 
-    sectionRefs.current.forEach((ref) => {
-      if (ref) observer.observe(ref);
-    });
+  // Determine active section based on scroll position
+  const handleScroll = useCallback(() => {
+    const triggerOffset = window.innerHeight * 0.4;
+    let currentActive = categoryIds[0];
+
+    for (let i = 0; i < categoryIds.length; i++) {
+      const el = sectionRefs.current[i];
+      if (el) {
+        const rect = el.getBoundingClientRect();
+        // If the top of this section has reached or passed the trigger offset
+        if (rect.top <= triggerOffset) {
+          currentActive = categoryIds[i];
+        }
+      }
+    }
+
+    setActiveCategory(currentActive);
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    // Initial check
+    handleScroll();
 
     return () => {
-      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [handleScroll]);
+
+  const scrollToCategory = (catId: string) => {
+    setActiveCategory(catId);
+    const element = document.getElementById(`capability-${catId}`);
+    if (element) {
+      const offset = 120;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <section className="py-32 bg-bg-pure text-text-pure relative border-t border-border-flat/10">
@@ -104,20 +143,7 @@ export function AiCapabilities({ dict }: { dict?: AiCapabilitiesDict }) {
                         }`} 
                       />
                       <button
-                        onClick={() => {
-                          const element = document.getElementById(`capability-${catId}`);
-                          if (element) {
-                            const offset = 100;
-                            const bodyRect = document.body.getBoundingClientRect().top;
-                            const elementRect = element.getBoundingClientRect().top;
-                            const elementPosition = elementRect - bodyRect;
-                            const offsetPosition = elementPosition - offset;
-                            window.scrollTo({
-                              top: offsetPosition,
-                              behavior: 'smooth'
-                            });
-                          }
-                        }}
+                        onClick={() => scrollToCategory(catId)}
                         className={`text-left text-xl lg:text-2xl font-bold transition-all duration-300 ${
                           isActive ? 'text-navy-base translate-x-2' : 'text-text-muted hover:text-navy-light'
                         }`}
@@ -132,9 +158,13 @@ export function AiCapabilities({ dict }: { dict?: AiCapabilitiesDict }) {
           </div>
 
           {/* Sisi Kanan: Scrollable Content */}
-          <div className="md:col-span-8 space-y-32">
+          <div className="md:col-span-8">
             {cats.map((cat, idx) => {
               const catId = categoryIds[idx];
+              // The section is visible if the user has reached or scrolled into it (idx <= activeIndex)
+              const isEntered = idx <= activeIndex;
+              const isLast = idx === cats.length - 1;
+
               return (
                 <div 
                   key={catId} 
@@ -143,27 +173,49 @@ export function AiCapabilities({ dict }: { dict?: AiCapabilitiesDict }) {
                   ref={(el) => {
                     sectionRefs.current[idx] = el;
                   }}
-                  className="scroll-mt-32"
+                  className={`scroll-mt-32 ${
+                    isLast ? 'min-h-[45vh]' : 'min-h-[65vh] lg:min-h-[75vh] pb-24 lg:pb-36'
+                  } transition-all duration-500`}
                 >
-                  {/* Mobile Category Title */}
-                  <h3 className="text-2xl font-bold text-navy-base mb-8 md:hidden border-b border-border-flat pb-4">
-                    {cat.title}
-                  </h3>
-                  
-                  <div className="grid gap-6">
+                  {/* Cards container & section indicator: hidden until scroll enters this capability section */}
+                  <div 
+                    className={`transition-all duration-700 ease-out ${
+                      isEntered 
+                        ? 'opacity-100 translate-y-0 pointer-events-auto' 
+                        : 'opacity-0 translate-y-10 pointer-events-none'
+                    }`}
+                  >
+                    {/* Section X of Y Header Indicator */}
+                    <div className="flex items-center justify-between gap-4 mb-6 pb-4 border-b border-border-flat">
+                      <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-md text-xs font-mono font-semibold bg-accent-emerald/10 text-accent-forest border border-accent-emerald/25">
+                          Section {idx + 1} of {cats.length}
+                        </span>
+                        <h3 className="text-xl font-bold text-navy-base tracking-tight">
+                          {cat.title}
+                        </h3>
+                      </div>
+                      <span className="text-xs font-mono text-text-muted hidden sm:inline-block">
+                        {cat.items.length} {cat.items.length === 1 ? 'Capability' : 'Capabilities'}
+                      </span>
+                    </div>
+
+                    <div className="grid gap-6">
                     {cat.items.map((cap, i) => (
-                      <Reveal key={i} delay={i * 0.1}>
-                        <div className="group flex flex-col sm:flex-row gap-6 p-8 bg-bg-ice-blue border border-border-flat rounded-2xl hover:border-accent-emerald/50 hover:shadow-lg transition-all duration-300">
-                          <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-accent-emerald/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                            {categoryIcons[idx]?.[i]}
-                          </div>
-                          <div>
-                            <h4 className="text-xl font-bold text-navy-base mb-3">{cap.title}</h4>
-                            <p className="text-text-muted leading-relaxed">{cap.desc}</p>
-                          </div>
+                      <div 
+                        key={i} 
+                        className="group flex flex-col sm:flex-row gap-6 p-8 bg-bg-ice-blue border border-border-flat rounded-2xl hover:border-accent-emerald/50 hover:shadow-lg transition-all duration-300"
+                      >
+                        <div className="flex-shrink-0 w-16 h-16 rounded-xl bg-accent-emerald/10 flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                          {categoryIcons[idx]?.[i]}
                         </div>
-                      </Reveal>
+                        <div>
+                          <h4 className="text-xl font-bold text-navy-base mb-3">{cap.title}</h4>
+                          <p className="text-text-muted leading-relaxed">{cap.desc}</p>
+                        </div>
+                      </div>
                     ))}
+                    </div>
                   </div>
                 </div>
               );

@@ -104,3 +104,35 @@ export interface ContactSubmission {
   status: 'new' | 'read' | 'replied' | 'archived';
   created_at: string;
 }
+
+export interface BlogCategory {
+  id: string;
+  slug: string;
+  name: string;
+  description?: string;
+  sort_order: number;
+  created_at?: string;
+}
+
+export interface BlogPost {
+  id: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  cover_image_url?: string;
+  cover_image_alt?: string;
+  author: string;
+  category_id?: string;
+  category?: BlogCategory;
+  tags: string[];
+  reading_time_minutes: number;
+  sort_order: number;
+  is_published: boolean;
+  published_at?: string;
+  seo_title?: string;
+  meta_description?: string;
+  canonical_url?: string;
+  created_at?: string;
+  updated_at?: string;
+}

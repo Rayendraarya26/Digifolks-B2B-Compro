@@ -25,7 +25,18 @@ export function Navbar({ dict, lang }: { dict: any; lang: string }) {
     // { name: dict.about, href: '/about' },
     { name: dict.services, href: '/services' },
     { name: dict.work, href: '/work' },
+    { name: dict.blog || 'Blog', href: '/blog' },
   ];
+
+  const getTargetUrl = (targetLang: string) => {
+    if (!pathname) return `/${targetLang}`;
+    const segments = pathname.split('/');
+    if (segments[1] === 'en' || segments[1] === 'id') {
+      segments[1] = targetLang;
+      return segments.join('/') || `/${targetLang}`;
+    }
+    return `/${targetLang}${pathname.startsWith('/') ? pathname : `/${pathname}`}`;
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full bg-navy-base/80 backdrop-blur-[12px] border-b border-navy-light transition-colors duration-300">
@@ -67,13 +78,22 @@ export function Navbar({ dict, lang }: { dict: any; lang: string }) {
 
           {/* Sisi Kanan: Action Hub */}
           <div className="flex items-center gap-4">
-            {/* Language Switcher — hidden while only EN is enabled
-            <div className="flex gap-2 text-xs font-mono">
-              <Link href={pathname.replace(`/${lang}`, '/en')} className={`${lang === 'en' ? 'text-accent-emerald' : 'text-text-muted hover:text-text-pure'}`}>EN</Link>
-              <span className="text-border-flat">|</span>
-              <Link href={pathname.replace(`/${lang}`, '/id')} className={`${lang === 'id' ? 'text-accent-emerald' : 'text-text-muted hover:text-text-pure'}`}>ID</Link>
+            {/* Language Switcher */}
+            <div className="flex items-center gap-1.5 h-10 px-3 rounded-lg bg-transparent border border-border-flat text-xs font-mono">
+              <Link 
+                href={getTargetUrl('en')} 
+                className={`transition-colors duration-200 px-1.5 py-0.5 rounded ${lang === 'en' ? 'text-accent-emerald font-bold bg-accent-emerald/10' : 'text-text-off-white/60 hover:text-text-pure'}`}
+              >
+                EN
+              </Link>
+              <span className="text-border-flat/40">/</span>
+              <Link 
+                href={getTargetUrl('id')} 
+                className={`transition-colors duration-200 px-1.5 py-0.5 rounded ${lang === 'id' ? 'text-accent-emerald font-bold bg-accent-emerald/10' : 'text-text-off-white/60 hover:text-text-pure'}`}
+              >
+                ID
+              </Link>
             </div>
-            */}
             
             <Link href={`/${lang}/contact`} tabIndex={-1}>
               <Button variant="ghost">

@@ -1,5 +1,5 @@
 import { createClient } from './client';
-import { Portfolio, Service, FAQ, Testimonial, TeamDNA, GeneralSettings } from './types';
+import { Portfolio, Service, FAQ, Testimonial, TeamDNA, GeneralSettings, BlogPost, BlogCategory } from './types';
 
 // Browser / Public Client
 const supabase = createClient();
@@ -133,5 +133,166 @@ export async function getGeneralSettings(): Promise<GeneralSettings | null> {
   } catch (err) {
     console.error('Unexpected error in getGeneralSettings:', err);
     return null;
+  }
+}
+
+export async function getServiceBySlug(slug: string): Promise<Service | null> {
+  try {
+    const { data, error } = await supabase
+      .from('services')
+      .select('*')
+      .eq('slug', slug)
+      .single();
+
+    if (error) {
+      console.error(`Error fetching service ${slug} from Supabase:`, error.message);
+      return null;
+    }
+    return data;
+  } catch (err) {
+    console.error(`Unexpected error in getServiceBySlug (${slug}):`, err);
+    return null;
+  }
+}
+
+export async function getBlogCategories(): Promise<BlogCategory[]> {
+  try {
+    const { data, error } = await supabase
+      .from('blog_categories')
+      .select('*')
+      .order('sort_order', { ascending: true });
+
+    if (error) {
+      console.error('Error fetching blog categories from Supabase:', error.message);
+      return [];
+    }
+    return data || [];
+  } catch (err) {
+    console.error('Unexpected error in getBlogCategories:', err);
+    return [];
+  }
+}
+
+export interface GetBlogPostsParams {
+  categorySlug?: string;
+  tag?: string;
+  search?: string;
+  page?: number;
+  limit?: number;
+}
+
+export interface GetBlogPostsResult {
+  posts: BlogPost[];
+  total: number;
+  totalPages: number;
+  currentPage: number;
+}
+
+export async function getBlogPosts({
+  categorySlug,
+  tag,
+  search,
+  page = 1,
+  limit = 9,
+}: GetBlogPostsParams = {}): Promise<GetBlogPostsResult> {
+  try {
+    let query = supabase
+      .from('blog_posts')
+      .select('*, category:blog_categories(*)', { count: 'exact' })
+      .eq('is_published', true)
+      .order('published_at', { ascending: false, nullsFirst: false })
+      .order('created_at', { ascending: false });
+
+    // Filter by category slug if provided
+    if (categorySlug && categorySlug !== 'all') {
+      const { data: catData } = await supabase
+        .from('blog_categories')
+        .select('id')
+        .eq('slug', categorySlug)
+        .single();
+      
+      if (catData?.id) {
+        query = query.eq('category_id', catData.id);
+      }
+    }
+
+    // Filter by tag if provided
+    if (tag) {
+      query = query.contains('tags', [tag]);
+    }
+
+    // Filter by search query if provided
+    if (search && search.trim()) {
+      query = query.ilike('title', `%${search.trim()}%`);
+    }
+
+    const from = (page - 1) * limit;
+    const to = from + limit - 1;
+    query = query.range(from, to);
+
+    const { data, count, error } = await query;
+
+    if (error) {
+      console.error('Error fetching blog posts from Supabase:', error.message);
+      return { posts: [], total: 0, totalPages: 0, currentPage: page };
+    }
+
+    const total = count || 0;
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      posts: (data as BlogPost[]) || [],
+      total,
+      totalPages,
+      currentPage: page,
+    };
+  } catch (err) {
+    console.error('Unexpected error in getBlogPosts:', err);
+    return { posts: [], total: 0, totalPages: 0, currentPage: page };
+  }
+}
+
+export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+  try {
+    const { data, error } = await supabase
+      .from('blog_posts')
+      .select('*, category:blog_categories(*)')
+      .eq('slug', slug)
+      .single();
+
+    if (error) {
+      console.error(`Error fetching blog post ${slug} from Supabase:`, error.message);
+      return null;
+    }
+    return data as BlogPost;
+  } catch (err) {
+    console.error(`Unexpected error in getBlogPostBySlug (${slug}):`, err);
+    return null;
+  }
+}
+
+export async function getRelatedBlogPosts(currentPostId: string, categoryId?: string, limit = 3): Promise<BlogPost[]> {
+  try {
+    let query = supabase
+      .from('blog_posts')
+      .select('*, category:blog_categories(*)')
+      .eq('is_published', true)
+      .neq('id', currentPostId)
+      .order('published_at', { ascending: false })
+      .limit(limit);
+
+    if (categoryId) {
+      query = query.eq('category_id', categoryId);
+    }
+
+    const { data, error } = await query;
+    if (error) {
+      console.error('Error fetching related blog posts:', error.message);
+      return [];
+    }
+    return (data as BlogPost[]) || [];
+  } catch (err) {
+    console.error('Unexpected error in getRelatedBlogPosts:', err);
+    return [];
   }
 }

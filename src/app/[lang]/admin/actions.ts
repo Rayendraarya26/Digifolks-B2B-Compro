@@ -359,3 +359,177 @@ export async function saveGeneralSettings(data: {
   revalidatePath("/admin/settings");
   return { success: true };
 }
+
+// ==========================================
+// BLOG ACTIONS
+// ==========================================
+
+export async function saveBlogPost(data: {
+  id?: string;
+  slug: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  cover_image_url?: string;
+  cover_image_alt?: string;
+  author: string;
+  category_id?: string;
+  tags: string[];
+  reading_time_minutes?: number;
+  sort_order?: number;
+  is_published: boolean;
+  published_at?: string;
+  seo_title?: string;
+  meta_description?: string;
+  canonical_url?: string;
+}) {
+  const supabase = await createClient();
+
+  // Auto-calculate reading time if not supplied: ~200 words per minute
+  let readingTime = data.reading_time_minutes;
+  if (!readingTime || readingTime <= 0) {
+    const plainText = (data.content || "").replace(/<[^>]*>/g, " ");
+    const wordCount = plainText.trim().split(/\s+/).filter(Boolean).length;
+    readingTime = Math.max(1, Math.ceil(wordCount / 200));
+  }
+
+  // Auto-generate SEO fields if empty
+  const seoTitle = data.seo_title?.trim() || data.title.trim();
+  const metaDescription = data.meta_description?.trim() || data.excerpt?.trim();
+
+  // Published at timestamp logic
+  let publishedAt = data.published_at || null;
+  if (data.is_published && !publishedAt) {
+    publishedAt = new Date().toISOString();
+  }
+
+  const cleanSlug = data.slug.toLowerCase().trim().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-");
+
+  const payload = {
+    slug: cleanSlug,
+    title: data.title.trim(),
+    excerpt: data.excerpt.trim(),
+    content: data.content,
+    cover_image_url: data.cover_image_url || null,
+    cover_image_alt: data.cover_image_alt?.trim() || data.title.trim(),
+    author: data.author?.trim() || "Digifolks Team",
+    category_id: data.category_id || null,
+    tags: JSON.stringify(data.tags || []),
+    reading_time_minutes: readingTime,
+    sort_order: Number(data.sort_order) || 0,
+    is_published: Boolean(data.is_published),
+    published_at: publishedAt,
+    seo_title: seoTitle,
+    meta_description: metaDescription,
+    canonical_url: data.canonical_url?.trim() || "",
+    updated_at: new Date().toISOString(),
+  };
+
+  if (data.id) {
+    const { error } = await supabase
+      .from("blog_posts")
+      .update(payload)
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+  } else {
+    const { error } = await supabase.from("blog_posts").insert(payload);
+    if (error) throw new Error(error.message);
+  }
+
+  // Revalidate both language routes and admin
+  revalidatePath("/en");
+  revalidatePath("/id");
+  revalidatePath("/en/blog");
+  revalidatePath("/id/blog");
+  revalidatePath(`/en/blog/${cleanSlug}`);
+  revalidatePath(`/id/blog/${cleanSlug}`);
+  revalidatePath("/admin/blog");
+  revalidatePath("/en/admin/blog");
+  revalidatePath("/id/admin/blog");
+
+  return { success: true, slug: cleanSlug };
+}
+
+export async function deleteBlogPost(id: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("blog_posts").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/en/blog");
+  revalidatePath("/id/blog");
+  revalidatePath("/admin/blog");
+  revalidatePath("/en/admin/blog");
+  revalidatePath("/id/admin/blog");
+  return { success: true };
+}
+
+export async function togglePublishBlogPost(id: string, is_published: boolean) {
+  const supabase = await createClient();
+  const updateData: any = {
+    is_published,
+    updated_at: new Date().toISOString(),
+  };
+  if (is_published) {
+    updateData.published_at = new Date().toISOString();
+  }
+
+  const { error } = await supabase
+    .from("blog_posts")
+    .update(updateData)
+    .eq("id", id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/en/blog");
+  revalidatePath("/id/blog");
+  revalidatePath("/admin/blog");
+  revalidatePath("/en/admin/blog");
+  revalidatePath("/id/admin/blog");
+  return { success: true };
+}
+
+export async function saveBlogCategory(data: {
+  id?: string;
+  name: string;
+  slug: string;
+  description?: string;
+  sort_order?: number;
+}) {
+  const supabase = await createClient();
+  const cleanSlug = data.slug.toLowerCase().trim().replace(/[^a-z0-9-]/g, "-").replace(/-+/g, "-");
+
+  const payload = {
+    name: data.name.trim(),
+    slug: cleanSlug,
+    description: data.description?.trim() || "",
+    sort_order: Number(data.sort_order) || 0,
+  };
+
+  if (data.id) {
+    const { error } = await supabase
+      .from("blog_categories")
+      .update(payload)
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+  } else {
+    const { error } = await supabase.from("blog_categories").insert(payload);
+    if (error) throw new Error(error.message);
+  }
+
+  revalidatePath("/en/blog");
+  revalidatePath("/id/blog");
+  revalidatePath("/admin/blog");
+  revalidatePath("/admin/blog/categories");
+  return { success: true };
+}
+
+export async function deleteBlogCategory(id: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("blog_categories").delete().eq("id", id);
+  if (error) throw new Error(error.message);
+
+  revalidatePath("/en/blog");
+  revalidatePath("/id/blog");
+  revalidatePath("/admin/blog");
+  revalidatePath("/admin/blog/categories");
+  return { success: true };
+}

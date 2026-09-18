@@ -4,8 +4,8 @@ import type { NextRequest } from 'next/server';
 const locales = ['en', 'id'];
 const defaultLocale = 'en';
 
-// Locales that are currently enabled (hide 'id' for now)
-const enabledLocales = ['en'];
+// Locales that are currently enabled
+const enabledLocales = ['en', 'id'];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;

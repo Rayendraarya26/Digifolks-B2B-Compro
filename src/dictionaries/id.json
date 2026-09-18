@@ -3,6 +3,7 @@
     "home": "Beranda",
     "services": "Layanan",
     "work": "Studi Kasus",
+    "blog": "Blog",
     "contact": "Hubungi Kami"
   },
   "footer": {
@@ -13,6 +14,7 @@
       "home": "Beranda",
       "services": "Layanan",
       "work": "Studi Kasus",
+      "blog": "Blog",
       "contact": "Hubungi Kami"
     }
   },
@@ -54,16 +56,29 @@
       "viewAll": "Lihat Semua Layanan",
       "items": [
         {
-          "title": "Custom Software Development",
-          "desc": "Pengembangan sistem perangkat lunak kustom dan scalable yang dirancang khusus untuk memenuhi kebutuhan proses bisnis operasional Anda."
+          "slug": "svc-ai",
+          "title": "Artificial Intelligence",
+          "desc": "Sistem berbasis AI untuk otomatisasi alur kerja, analisis prediktif, dan pengambilan keputusan berbasis data."
         },
         {
-          "title": "AI Development",
-          "desc": "Solusi kecerdasan buatan, machine learning, dan automasi untuk membantu mempercepat proses pengambilan keputusan bisnis."
+          "slug": "svc-mgmt",
+          "title": "Management System",
+          "desc": "Sistem operasional kustom untuk menyederhanakan alur kerja dan memusatkan proses bisnis perusahaan."
         },
         {
-          "title": "Website Development",
-          "desc": "Pembuatan website interaktif, company profile, e-commerce, hingga web portal dengan performa tinggi."
+          "slug": "svc-web",
+          "title": "Web Platforms",
+          "desc": "Sistem web terukur yang dirancang untuk performa tinggi, stabilitas, dan pertumbuhan berkelanjutan."
+        },
+        {
+          "slug": "svc-apps",
+          "title": "iOS, Android, Desktop",
+          "desc": "Aplikasi lintas platform yang dirancang untuk efisiensi operasional dan kemudahan penggunaan tim."
+        },
+        {
+          "slug": "svc-it",
+          "title": "IT Solution & Consulting",
+          "desc": "Perencanaan arsitektur sistem dan konsultasi teknis strategis untuk infrastruktur yang scalable."
         }
       ]
     },
@@ -122,6 +137,14 @@
       "viewAll": "Lihat Semua Studi Kasus",
       "proposalBadge": "Professional Portfolio for Stakeholder Proposals"
     },
+    "blog": {
+      "tag": "Wawasan & Pengetahuan",
+      "titleLine1": "Perspektif Rekayasa &",
+      "titleAccent": "Wawasan Sistem",
+      "desc": "Artikel mendalam seputar arsitektur terukur, pipeline AI, alur kerja enterprise, dan transformasi digital modern.",
+      "viewAll": "Lihat Semua Artikel",
+      "readTime": "menit baca"
+    },
     "faq": {
       "title": "Frequently Asked Questions",
       "desc": "Pertanyaan umum terkait layanan dan metodologi kami.",
@@ -158,73 +181,58 @@
     },
     "items": [
       {
-        "title": "Custom Software Development",
-        "summary": "Pengembangan sistem perangkat lunak kustom dan scalable yang dirancang khusus untuk memenuhi kebutuhan proses bisnis operasional Anda.",
+        "slug": "svc-ai",
+        "title": "Artificial Intelligence",
+        "summary": "Sistem berbasis AI untuk otomatisasi alur kerja, analisis prediktif, dan pengambilan keputusan berbasis data.",
         "details": [
-          "Sistem Enterprise Resource Planning (ERP).",
-          "Customer Relationship Management (CRM).",
-          "Sistem Informasi Manajemen spesifik industri.",
-          "Arsitektur Microservices yang scalable."
+          "Model Machine Learning kustom yang dilatih sesuai alur data bisnis Anda.",
+          "NLP & Chatbot cerdas berkemampuan pemahaman konteks mendalam.",
+          "Analitik Prediktif & Sistem Rekomendasi dinamis untuk pertumbuhan.",
+          "Computer Vision & inspeksi visual otomatis berbasis real-time."
         ]
       },
       {
-        "title": "Website Development",
-        "summary": "Pembuatan website company profile, e-commerce, hingga web portal dengan performa tinggi dan desain yang modern.",
+        "slug": "svc-mgmt",
+        "title": "Management System",
+        "summary": "Sistem operasional kustom untuk menyederhanakan alur kerja dan memusatkan proses bisnis perusahaan.",
         "details": [
-          "Company Profile dan Landing Page interaktif.",
-          "Sistem e-commerce terintegrasi payment gateway.",
-          "Portal B2B dengan akses pengguna kustom.",
-          "Optimasi SEO dan performa (Core Web Vitals)."
+          "Arsitektur ERP kustom yang dirancang presisi sesuai alur operasional nyata.",
+          "Dashboard analitik real-time dengan refresh data sub-detik.",
+          "Otomatisasi persetujuan dokumen dan pipeline kerja operasional.",
+          "Visualisasi data dan business intelligence lintas departemen terpadu."
         ]
       },
       {
-        "title": "Mobile App Development",
-        "summary": "Pengembangan aplikasi mobile native dan cross-platform untuk iOS dan Android demi jangkauan pengguna yang lebih luas.",
+        "slug": "svc-web",
+        "title": "Web Platforms",
+        "summary": "Sistem web terukur yang dirancang untuk performa tinggi, stabilitas, dan pertumbuhan berkelanjutan.",
         "details": [
-          "Aplikasi iOS dan Android berbasis React Native / Flutter.",
-          "Aplikasi internal untuk produktivitas karyawan.",
-          "Integrasi notifikasi push dan fitur device-native.",
-          "Publikasi dan manajemen App Store & Play Store."
+          "Portal enterprise web berkinerja tinggi dengan Server-Side Rendering (SSR).",
+          "Arsitektur cloud-native yang terukur dengan jaminan SLA uptime 99.9%.",
+          "Pengalaman digital interaktif WebGL/3D untuk interaksi pelanggan modern.",
+          "Optimasi teknis Core Web Vitals dan optimasi mesin pencari (SEO)."
         ]
       },
       {
-        "title": "AI Development",
-        "summary": "Solusi kecerdasan buatan, machine learning, dan automasi untuk membantu mempercepat proses pengambilan keputusan dan operasional bisnis.",
+        "slug": "svc-apps",
+        "title": "iOS, Android, Desktop",
+        "summary": "Aplikasi lintas platform yang dirancang untuk efisiensi operasional dan kemudahan penggunaan tim.",
         "details": [
-          "AI Chatbot & Virtual Assistant.",
-          "Computer Vision & Object Detection.",
-          "OCR & Document Processing.",
-          "Predictive Analytics & Recommendation System."
+          "Aplikasi mobile multi-platform berbasis React Native dan Flutter.",
+          "Aplikasi internal berkeandalan tinggi untuk operasional lapangan.",
+          "Arsitektur offline-first untuk kelancaran kerja tanpa gangguan koneksi.",
+          "Integrasi perangkat keras native (BLE, kamera, biometrik, printer POS)."
         ]
       },
       {
-        "title": "UI/UX Design",
-        "summary": "Desain antarmuka pengguna yang intuitif, estetis, dan fungsional untuk pengalaman pengguna yang maksimal.",
+        "slug": "svc-it",
+        "title": "IT Solution & Consulting",
+        "summary": "Perencanaan arsitektur sistem dan konsultasi teknis strategis untuk infrastruktur yang scalable.",
         "details": [
-          "Wireframing dan prototyping.",
-          "User research dan usability testing.",
-          "Desain antarmuka modern dan responsif.",
-          "Pembuatan Design System perusahaan."
-        ]
-      },
-      {
-        "title": "Maintenance & Support",
-        "summary": "Dukungan teknis berkelanjutan, pemeliharaan sistem, dan pembaruan keamanan agar sistem Anda selalu berjalan optimal.",
-        "details": [
-          "Monitoring performa dan uptime server 24/7.",
-          "Pembaruan patch keamanan secara berkala.",
-          "Dukungan teknis responsif dan SLA terjamin.",
-          "Backup data rutin dan pemulihan sistem."
-        ]
-      },
-      {
-        "title": "IT Consulting",
-        "summary": "Konsultasi strategis untuk transformasi digital, pemilihan teknologi, dan arsitektur IT guna mendukung pertumbuhan bisnis Anda.",
-        "details": [
-          "Audit arsitektur sistem existing.",
-          "Perencanaan transformasi digital.",
-          "Pemilihan teknologi dan infrastruktur cloud.",
-          "Konsultasi keamanan siber dan kepatuhan data."
+          "Migrasi cloud, kontainerisasi, dan modernisasi infrastruktur lawas.",
+          "Setup DevOps, continuous integration, dan pipeline deployment otomatis.",
+          "Audit menyeluruh keamanan sistem enterprise dan kesiapan kepatuhan.",
+          "Konsultasi strategis arsitektur IT untuk roadmap jangka panjang bisnis."
         ]
       }
     ],
@@ -294,6 +302,25 @@
       "titleLine2": "Real Impact.",
       "desc": "Kami berkolaborasi dengan enterprise untuk memecahkan kompleksitas operasional melalui rekayasa perangkat lunak yang presisi.",
       "proposalBadge": "Professional Portfolio for Stakeholder Proposals"
+    },
+    "detail": {
+      "backLink": "Kembali ke Studi Kasus",
+      "proposalBadge": "Professional Portfolio for Stakeholder Proposals",
+      "overview": "Overview",
+      "theChallenge": "Tantangan",
+      "ourSolution": "Solusi Kami",
+      "projectInfo": "Info Proyek",
+      "client": "Klien",
+      "industry": "Industri",
+      "duration": "Durasi",
+      "year": "Tahun",
+      "techStack": "Tech Stack & Tag",
+      "ctaTitle": "Ingin hasil serupa?",
+      "ctaDesc": "Ceritakan tantangan bisnis Anda dan kami akan merancang solusinya.",
+      "ctaBtn": "Jadwalkan Konsultasi",
+      "galleryTitle": "Galeri Proyek",
+      "galleryDesc": "Visual showcase dari proyek yang telah kami kerjakan.",
+      "noGallery": "Tidak ada gambar galeri tambahan untuk proyek ini."
     }
   },
   "contact": {
@@ -325,5 +352,41 @@
       "hqAddress": "Yogyakarta, Indonesia",
       "hqLabel": "Tech & Engineering Hub"
     }
+  },
+  "blog": {
+    "tag": "Wawasan & Rekayasa",
+    "titleLine1": "Perspektif tentang",
+    "titleLine2": "Skala & Rekayasa.",
+    "desc": "Artikel mendalam, studi kasus arsitektur, dan wawasan rekayasa perangkat lunak dari tim Digifolks.",
+    "allCategories": "Semua Topik",
+    "searchPlaceholder": "Cari artikel, topik, atau kata kunci...",
+    "readArticle": "Baca Artikel",
+    "minRead": "menit baca",
+    "publishedOn": "Diterbitkan pada",
+    "author": "Penulis",
+    "share": "Bagikan",
+    "backToBlog": "Kembali ke semua artikel",
+    "relatedArticles": "Artikel Terkait",
+    "noArticlesFound": "Tidak ada artikel yang sesuai dengan kriteria Anda.",
+    "categories": "Kategori",
+    "tags": "Tag",
+    "pagination": {
+      "prev": "Sebelumnya",
+      "next": "Selanjutnya",
+      "page": "Halaman",
+      "of": "dari"
+    }
+  },
+  "serviceDetail": {
+    "backToServices": "Kembali ke Layanan",
+    "overview": "Ringkasan Layanan",
+    "keyFeatures": "Kapabilitas & Hasil Utama",
+    "techStack": "Teknologi & Perangkat",
+    "consultationTitle": "Siap membangun solusi ini untuk organisasi Anda?",
+    "consultationDesc": "Jadwalkan sesi konsultasi arsitektur bersama tim lead engineer kami.",
+    "consultationBtn": "Jadwalkan Konsultasi",
+    "relatedPortfolios": "Studi Kasus Terkait",
+    "nextService": "Layanan Selanjutnya",
+    "viewDetails": "Lihat Detail"
   }
 }

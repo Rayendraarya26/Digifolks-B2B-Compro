@@ -9,7 +9,8 @@ import {
   Plus,
   CheckCircle2,
   Clock,
-  Sparkles
+  Sparkles,
+  BookOpen
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
 
@@ -20,6 +21,7 @@ export default async function AdminDashboardPage() {
   const [
     { count: portfolioCount },
     { count: serviceCount },
+    { count: blogCount },
     { count: faqCount },
     { count: testimonialCount },
     { count: inquiryCount },
@@ -28,6 +30,7 @@ export default async function AdminDashboardPage() {
   ] = await Promise.all([
     supabase.from("portfolios").select("*", { count: "exact", head: true }),
     supabase.from("services").select("*", { count: "exact", head: true }),
+    supabase.from("blog_posts").select("*", { count: "exact", head: true }),
     supabase.from("faqs").select("*", { count: "exact", head: true }),
     supabase.from("testimonials").select("*", { count: "exact", head: true }),
     supabase.from("contact_submissions").select("*", { count: "exact", head: true }),
@@ -55,6 +58,16 @@ export default async function AdminDashboardPage() {
       color: "text-blue-400",
       bg: "bg-blue-500/10",
       border: "border-blue-500/20",
+    },
+    {
+      title: "Blog Posts",
+      value: blogCount ?? 0,
+      desc: "Published & draft articles",
+      icon: BookOpen,
+      href: "/admin/blog",
+      color: "text-emerald-400",
+      bg: "bg-emerald-500/10",
+      border: "border-emerald-500/20",
     },
     {
       title: "Inquiries",
