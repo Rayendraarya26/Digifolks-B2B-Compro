@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.digifolks.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.digifolks.id';
   
   // Base routes inside the (main) group
   const routes = ['', '/about', '/services', '/work', '/contact'];

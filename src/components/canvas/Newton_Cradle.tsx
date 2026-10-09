@@ -42,7 +42,7 @@ type GLTFResult = GLTF & {
     Rectangle001: THREE.Mesh
     Rectangle002: THREE.Mesh
   }
-  materials: {}
+  materials: Record<string, unknown>
   // PERBAIKAN 1: Gunakan THREE.AnimationClip bawaan Three.js
   animations: THREE.AnimationClip[] 
 }

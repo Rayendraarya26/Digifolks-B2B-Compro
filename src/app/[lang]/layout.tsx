@@ -30,10 +30,12 @@ export const viewport: Viewport = {
   ],
 };
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.digifolks.id";
+
 // Metadata Global yang SEO Friendly
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.digifolks.com"),
-  authors: [{ name: "Digifolks", url: "https://www.digifolks.com" }],
+  metadataBase: new URL(siteUrl),
+  authors: [{ name: "Digifolks", url: siteUrl }],
   title: {
     default: "Digifolks | Scalable Operational Systems & Software Engineering",
     template: "%s | Digifolks",
@@ -52,7 +54,7 @@ export const metadata: Metadata = {
     title: "Digifolks | Scalable Systems for Complex Businesses",
     description:
       "We design and develop operational systems that scale with your business. Built for reliability, efficiency, and long-term growth.",
-    url: "https://www.digifolks.com",
+    url: siteUrl,
     siteName: "Digifolks",
     images: [
       {
