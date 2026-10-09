@@ -1,5 +1,6 @@
 "use server";
 import { Resend } from 'resend';
+import { createClient } from '@/lib/supabase/server';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -19,6 +20,23 @@ export async function sendLaunchpadEmail(formData: LaunchpadData) {
     const { name, company, email, service, budget, currency, details } = formData;
     const senderDomain = 'Digifolks System <hello@mail.digifolks.id>';
     const adminEmail = ['digifolkstech@gmail.com', 'marketing@digifolks.id'];
+
+    // Save inquiry to Supabase database
+    try {
+      const supabase = await createClient();
+      await supabase.from('contact_submissions').insert({
+        name,
+        company: company || '',
+        email,
+        service,
+        budget: budget || '',
+        currency: currency || 'IDR',
+        details,
+        status: 'new'
+      });
+    } catch (dbErr) {
+      console.error("Failed to store submission in database:", dbErr);
+    }
 
     const { data, error } = await resend.batch.send([
       // ==========================================

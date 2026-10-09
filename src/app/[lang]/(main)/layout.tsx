@@ -1,3 +1,4 @@
+import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
 import { getDictionary } from "@/lib/dictionaries";
 
@@ -14,6 +15,7 @@ export default async function MainLayout({
 
   return (
     <>
+      <Navbar dict={dict.navbar} lang={lang} />
       <main className="relative min-h-screen w-full">{children}</main>
       <Footer dict={dict.footer} lang={lang} />
     </>

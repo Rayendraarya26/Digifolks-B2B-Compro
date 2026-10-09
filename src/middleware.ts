@@ -4,8 +4,8 @@ import type { NextRequest } from 'next/server';
 const locales = ['en', 'id'];
 const defaultLocale = 'en';
 
-// Locales that are currently enabled (hide 'id' for now)
-const enabledLocales = ['en'];
+// Locales that are currently enabled
+const enabledLocales = ['en', 'id'];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -17,6 +17,12 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/_next')
   ) {
     return NextResponse.next();
+  }
+
+  // Redirect /login or /:lang/login to /:lang/admin/login
+  if (pathname === '/login' || pathname === '/en/login' || pathname === '/id/login') {
+    request.nextUrl.pathname = `/${defaultLocale}/admin/login`;
+    return NextResponse.redirect(request.nextUrl);
   }
 
   // Redirect disabled locales (e.g. /id/...) to default locale

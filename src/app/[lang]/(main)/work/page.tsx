@@ -5,6 +5,7 @@ import { ArrowUpRight } from "lucide-react";
 import fs from "fs";
 import path from "path";
 import { getDictionary } from "@/lib/dictionaries";
+import { getPortfolios } from "@/lib/supabase/queries";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> | { lang: string } }): Promise<Metadata> {
   const resolvedParams = await params;
@@ -27,83 +28,6 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   };
 }
 
-const cases = [
-  {
-    slug: "gorillacoach",
-    partner: "GorillaCoachID",
-    industry: "Retail / E-Commerce",
-    title: "Integrated Web e-Commerce & POS System",
-    metric: "3-in-1",
-    metricLabel: "Unified Platform",
-    tags: ["Next.js", "Node.js", "POS Integration"],
-  },
-  {
-    slug: "wecore",
-    partner: "We Core",
-    industry: "Creative Agency",
-    title: "Professional Agency Company Profile",
-    metric: "SEO",
-    metricLabel: "Optimized",
-    tags: ["Next.js", "WebGL", "UI/UX Strategy"],
-  },
-  {
-    slug: "kazeer",
-    partner: "Kazeer Solusi Digital",
-    industry: "Food & Beverage",
-    title: "Next-Generation FnB POS & AI Business Consultant",
-    metric: "AI",
-    metricLabel: "Integrated",
-    tags: ["AI Chatbot", "WhatsApp API", "Payment Gateway"],
-  },
-  {
-    slug: "homestay",
-    partner: "Homestaydijogja.Id",
-    industry: "Tourism",
-    title: "Digital Tourism Catalog & Management Platform",
-    metric: "Local",
-    metricLabel: "SEO Focused",
-    tags: ["Custom CMS", "SEO", "Responsive"],
-  },
-  {
-    slug: "kawan-kita-semua",
-    partner: "PT Kawan Kita Semua",
-    industry: "Aquaculture",
-    title: "Smart Aquaculture Decision Support System",
-    metric: "AI",
-    metricLabel: "Driven Insights",
-    tags: ["AI Analytics", "IoT", "Real-time Monitoring"],
-  },
-  {
-    slug: "positive-strength",
-    partner: "Positive Strength",
-    industry: "Fitness",
-    title: "Scalable Business Website",
-    metric: "∞",
-    metricLabel: "Scalable",
-    tags: ["Scalable Architecture", "CMS", "Modular Design"],
-  },
-  {
-    slug: "digital-assessment",
-    partner: "TMMIN",
-    industry: "Human Resources",
-    title: "Introduction to Company Culture: Digital Assessment",
-    metric: "100%",
-    metricLabel: "Automated",
-    tags: ["Assessment Platform", "Analytics", "Automation"],
-    isProposal: true,
-  },
-  {
-    slug: "malaka",
-    partner: "Malaka Project",
-    industry: "Education",
-    title: "Integrated Learning Platform",
-    metric: "All-in-1",
-    metricLabel: "Learning Ecosystem",
-    tags: ["Video Streaming", "LMS", "Assessment Tools"],
-    isProposal: true,
-  },
-];
-
 export default async function PortfoliosPage({ params }: { params: Promise<{ lang: string }> | { lang: string } }) {
   const resolvedParams = await params;
   const lang = (resolvedParams?.lang || 'en') as 'en' | 'id';
@@ -111,7 +35,12 @@ export default async function PortfoliosPage({ params }: { params: Promise<{ lan
   const t = dict.work;
   const prefix = `/${lang}`;
 
-  const getCoverImage = (slug: string) => {
+  const cases = await getPortfolios();
+
+  const getCoverImage = (slug: string, customCover?: string) => {
+    if (customCover && customCover.startsWith('/')) {
+      return customCover;
+    }
     try {
       const publicDir = path.join(process.cwd(), "public", "Image", "Portfolio", slug);
       const files = fs.readdirSync(publicDir);
@@ -143,13 +72,13 @@ export default async function PortfoliosPage({ params }: { params: Promise<{ lan
         {/* Project Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {cases.map((study, idx) => (
-            <Reveal key={idx} delay={0.05 * idx} className="h-full">
+            <Reveal key={study.id || study.slug || idx} delay={0.05 * idx} className="h-full">
               <Link href={`${prefix}/work/${study.slug}`} className="group block h-full">
                 <div className="h-full bg-bg-pure border border-border-flat rounded-2xl overflow-hidden hover:border-accent-forest/30 hover:shadow-2xl transition-all duration-300 flex flex-col">
                   {/* Card Header Visual: Project Image */}
                   <div className="aspect-[16/10] bg-navy-base relative overflow-hidden">
                     <img
-                      src={getCoverImage(study.slug)}
+                      src={getCoverImage(study.slug, study.cover_image_url)}
                       alt={study.title}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
@@ -157,7 +86,7 @@ export default async function PortfoliosPage({ params }: { params: Promise<{ lan
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-base/60 via-transparent to-transparent" />
 
                     {/* Proposal Badge */}
-                    {study.isProposal && (
+                    {study.is_proposal && (
                       <div className="absolute top-4 left-4 bg-[#10B981]/70 text-white text-[9px] sm:text-[10px] font-mono px-2.5 py-1 rounded-md backdrop-blur-md z-10 shadow-lg border border-[#10B981]/50">
                         {t.hero.proposalBadge}
                       </div>
@@ -172,7 +101,7 @@ export default async function PortfoliosPage({ params }: { params: Promise<{ lan
                   {/* Card Body */}
                   <div className="p-6 flex flex-col flex-1">
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="text-xs font-mono text-text-muted uppercase tracking-wider">{study.partner}</span>
+                      <span className="text-xs font-mono text-text-muted uppercase tracking-wider">{study.client}</span>
                       <span className="text-text-muted/30">·</span>
                       <span className="text-xs font-medium text-accent-forest uppercase tracking-wider">{study.industry}</span>
                     </div>
@@ -182,7 +111,7 @@ export default async function PortfoliosPage({ params }: { params: Promise<{ lan
                     </h2>
 
                     <div className="flex flex-wrap gap-2 pt-4 border-t border-border-flat">
-                      {study.tags.map((tag) => (
+                      {study.tags && study.tags.map((tag) => (
                         <span key={tag} className="px-2.5 py-1 text-xs font-mono bg-[#1e293b]/5 text-text-muted border border-border-flat rounded-md">
                           {tag}
                         </span>

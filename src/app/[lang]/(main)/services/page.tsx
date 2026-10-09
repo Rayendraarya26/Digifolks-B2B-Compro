@@ -4,6 +4,7 @@ import { Reveal } from "@/components/animations/Reveal";
 import { Button } from "@/components/ui/Button";
 import { Database, LayoutTemplate, Layers, Cpu, Code, Lock, CheckCircle2, ArrowRight, Smartphone, PenTool, Wrench, Briefcase, Globe } from "lucide-react";
 import { getDictionary } from "@/lib/dictionaries";
+import { getServices } from "@/lib/supabase/queries";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> | { lang: string } }): Promise<Metadata> {
   const resolvedParams = await params;
@@ -26,32 +27,69 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   };
 }
 
-const serviceIcons = [
-  <Code key="code" className="w-10 h-10 text-accent-forest" />,
-  <Globe key="globe" className="w-10 h-10 text-accent-forest" />,
-  <Smartphone key="smartphone" className="w-10 h-10 text-accent-forest" />,
-  <Cpu key="cpu" className="w-10 h-10 text-accent-forest" />,
-  <PenTool key="pentool" className="w-10 h-10 text-accent-forest" />,
-  <Wrench key="wrench" className="w-10 h-10 text-accent-forest" />,
-  <Briefcase key="briefcase" className="w-10 h-10 text-accent-forest" />,
-];
-
-const serviceTech = [
-  ["Next.js", "Node.js", "PostgreSQL", "Go"],
-  ["React", "Next.js", "TailwindCSS", "CMS"],
-  ["React Native", "Flutter", "Swift", "Kotlin"],
-  ["Python", "TensorFlow", "OpenAI", "PyTorch"],
-  ["Figma", "Adobe XD", "Prototyping Tools"],
-  ["Monitoring", "Cloud Services", "CI/CD"],
-  ["Cloud Strategy", "Architecture", "Security"],
-];
+const getServiceIcon = (slug: string) => {
+  switch (slug) {
+    case 'svc-ai':
+      return <Cpu className="w-10 h-10 text-accent-forest" />;
+    case 'svc-mgmt':
+      return <Database className="w-10 h-10 text-accent-forest" />;
+    case 'svc-web':
+      return <Globe className="w-10 h-10 text-accent-forest" />;
+    case 'svc-apps':
+      return <Smartphone className="w-10 h-10 text-accent-forest" />;
+    case 'svc-it':
+      return <Briefcase className="w-10 h-10 text-accent-forest" />;
+    default:
+      return <Code className="w-10 h-10 text-accent-forest" />;
+  }
+};
 
 export default async function ServicesPage({ params }: { params: Promise<{ lang: string }> | { lang: string } }) {
   const resolvedParams = await params;
   const lang = (resolvedParams?.lang || 'en') as 'en' | 'id';
-  const dict = await getDictionary(lang);
+  const [dict, dbServices] = await Promise.all([
+    getDictionary(lang),
+    getServices(),
+  ]);
   const t = dict.services;
   const prefix = `/${lang}`;
+
+  // Default fallback services if DB returns empty
+  const defaultServices = [
+    { slug: 'svc-ai', num: 1, title: 'Artificial Intelligence', short_desc: 'AI-powered systems for automation, prediction, and data-driven decision making.', features: ['Machine Learning Models', 'NLP & Chatbots', 'Predictive Analytics', 'Computer Vision'], tech_stack: ['Python', 'TensorFlow', 'PyTorch', 'OpenAI'] },
+    { slug: 'svc-mgmt', num: 2, title: 'Management System', short_desc: 'Custom operational systems to streamline workflows and centralize business processes.', features: ['Custom ERP Solutions', 'Real-time Dashboards', 'Automated Workflows', 'Data Visualization'], tech_stack: ['React', 'Node.js', 'PostgreSQL', 'Docker'] },
+    { slug: 'svc-web', num: 3, title: 'Web Platforms', short_desc: 'Scalable web systems built for performance, stability, and growth.', features: ['Interactive 3D Web', 'High-Performance SSR', 'Scalable Architecture', 'SEO Optimization'], tech_stack: ['Next.js', 'TailwindCSS', 'Framer Motion', 'Three.js'] },
+    { slug: 'svc-apps', num: 4, title: 'iOS, Android, Desktop', short_desc: 'Cross-platform applications designed for operational efficiency and usability.', features: ['Cross-Platform Mobile', 'Native Desktop Apps', 'Offline Capabilities', 'Hardware Integration'], tech_stack: ['React Native', 'Flutter', 'Swift', 'Electron'] },
+    { slug: 'svc-it', num: 5, title: 'IT Solution & Consulting', short_desc: 'System architecture planning and technical consulting for scalable infrastructure.', features: ['Cloud Migration', 'DevOps Setup', 'Security Audits', 'Tech Consultation'], tech_stack: ['AWS', 'Google Cloud', 'Kubernetes', 'Linux'] },
+  ];
+
+  const sourceServices = dbServices.length > 0 ? dbServices : defaultServices;
+
+  const servicesToRender = sourceServices.map((dbSvc, idx) => {
+    const dictItem = t.items.find((item: any) => item.slug === dbSvc.slug) || t.items[idx];
+    const techStack: string[] = Array.isArray(dbSvc.tech_stack)
+      ? dbSvc.tech_stack
+      : typeof dbSvc.tech_stack === 'string'
+      ? JSON.parse(dbSvc.tech_stack || '[]')
+      : ['Next.js', 'Node.js', 'PostgreSQL', 'Go'];
+
+    const details: string[] = dictItem?.details || (
+      Array.isArray(dbSvc.features)
+        ? dbSvc.features
+        : typeof dbSvc.features === 'string'
+        ? JSON.parse(dbSvc.features || '[]')
+        : []
+    );
+
+    return {
+      slug: dbSvc.slug,
+      num: dbSvc.num || idx + 1,
+      title: dictItem?.title || dbSvc.title,
+      summary: dictItem?.summary || dbSvc.short_desc,
+      details,
+      techStack,
+    };
+  });
 
   return (
     <div className="flex w-full flex-col min-h-screen bg-navy-base">
@@ -77,27 +115,36 @@ export default async function ServicesPage({ params }: { params: Promise<{ lang:
       <section className="py-20 bg-bg-ice-blue">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-24">
-            {t.items.map((service: { title: string; summary: string; details: string[] }, idx: number) => (
-              <Reveal key={idx} delay={0.1}>
-                <div className={`grid md:grid-cols-12 gap-10 md:gap-16 items-start ${idx % 2 !== 0 ? 'md:[direction:rtl] md:[&>*]:[direction:ltr]' : ''}`}>
-
+            {servicesToRender.map((service, idx) => {
+              return (
+                <Reveal key={service.slug} delay={0.1}>
+                  <div className={`grid md:grid-cols-12 gap-10 md:gap-16 items-start ${idx % 2 !== 0 ? 'md:[direction:rtl] md:[&>*]:[direction:ltr]' : ''}`}>
                     {/* Left: Info */}
                     <div className="md:col-span-5">
                       <div className="sticky top-28">
-                        <div className="text-6xl font-bold text-accent-forest/10 mb-2">{String(idx + 1).padStart(2, '0')}</div>
-                        <div className="mb-4">{serviceIcons[idx]}</div>
+                        <div className="text-6xl font-bold text-accent-forest/10 mb-2">{String(service.num).padStart(2, '0')}</div>
+                        <div className="mb-4">{getServiceIcon(service.slug)}</div>
                         <h2 className="text-2xl md:text-3xl font-bold text-navy-base mb-4 leading-tight">
                           {service.title}
                         </h2>
                         <p className="text-text-muted text-lg leading-relaxed mb-6">
                           {service.summary}
                         </p>
-                        <div className="flex flex-wrap gap-2">
-                          {serviceTech[idx]?.map((tech) => (
+                        <div className="flex flex-wrap gap-2 mb-6">
+                          {service.techStack.map((tech) => (
                             <span key={tech} className="px-3 py-1.5 text-xs font-mono bg-[#1e293b]/5 text-text-muted rounded-lg border border-border-flat">
                               {tech}
                             </span>
                           ))}
+                        </div>
+                        <div>
+                          <Link
+                            href={`${prefix}/services/${service.slug}`}
+                            className="inline-flex items-center gap-2 text-sm font-bold text-accent-forest hover:opacity-80 transition-opacity group/link"
+                          >
+                            <span>{lang === 'id' ? 'Detail Layanan & Arsitektur' : 'Explore Architecture & Capabilities'}</span>
+                            <ArrowRight className="w-4 h-4 group-hover/link:translate-x-1 transition-transform" />
+                          </Link>
                         </div>
                       </div>
                     </div>
@@ -116,8 +163,9 @@ export default async function ServicesPage({ params }: { params: Promise<{ lang:
                       </div>
                     </div>
                   </div>
-              </Reveal>
-            ))}
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>

@@ -36,6 +36,7 @@ export function Footer({ dict, lang }: { dict?: any; lang?: string }) {
               <li><Link href={`${prefix}/`} className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">{dict?.navbar?.home || 'Beranda'}</Link></li>
               <li><Link href={`${prefix}/services`} className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">{dict?.navbar?.services || 'Layanan'}</Link></li>
               <li><Link href={`${prefix}/work`} className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">{dict?.navbar?.work || 'Studi Kasus'}</Link></li>
+              <li><Link href={`${prefix}/blog`} className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">{dict?.navbar?.blog || 'Blog'}</Link></li>
               <li><Link href={`${prefix}/contact`} className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">{dict?.navbar?.contact || 'Hubungi Kami'}</Link></li>
             </ul>
           </div>
@@ -45,7 +46,7 @@ export function Footer({ dict, lang }: { dict?: any; lang?: string }) {
             <ul className="space-y-3">
               <li><a href="mailto:digifolkstech@gmail.com" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">digifolkstech@gmail.com</a></li>
               <li><a href="mailto:marketing@digifolks.id" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">marketing@digifolks.id</a></li>
-              <li><a href="https://wa.me/6285814412099" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">+62 858-1441-2099 (Vellan)</a></li>
+              <li><a href="https://wa.me/6285814412099" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">+62 858-1441-2099 (Zahra)</a></li>
               <li><a href="https://wa.me/62895401088270" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">+62 895-4010-88270 (Ailsa) </a></li>
               <li><a href="https://id.linkedin.com/company/digifolks-id" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">LinkedIn</a></li>
             </ul>

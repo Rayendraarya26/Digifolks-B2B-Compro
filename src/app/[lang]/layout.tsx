@@ -106,7 +106,6 @@ export default async function RootLayout({
         <Preloader />
         {/* <SmoothScrollProvider> */}
         <TransitionProvider />
-        <Navbar dict={dict.navbar} lang={lang} />
         <main className="flex-1">
           {children}
         </main>

@@ -40,7 +40,7 @@ export const GeneralData: GeneralData[] = [
         hoverColor: "hover:text-pop-green",
       },
       {
-        name: "Vellan",
+        name: "Zahra",
         displayNumber: "+62 895-8004-03266",
         contactNumber: "https://wa.me/62895800403266",
         hoverColor: "hover:text-pop-blue",
