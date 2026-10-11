@@ -10,21 +10,34 @@ import { getBlogPosts, getBlogCategories } from "@/lib/supabase/queries";
 
 export async function generateMetadata({
   params,
+  searchParams,
 }: {
   params: Promise<{ lang: string }> | { lang: string };
+  searchParams?: Promise<{ category?: string; tag?: string; search?: string; page?: string }> | { category?: string; tag?: string; search?: string; page?: string };
 }): Promise<Metadata> {
   const resolvedParams = await params;
   const lang = resolvedParams?.lang || "en";
   const url = `/${lang}/blog`;
+  const resolvedSearch = searchParams ? await searchParams : undefined;
+  const hasFilters = Boolean(resolvedSearch?.category || resolvedSearch?.tag || resolvedSearch?.search || resolvedSearch?.page);
 
   const isEn = lang === "en";
+  const title = isEn
+    ? "Blog & Insights — Engineering & Scalable Systems"
+    : "Blog & Wawasan — Rekayasa & Sistem Berskala";
+  const description = isEn
+    ? "Deep-dive engineering articles, architecture breakdowns, and tech insights from the Digifolks team."
+    : "Artikel rekayasa mendalam, analisis arsitektur, dan wawasan teknologi dari tim engineer Digifolks.";
+
   return {
-    title: isEn
-      ? "Blog & Insights — Engineering, Architecture & Scalable Systems"
-      : "Blog & Wawasan — Rekayasa, Arsitektur & Sistem Berskala",
-    description: isEn
-      ? "Deep-dive engineering articles, architecture breakdowns, and tech insights from the Digifolks engineering team."
-      : "Artikel rekayasa perangkat lunak mendalam, bedah arsitektur, dan wawasan teknologi dari tim engineer Digifolks.",
+    title,
+    description,
+    ...(hasFilters && {
+      robots: {
+        index: false,
+        follow: true,
+      },
+    }),
     alternates: {
       canonical: url,
       languages: {
@@ -33,6 +46,8 @@ export async function generateMetadata({
       },
     },
     openGraph: {
+      title,
+      description,
       url: url,
       type: "website",
     },
@@ -238,6 +253,7 @@ export default async function BlogPage({
           )}
 
           {/* Blog Post Grid */}
+          <h2 className="sr-only">{lang === 'id' ? 'Daftar Artikel Blog' : 'Blog Articles'}</h2>
           {posts.length === 0 ? (
             <div className="py-20 text-center rounded-3xl border border-border-flat bg-bg-pure p-8 shadow-sm">
               <BookOpen className="w-12 h-12 text-text-muted/30 mx-auto mb-4" />
@@ -313,9 +329,9 @@ export default async function BlogPage({
                         </div>
 
                         {/* Title */}
-                        <h2 className="text-xl font-bold text-navy-base group-hover:text-accent-forest transition-colors line-clamp-2 mb-3 leading-snug">
+                        <h3 className="text-xl font-bold text-navy-base group-hover:text-accent-forest transition-colors line-clamp-2 mb-3 leading-snug">
                           {post.title}
-                        </h2>
+                        </h3>
 
                         {/* Excerpt */}
                         <p className="text-sm text-text-muted line-clamp-3 leading-relaxed flex-1 mb-6">

@@ -9,20 +9,28 @@ import { getServices } from "@/lib/supabase/queries";
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> | { lang: string } }): Promise<Metadata> {
   const resolvedParams = await params;
   const lang = resolvedParams?.lang || 'en';
+  const dict = await getDictionary(lang as 'en' | 'id');
+  const seo = dict.seo?.services || {
+    title: "Services — Scalable System Development",
+    description: "Custom system development, enterprise tools, AI-driven platforms, and integrated ecosystems built for scalability.",
+  };
   const url = `/${lang}/services`;
 
   return {
-    title: "Services — Scalable System Development",
-    description: "Custom system development, enterprise tools, AI-driven platforms, and integrated ecosystems built for scalability and efficiency.",
+    title: seo.title,
+    description: seo.description,
     alternates: {
       canonical: url,
       languages: {
-        'en': '/en/services',
-        'id': '/id/services',
+        en: '/en/services',
+        id: '/id/services',
       },
     },
     openGraph: {
+      title: seo.title,
+      description: seo.description,
       url: url,
+      type: "website",
     },
   };
 }

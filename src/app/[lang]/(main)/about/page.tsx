@@ -8,20 +8,28 @@ import { getDictionary } from "@/lib/dictionaries";
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> | { lang: string } }): Promise<Metadata> {
   const resolvedParams = await params;
   const lang = resolvedParams?.lang || 'en';
+  const dict = await getDictionary(lang as 'en' | 'id');
+  const seo = dict.seo?.about || {
+    title: "About Us",
+    description: "Digifolks is a technology company focused on developing end-to-end digital solutions for enterprises.",
+  };
   const url = `/${lang}/about`;
 
   return {
-    title: "About Us",
-    description: "Digifolks merupakan perusahaan teknologi yang berfokus pada pengembangan solusi digital end-to-end.",
+    title: seo.title,
+    description: seo.description,
     alternates: {
       canonical: url,
       languages: {
-        'en': '/en/about',
-        'id': '/id/about',
+        en: '/en/about',
+        id: '/id/about',
       },
     },
     openGraph: {
+      title: seo.title,
+      description: seo.description,
       url: url,
+      type: "website",
     },
   };
 }

@@ -41,20 +41,28 @@ const getHomeServiceIcon = (slug: string, className = "w-9 h-9") => {
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> | { lang: string } }): Promise<Metadata> {
   const resolvedParams = await params;
   const lang = resolvedParams?.lang || 'en';
+  const dict = await getDictionary(lang as 'en' | 'id');
+  const seo = dict.seo?.home || {
+    title: "Build Scalable Operational Systems",
+    description: "We design and develop scalable systems that reduce operational complexity, improve reliability, and support long-term business growth.",
+  };
   const url = `/${lang}`;
 
   return {
-    title: "Build Scalable Operational Systems for Your Business",
-    description: "We design and develop scalable systems that reduce operational complexity, improve reliability, and support long-term business growth. Talk to our team today.",
+    title: seo.title,
+    description: seo.description,
     alternates: {
       canonical: url,
       languages: {
-        'en': '/en',
-        'id': '/id',
+        en: '/en',
+        id: '/id',
       },
     },
     openGraph: {
+      title: seo.title,
+      description: seo.description,
       url: url,
+      type: "website",
     },
   };
 }
@@ -372,9 +380,9 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
                           <span className="text-xs font-medium text-accent-forest uppercase tracking-wider">{study.industry}</span>
                         </div>
 
-                        <h2 className="text-lg font-bold text-navy-base mb-4 leading-snug group-hover:text-accent-forest transition-colors duration-300 flex-1">
+                        <h3 className="text-lg font-bold text-navy-base mb-4 leading-snug group-hover:text-accent-forest transition-colors duration-300 flex-1">
                           {study.title}
-                        </h2>
+                        </h3>
 
                         <div className="flex flex-wrap gap-2 pt-4 border-t border-border-flat">
                           {study.tags && study.tags.map((tag) => (

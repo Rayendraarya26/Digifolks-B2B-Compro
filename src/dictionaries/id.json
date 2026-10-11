@@ -388,5 +388,31 @@
     "relatedPortfolios": "Studi Kasus Terkait",
     "nextService": "Layanan Selanjutnya",
     "viewDetails": "Lihat Detail"
+  },
+  "seo": {
+    "home": {
+      "title": "Software House & Sistem Enterprise Jogja",
+      "description": "Kami merancang dan mengembangkan sistem operasional yang skalabel untuk mengurangi kompleksitas, meningkatkan keandalan, dan mendukung pertumbuhan bisnis jangka panjang."
+    },
+    "services": {
+      "title": "Layanan Rekayasa Sistem & Software Enterprise",
+      "description": "Pengembangan sistem kustom, perangkat lunak enterprise, platform AI, dan ekosistem terintegrasi untuk skalabilitas bisnis."
+    },
+    "work": {
+      "title": "Studi Kasus — Sistem Nyata untuk Masalah Nyata",
+      "description": "Studi kasus sistem skalabel yang menyelesaikan hambatan operasional, kompleksitas data, dan tantangan pertumbuhan bisnis."
+    },
+    "blog": {
+      "title": "Blog & Wawasan — Rekayasa & Sistem Berskala",
+      "description": "Artikel rekayasa mendalam, analisis arsitektur, dan wawasan teknologi dari tim engineer Digifolks."
+    },
+    "about": {
+      "title": "Tentang Kami",
+      "description": "Digifolks adalah perusahaan teknologi yang berfokus pada pengembangan solusi digital end-to-end untuk enterprise."
+    },
+    "contact": {
+      "title": "Hubungi Kami",
+      "description": "Mari bangun sistem yang solid. Ceritakan tantangan operasional bisnis Anda."
+    }
   }
 }

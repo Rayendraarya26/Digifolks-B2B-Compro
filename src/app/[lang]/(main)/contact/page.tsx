@@ -5,20 +5,28 @@ import { getDictionary } from "@/lib/dictionaries";
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> | { lang: string } }): Promise<Metadata> {
   const resolvedParams = await params;
   const lang = resolvedParams?.lang || 'en';
+  const dict = await getDictionary(lang as 'en' | 'id');
+  const seo = dict.seo?.contact || {
+    title: "Contact Us",
+    description: "Let's build something solid. Tell us about your operational challenges.",
+  };
   const url = `/${lang}/contact`;
 
   return {
-    title: "Contact Us — Digifolks",
-    description: "Let's build something solid. Tell us about your operational challenges.",
+    title: seo.title,
+    description: seo.description,
     alternates: {
       canonical: url,
       languages: {
-        'en': '/en/contact',
-        'id': '/id/contact',
+        en: '/en/contact',
+        id: '/id/contact',
       },
     },
     openGraph: {
+      title: seo.title,
+      description: seo.description,
       url: url,
+      type: "website",
     },
   };
 }

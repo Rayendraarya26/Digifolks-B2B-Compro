@@ -9,6 +9,7 @@ import { notFound } from "next/navigation";
 import { getPortfolioBySlug } from "@/lib/supabase/queries";
 import { getDictionary } from "@/lib/dictionaries";
 import { WorkImageGallery } from "@/components/ui/WorkImageGallery";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 export async function generateMetadata({
   params,
@@ -19,10 +20,10 @@ export async function generateMetadata({
   const project = await getPortfolioBySlug(slug);
 
   if (!project) {
-    return { title: "Project Not Found — Digifolks" };
+    return { title: "Project Not Found" };
   }
 
-  const title = `${project.title} — ${project.client} | Digifolks`;
+  const title = `${project.title} — ${project.client}`;
   const description = project.headline || project.overview;
   const url = `/${lang}/work/${slug}`;
 
@@ -106,8 +107,27 @@ export default async function ProjectDetailPage({
     // Fallback to project.gallery_images
   }
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.digifolks.id";
+  const projectSchema = {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": project.title,
+    "headline": project.headline || project.title,
+    "description": project.overview || project.headline,
+    "url": `${baseUrl}/${currentLang}/work/${slug}`,
+    "creator": {
+      "@type": "Organization",
+      "name": "Digifolks",
+      "url": baseUrl,
+    },
+    ...(project.cover_image_url && {
+      "image": project.cover_image_url,
+    }),
+  };
+
   return (
     <div className="flex w-full flex-col min-h-screen bg-navy-base">
+      <JsonLd data={projectSchema} />
 
       {/* Hero Banner */}
       <section className="relative pt-32 pb-20 bg-navy-base overflow-hidden">

@@ -6,6 +6,7 @@ import Preloader from "@/components/loader/Preloader";
 import TransitionProvider from "@/components/providers/TransitionProvider";
 import { Navbar } from "@/components/ui/Navbar";
 import { getDictionary } from "@/lib/dictionaries";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 // Inisialisasi Font
 const plusJakartaSans = Plus_Jakarta_Sans({
@@ -37,11 +38,11 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   authors: [{ name: "Digifolks", url: siteUrl }],
   title: {
-    default: "Digifolks | Scalable Operational Systems & Software Engineering",
+    default: "Digifolks | Scalable Systems & Software Engineering",
     template: "%s | Digifolks",
   },
   description:
-    "We build scalable operational systems that reduce complexity, improve reliability, and support long-term business growth. Based in Yogyakarta.",
+    "We build scalable operational systems that reduce complexity, improve reliability, and accelerate business growth. Based in Yogyakarta.",
   keywords: [
     "software house jogja",
     "scalable systems",
@@ -51,9 +52,9 @@ export const metadata: Metadata = {
     "ai systems indonesia",
   ],
   openGraph: {
-    title: "Digifolks | Scalable Systems for Complex Businesses",
+    title: "Digifolks | Scalable Systems & Software Engineering",
     description:
-      "We design and develop operational systems that scale with your business. Built for reliability, efficiency, and long-term growth.",
+      "We design and develop scalable operational systems that reduce complexity, improve reliability, and accelerate business growth.",
     url: siteUrl,
     siteName: "Digifolks",
     images: [
@@ -100,9 +101,35 @@ export default async function RootLayout({
 
   const dict = await getDictionary(lang as 'en' | 'id');
 
+  const orgSchema = {
+    "@context": "https://schema.org",
+    "@type": "ProfessionalService",
+    "name": "Digifolks",
+    "url": siteUrl,
+    "logo": `${siteUrl}/Dih.webp`,
+    "image": `${siteUrl}/Dih.webp`,
+    "description": lang === 'id'
+      ? "Software house dan partner rekayasa perangkat lunak enterprise. Layanan sistem operasional, solusi AI, platform web, dan aplikasi mobile."
+      : "Software engineering house & B2B technology partner. Enterprise operational systems, AI solutions, web platforms, and mobile apps.",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Yogyakarta",
+      "addressCountry": "ID",
+    },
+    "areaServed": "ID",
+    "knowsLanguage": ["en", "id"],
+    "serviceType": [
+      "Custom Software Development",
+      "Artificial Intelligence Solutions",
+      "Enterprise System Development",
+      "IT Consulting",
+    ],
+  };
+
   return (
     <html lang={lang} className={`${plusJakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="antialiased bg-navy-base text-text-off-white flex flex-col min-h-screen">
+        <JsonLd data={orgSchema} />
         <Preloader />
         {/* <SmoothScrollProvider> */}
         <TransitionProvider />

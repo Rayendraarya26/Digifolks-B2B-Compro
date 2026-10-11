@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { getDictionary } from "@/lib/dictionaries";
 import { getServiceBySlug, getServices, getPortfolios } from "@/lib/supabase/queries";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 export async function generateMetadata({
   params,
@@ -19,11 +20,11 @@ export async function generateMetadata({
 
   if (!service || !service.is_published) {
     return {
-      title: "Service Not Found — Digifolks",
+      title: "Service Not Found",
     };
   }
 
-  const title = `${service.title} — Digifolks Engineering Services`;
+  const title = service.title;
   const description = service.short_desc || service.description;
   const url = `/${lang}/services/${slug}`;
 
@@ -97,8 +98,24 @@ export default async function ServiceDetailPage({
   // Related Portfolios (Prepared but hidden as requested by user)
   const SHOW_RELATED_PORTFOLIOS = false;
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.digifolks.id";
+  const serviceSchema = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": service.title,
+    "description": service.short_desc || service.description,
+    "url": `${baseUrl}/${lang}/services/${slug}`,
+    "provider": {
+      "@type": "Organization",
+      "name": "Digifolks",
+      "url": baseUrl,
+    },
+    "areaServed": "ID",
+  };
+
   return (
     <div className="flex w-full flex-col min-h-screen bg-navy-base">
+      <JsonLd data={serviceSchema} />
       {/* 1. Hero Section (Dark Theme) */}
       <section className="relative pt-32 pb-20 bg-navy-base overflow-hidden">
         {/* Ambient background glows */}

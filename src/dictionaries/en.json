@@ -388,5 +388,31 @@
     "relatedPortfolios": "Related Case Studies",
     "nextService": "Next Service",
     "viewDetails": "View Details"
+  },
+  "seo": {
+    "home": {
+      "title": "Build Scalable Operational Systems",
+      "description": "We design and develop scalable systems that reduce operational complexity, improve reliability, and support long-term business growth."
+    },
+    "services": {
+      "title": "Services — Scalable System Development",
+      "description": "Custom system development, enterprise tools, AI-driven platforms, and integrated ecosystems built for scalability."
+    },
+    "work": {
+      "title": "Portfolio — Real Systems Built for Real Problems",
+      "description": "Case studies of scalable systems solving operational bottlenecks, data complexity, and business growth challenges."
+    },
+    "blog": {
+      "title": "Blog & Insights — Engineering & Scalable Systems",
+      "description": "Deep-dive engineering articles, architecture breakdowns, and tech insights from the Digifolks team."
+    },
+    "about": {
+      "title": "About Us",
+      "description": "Digifolks is a technology company focused on developing end-to-end digital solutions for enterprises."
+    },
+    "contact": {
+      "title": "Contact Us",
+      "description": "Let's build something solid. Tell us about your operational challenges."
+    }
   }
 }

@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import { getDictionary } from "@/lib/dictionaries";
 import { getBlogPostBySlug, getRelatedBlogPosts } from "@/lib/supabase/queries";
+import { JsonLd } from "@/components/seo/JsonLd";
 
 export async function generateMetadata({
   params,
@@ -19,11 +20,11 @@ export async function generateMetadata({
 
   if (!post || !post.is_published) {
     return {
-      title: "Article Not Found — Digifolks",
+      title: "Article Not Found",
     };
   }
 
-  const title = post.seo_title || `${post.title} — Digifolks`;
+  const title = post.seo_title || post.title;
   const description = post.meta_description || post.excerpt;
   const canonicalUrl = post.canonical_url || `/${lang}/blog/${slug}`;
 
@@ -89,8 +90,36 @@ export default async function BlogPostDetailPage({
       })
     : "";
 
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.digifolks.id";
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": post.title,
+    "description": post.meta_description || post.excerpt,
+    "url": `${baseUrl}/${lang}/blog/${slug}`,
+    "author": {
+      "@type": "Person",
+      "name": post.author || "Digifolks Team",
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Digifolks",
+      "url": baseUrl,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${baseUrl}/Dih.webp`,
+      },
+    },
+    "datePublished": post.published_at,
+    "dateModified": post.updated_at || post.published_at,
+    ...(post.cover_image_url && {
+      "image": post.cover_image_url,
+    }),
+  };
+
   return (
     <div className="flex w-full flex-col min-h-screen bg-bg-ice-blue pt-32 pb-24 relative overflow-hidden text-navy-base">
+      <JsonLd data={articleSchema} />
       {/* Subtle light ambient tint */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-accent-forest/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute top-1/3 left-0 w-[600px] h-[600px] bg-slate-200/40 rounded-full blur-[200px] pointer-events-none" />

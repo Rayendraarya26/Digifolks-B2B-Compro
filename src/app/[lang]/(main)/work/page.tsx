@@ -10,20 +10,28 @@ import { getPortfolios } from "@/lib/supabase/queries";
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> | { lang: string } }): Promise<Metadata> {
   const resolvedParams = await params;
   const lang = resolvedParams?.lang || 'en';
+  const dict = await getDictionary(lang as 'en' | 'id');
+  const seo = dict.seo?.work || {
+    title: "Portfolio — Real Systems Built for Real Problems",
+    description: "Explore case studies of scalable systems solving operational bottlenecks, data complexity, and business growth challenges.",
+  };
   const url = `/${lang}/work`;
 
   return {
-    title: "Portfolio — Real Systems Built for Real Problems",
-    description: "Explore case studies of scalable systems solving operational bottlenecks, data complexity, and business growth challenges.",
+    title: seo.title,
+    description: seo.description,
     alternates: {
       canonical: url,
       languages: {
-        'en': '/en/work',
-        'id': '/id/work',
+        en: '/en/work',
+        id: '/id/work',
       },
     },
     openGraph: {
+      title: seo.title,
+      description: seo.description,
       url: url,
+      type: "website",
     },
   };
 }
@@ -70,6 +78,7 @@ export default async function PortfoliosPage({ params }: { params: Promise<{ lan
         </Reveal>
 
         {/* Project Grid */}
+        <h2 className="sr-only">{lang === 'id' ? 'Daftar Studi Kasus Portofolio' : 'Portfolio Case Studies'}</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {cases.map((study, idx) => (
             <Reveal key={study.id || study.slug || idx} delay={0.05 * idx} className="h-full">
@@ -106,9 +115,9 @@ export default async function PortfoliosPage({ params }: { params: Promise<{ lan
                       <span className="text-xs font-medium text-accent-forest uppercase tracking-wider">{study.industry}</span>
                     </div>
 
-                    <h2 className="text-lg font-bold text-navy-base mb-4 leading-snug group-hover:text-accent-forest transition-colors duration-300 flex-1">
+                    <h3 className="text-lg font-bold text-navy-base mb-4 leading-snug group-hover:text-accent-forest transition-colors duration-300 flex-1">
                       {study.title}
-                    </h2>
+                    </h3>
 
                     <div className="flex flex-wrap gap-2 pt-4 border-t border-border-flat">
                       {study.tags && study.tags.map((tag) => (
