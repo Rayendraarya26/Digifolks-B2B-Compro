@@ -24,8 +24,15 @@ export async function generateMetadata({
     };
   }
 
-  const title = service.title;
-  const description = service.short_desc || service.description;
+  const dict = await getDictionary(lang as "en" | "id");
+  const dictItem = dict.home?.services?.items?.find((item: any) => item.slug === slug);
+
+  const title = lang === "id" && dictItem
+    ? `${dictItem.title} — Layanan Rekayasa Sistem Enterprise`
+    : service.title;
+  const description = lang === "id" && dictItem
+    ? `${dictItem.desc} Solusi rekayasa sistem enterprise terukur dari Digifolks.`
+    : (service.short_desc || service.description);
   const url = `/${lang}/services/${slug}`;
 
   return {
@@ -42,7 +49,16 @@ export async function generateMetadata({
       title,
       description,
       type: "website",
-      images: service.image_url ? [{ url: service.image_url }] : undefined,
+      images: service.image_url
+        ? [{ url: service.image_url }]
+        : [
+            {
+              url: "/Dih.webp",
+              width: 1200,
+              height: 630,
+              alt: title,
+            },
+          ],
     },
   };
 }

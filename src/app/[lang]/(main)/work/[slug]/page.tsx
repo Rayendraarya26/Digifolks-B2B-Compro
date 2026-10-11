@@ -23,8 +23,16 @@ export async function generateMetadata({
     return { title: "Project Not Found" };
   }
 
-  const title = `${project.title} — ${project.client}`;
-  const description = project.headline || project.overview;
+  const rawDesc = project.headline || project.overview || "";
+  const enDesc = rawDesc.length >= 100 
+    ? rawDesc 
+    : `${project.title} case study for ${project.client}. Engineering scalable systems and custom software architecture by Digifolks.`;
+  const idDesc = `Studi kasus rekayasa sistem ${project.title} untuk ${project.client}. Pengembangan arsitektur software dan sistem operasional terukur oleh Digifolks.`;
+
+  const title = lang === "id"
+    ? `Studi Kasus ${project.title} (${project.client})`
+    : `${project.title} (${project.client}) — Case Study`;
+  const description = lang === "id" ? idDesc : enDesc;
   const url = `/${lang}/work/${slug}`;
 
   return {
@@ -41,7 +49,16 @@ export async function generateMetadata({
       title,
       description,
       type: "article",
-      images: project.cover_image_url ? [{ url: project.cover_image_url }] : undefined,
+      images: project.cover_image_url
+        ? [{ url: project.cover_image_url }]
+        : [
+            {
+              url: "/Dih.webp",
+              width: 1200,
+              height: 630,
+              alt: title,
+            },
+          ],
     },
   };
 }

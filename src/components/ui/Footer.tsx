@@ -31,7 +31,7 @@ export function Footer({ dict, lang }: { dict?: any; lang?: string }) {
           </div>
 
           <div>
-            <h4 className="text-bg-pure font-bold mb-4 uppercase tracking-wider text-xs">{dict?.sitemap || 'Sitemap'}</h4>
+            <p className="text-bg-pure font-bold mb-4 uppercase tracking-wider text-xs">{dict?.sitemap || 'Sitemap'}</p>
             <ul className="space-y-3">
               <li><Link href={`${prefix}/`} className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">{dict?.navbar?.home || 'Beranda'}</Link></li>
               <li><Link href={`${prefix}/services`} className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">{dict?.navbar?.services || 'Layanan'}</Link></li>
@@ -42,7 +42,7 @@ export function Footer({ dict, lang }: { dict?: any; lang?: string }) {
           </div>
 
           <div>
-            <h4 className="text-bg-pure font-bold mb-4 uppercase tracking-wider text-xs">Connect</h4>
+            <p className="text-bg-pure font-bold mb-4 uppercase tracking-wider text-xs">Connect</p>
             <ul className="space-y-3">
               <li><a href="mailto:digifolkstech@gmail.com" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">digifolkstech@gmail.com</a></li>
               <li><a href="mailto:marketing@digifolks.id" className="text-border-flat/70 hover:text-brand-green transition-colors text-sm">marketing@digifolks.id</a></li>

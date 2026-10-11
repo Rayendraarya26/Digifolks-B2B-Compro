@@ -26,7 +26,10 @@ export async function generateMetadata({
 
   const title = post.seo_title || post.title;
   const description = post.meta_description || post.excerpt;
-  const canonicalUrl = post.canonical_url || `/${lang}/blog/${slug}`;
+  const isInternal = Boolean(post.canonical_url && post.canonical_url.includes("digifolks.id"));
+  const canonicalUrl = (!post.canonical_url || isInternal)
+    ? `/${lang}/blog/${slug}`
+    : post.canonical_url;
 
   return {
     title,
@@ -51,7 +54,14 @@ export async function generateMetadata({
               alt: post.cover_image_alt || post.title,
             },
           ]
-        : undefined,
+        : [
+            {
+              url: "/Dih.webp",
+              width: 1200,
+              height: 630,
+              alt: title,
+            },
+          ],
     },
   };
 }

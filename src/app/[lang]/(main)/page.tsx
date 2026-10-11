@@ -63,6 +63,14 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
       description: seo.description,
       url: url,
       type: "website",
+      images: [
+        {
+          url: "/Dih.webp",
+          width: 1200,
+          height: 630,
+          alt: seo.title,
+        },
+      ],
     },
   };
 }
