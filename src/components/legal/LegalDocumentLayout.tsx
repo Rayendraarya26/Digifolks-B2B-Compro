@@ -186,8 +186,8 @@ export function LegalDocumentLayout({ document, lang }: LegalDocumentLayoutProps
                 </div>
                 <p className="text-slate-600 text-[11px] leading-relaxed">
                   {lang === 'id' 
-                    ? 'Dioperasikan di bawah merek dagang Digifolks Solutions di Yogyakarta, Indonesia.' 
-                    : 'Operated commercially as Digifolks Solutions in Yogyakarta, Indonesia.'}
+                    ? 'Dioperasikan di bawah merek dagang Digifolks di Yogyakarta, Indonesia.' 
+                    : 'Operated commercially as Digifolks in Yogyakarta, Indonesia.'}
                 </p>
                 <div className="pt-2 border-t border-slate-200 flex flex-col gap-1.5 text-[11px] text-slate-600">
                   <span className="flex items-center gap-2">

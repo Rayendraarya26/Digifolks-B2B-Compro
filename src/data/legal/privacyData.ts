@@ -45,7 +45,7 @@ export const privacyData: { id: LegalDocument; en: LegalDocument } = {
     badge: "Pelindungan Data Pribadi (UU PDP)",
     lastUpdated: "11 Oktober 2026",
     effectiveDate: "1 Januari 2025",
-    intro: "Arunika Vistara Digital (beroperasi sebagai 'Digifolks' atau 'Digifolks Solutions') berkomitmen tinggi dalam melindungi privasi, kerahasiaan, dan keamanan data pribadi klien korporat, mitra bisnis, calon klien, serta setiap pengunjung situs web kami. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, mengelola, memproses, menyimpan, dan melindungi informasi pribadi Anda sesuai dengan Undang-Undang No. 27 Tahun 2022 tentang Pelindungan Data Pribadi (UU PDP) dan regulasi relevan lainnya di Indonesia.",
+    intro: "Arunika Vistara Digital (beroperasi sebagai 'Digifolks') berkomitmen tinggi dalam melindungi privasi, kerahasiaan, dan keamanan data pribadi klien korporat, mitra bisnis, calon klien, serta setiap pengunjung situs web kami. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, mengelola, memproses, menyimpan, dan melindungi informasi pribadi Anda sesuai dengan Undang-Undang No. 27 Tahun 2022 tentang Pelindungan Data Pribadi (UU PDP) dan regulasi relevan lainnya di Indonesia.",
     tableOfContentsLabel: "Daftar Isi Kebijakan",
     summaryHighlights: [
       {
@@ -77,7 +77,7 @@ export const privacyData: { id: LegalDocument; en: LegalDocument } = {
         content: [
           "Pengendali Data Pribadi yang bertanggung jawab atas pengelolaan dan pemrosesan data pribadi melalui situs web digifolks.id dan seluruh saluran komunikasi resmi kami adalah:",
           "Nama Badan Usaha: Arunika Vistara Digital",
-          "Merek Dagang & Operasional: Digifolks / Digifolks Solutions",
+          "Merek Dagang & Operasional: Digifolks",
           "Domisili & Kantor Operasional: Yogyakarta, Daerah Istimewa Yogyakarta, Indonesia",
           "Email Kontak Privasi: marketing@digifolks.id / digifolkstech@gmail.com",
           "Kontak Telepon / WhatsApp Resmi: +62 858-1441-2099 / +62 895-4010-88270",
@@ -211,7 +211,7 @@ export const privacyData: { id: LegalDocument; en: LegalDocument } = {
       title: "Hubungi Tim Perlindungan Data",
       description: "Apabila Anda memiliki pertanyaan, klarifikasi klausul hukum, atau hendak mengajukan permohonan pemenuhan hak subjek data pribadi, silakan hubungi kontak resmi kami:",
       companyName: "Arunika Vistara Digital",
-      brandName: "Digifolks Solutions",
+      brandName: "Digifolks",
       address: "Yogyakarta, Daerah Istimewa Yogyakarta, Indonesia",
       email: "marketing@digifolks.id",
       secondaryEmail: "digifolkstech@gmail.com",
@@ -223,7 +223,7 @@ export const privacyData: { id: LegalDocument; en: LegalDocument } = {
     badge: "Personal Data Protection & Compliance",
     lastUpdated: "October 11, 2026",
     effectiveDate: "January 1, 2025",
-    intro: "Arunika Vistara Digital (operating commercially as 'Digifolks' or 'Digifolks Solutions') is deeply committed to upholding the confidentiality, privacy, and security of personal data entrusted to us by corporate clients, business partners, prospective enterprise leads, and website visitors. This Privacy Policy outlines how we collect, process, manage, store, and safeguard your information in full adherence to Indonesian Law No. 27 of 2022 on Personal Data Protection (PDP Law) and international privacy standards.",
+    intro: "Arunika Vistara Digital (operating commercially as 'Digifolks') is deeply committed to upholding the confidentiality, privacy, and security of personal data entrusted to us by corporate clients, business partners, prospective enterprise leads, and website visitors. This Privacy Policy outlines how we collect, process, manage, store, and safeguard your information in full adherence to Indonesian Law No. 27 of 2022 on Personal Data Protection (PDP Law) and international privacy standards.",
     tableOfContentsLabel: "Policy Contents",
     summaryHighlights: [
       {
@@ -255,7 +255,7 @@ export const privacyData: { id: LegalDocument; en: LegalDocument } = {
         content: [
           "The Data Controller legally responsible for the processing of personal data gathered via the digifolks.id website and our official communication channels is:",
           "Legal Entity Name: Arunika Vistara Digital",
-          "Brand & Operational Identity: Digifolks / Digifolks Solutions",
+          "Brand & Operational Identity: Digifolks",
           "Registered & Operational Office: Yogyakarta, Special Region of Yogyakarta, Indonesia",
           "Official Privacy Email: marketing@digifolks.id / digifolkstech@gmail.com",
           "Official Telephone / WhatsApp: +62 858-1441-2099 / +62 895-4010-88270",
@@ -388,7 +388,7 @@ export const privacyData: { id: LegalDocument; en: LegalDocument } = {
       title: "Contact Data Protection Officer",
       description: "For any inquiries regarding data protection, legal interpretation, or exercising your statutory privacy rights, please reach our legal and compliance desk:",
       companyName: "Arunika Vistara Digital",
-      brandName: "Digifolks Solutions",
+      brandName: "Digifolks",
       address: "Yogyakarta, Special Region of Yogyakarta, Indonesia",
       email: "marketing@digifolks.id",
       secondaryEmail: "digifolkstech@gmail.com",

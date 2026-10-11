@@ -19,7 +19,7 @@ export async function generateMetadata({
   const url = `/${lang}/terms`;
 
   return {
-    title: `${seo.title} — Digifolks Solutions`,
+    title: `${seo.title} — Digifolks`,
     description: seo.description,
     alternates: {
       canonical: url,
@@ -29,7 +29,7 @@ export async function generateMetadata({
       },
     },
     openGraph: {
-      title: `${seo.title} — Digifolks Solutions`,
+      title: `${seo.title} — Digifolks`,
       description: seo.description,
       url: url,
       type: "website",

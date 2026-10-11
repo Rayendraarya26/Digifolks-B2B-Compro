@@ -6,7 +6,7 @@ export const termsData: { id: LegalDocument; en: LegalDocument } = {
     badge: "Syarat & Ketentuan B2B (Terms of Service)",
     lastUpdated: "11 Oktober 2026",
     effectiveDate: "1 Januari 2025",
-    intro: "Selamat datang di situs web resmi Digifolks Solutions (digifolks.id), yang dioperasikan oleh Arunika Vistara Digital ('kami', 'perusahaan'). Ketentuan Layanan ini ('Ketentuan') mengatur akses dan penggunaan Anda terhadap situs web kami, layanan informasi konsultasi teknologi, serta komunikasi awal perikatan bisnis. Dengan mengakses, menjelajahi, atau mengirimkan informasi melalui situs ini, Anda menyatakan telah membaca, memahami, dan menyetujui untuk terikat secara hukum oleh seluruh ketentuan di bawah ini.",
+    intro: "Selamat datang di situs web resmi Digifolks (digifolks.id), yang dioperasikan oleh Arunika Vistara Digital ('kami', 'perusahaan'). Ketentuan Layanan ini ('Ketentuan') mengatur akses dan penggunaan Anda terhadap situs web kami, layanan informasi konsultasi teknologi, serta komunikasi awal perikatan bisnis. Dengan mengakses, menjelajahi, atau mengirimkan informasi melalui situs ini, Anda menyatakan telah membaca, memahami, dan menyetujui untuk terikat secara hukum oleh seluruh ketentuan di bawah ini.",
     tableOfContentsLabel: "Daftar Isi Ketentuan",
     summaryHighlights: [
       {
@@ -37,7 +37,7 @@ export const termsData: { id: LegalDocument; en: LegalDocument } = {
         title: "Identitas Entitas & Definisi Istilah",
         content: [
           "Dalam Ketentuan Layanan ini, istilah-istilah berikut memiliki pengertian sebagaimana diuraikan di bawah ini:",
-          "Perusahaan / Kami: Merujuk kepada Arunika Vistara Digital, badan usaha yang berkedudukan di Yogyakarta, Indonesia, selaku pemilik dan pengelola merek dagang 'Digifolks' dan 'Digifolks Solutions'.",
+          "Perusahaan / Kami: Merujuk kepada Arunika Vistara Digital, badan usaha yang berkedudukan di Yogyakarta, Indonesia, selaku pemilik dan pengelola merek dagang 'Digifolks'.",
           "Pengguna / Anda / Klien: Setiap individu, representasi perusahaan, korporasi, atau entitas hukum yang mengakses situs web ini atau menggunakan sarana komunikasi yang kami sediakan untuk keperluan eksplorasi layanan teknologi B2B.",
           "Situs Web: Domain resmi https://digifolks.id beserta seluruh subdomain, direktori halaman, antarmuka, dan konten yang diterbitkan oleh perusahaan.",
           "Layanan Informasi: Penyediaan studi kasus, wawasan rekayasa sistem, kalkulator/katalog kapabilitas teknologi (AI, ERP, Web Platform, Mobile App), dan formulir konsultasi teknis yang terdapat pada situs web."
@@ -156,7 +156,7 @@ export const termsData: { id: LegalDocument; en: LegalDocument } = {
       title: "Pertanyaan Hukum & Komersial",
       description: "Untuk diskusi perjanjian kemitraan, permintaan NDA pra-proyek, atau klarifikasi Ketentuan Layanan ini, silakan hubungi tim legal & perikatan kami:",
       companyName: "Arunika Vistara Digital",
-      brandName: "Digifolks Solutions",
+      brandName: "Digifolks",
       address: "Yogyakarta, Daerah Istimewa Yogyakarta, Indonesia",
       email: "marketing@digifolks.id",
       secondaryEmail: "digifolkstech@gmail.com",
@@ -168,7 +168,7 @@ export const termsData: { id: LegalDocument; en: LegalDocument } = {
     badge: "B2B Terms of Service & Engagement",
     lastUpdated: "October 11, 2026",
     effectiveDate: "January 1, 2025",
-    intro: "Welcome to the official website of Digifolks Solutions (digifolks.id), operated by Arunika Vistara Digital ('we', 'us', or 'the Company'). These Terms of Service ('Terms') govern your access to and use of our web properties, technological consultation resources, and preliminary business engagements. By visiting, browsing, or submitting project information via this website, you acknowledge that you have read, understood, and agreed to be legally bound by these Terms.",
+    intro: "Welcome to the official website of Digifolks (digifolks.id), operated by Arunika Vistara Digital ('we', 'us', or 'the Company'). These Terms of Service ('Terms') govern your access to and use of our web properties, technological consultation resources, and preliminary business engagements. By visiting, browsing, or submitting project information via this website, you acknowledge that you have read, understood, and agreed to be legally bound by these Terms.",
     tableOfContentsLabel: "Terms Contents",
     summaryHighlights: [
       {
@@ -199,7 +199,7 @@ export const termsData: { id: LegalDocument; en: LegalDocument } = {
         title: "Entity Identification & Definitions",
         content: [
           "Throughout these Terms, capitalized terms shall carry the definitions set forth below:",
-          "The Company / We: Refers to Arunika Vistara Digital, a corporate entity organized and existing under Indonesian law based in Yogyakarta, operating the commercial brand 'Digifolks' and 'Digifolks Solutions'.",
+          "The Company / We: Refers to Arunika Vistara Digital, a corporate entity organized and existing under Indonesian law based in Yogyakarta, operating the commercial brand 'Digifolks'.",
           "User / You / Client: Any corporation, authorized executive, legal entity, or individual visiting this web application or utilizing communication channels to evaluate B2B technological services.",
           "The Website: The official web application at https://digifolks.id, including affiliated locales, subdirectories, and published digital assets.",
           "Informational Resources: Architectural breakdowns, engineering case studies, service capability descriptions, and consultation inquiry features published on the website."
@@ -318,7 +318,7 @@ export const termsData: { id: LegalDocument; en: LegalDocument } = {
       title: "Legal & Corporate Inquiries",
       description: "For contractual discussions, pre-project bilateral NDAs, or questions regarding these Terms of Service, contact our corporate affairs team:",
       companyName: "Arunika Vistara Digital",
-      brandName: "Digifolks Solutions",
+      brandName: "Digifolks",
       address: "Yogyakarta, Special Region of Yogyakarta, Indonesia",
       email: "marketing@digifolks.id",
       secondaryEmail: "digifolkstech@gmail.com",

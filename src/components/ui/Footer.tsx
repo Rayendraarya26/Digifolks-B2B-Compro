@@ -55,7 +55,7 @@ export function Footer({ dict, lang }: { dict?: any; lang?: string }) {
 
         <div className="pt-8 border-t border-bg-pure/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-border-flat/50 text-xs">
-            &copy; {new Date().getFullYear()} Digifolks Solutions. All rights reserved.
+            &copy; {new Date().getFullYear()} Digifolks. All rights reserved.
           </p>
           <div className="flex gap-4">
             <Link href={`${prefix}/privacy`} className="text-border-flat/50 hover:text-bg-pure text-xs transition-colors">
