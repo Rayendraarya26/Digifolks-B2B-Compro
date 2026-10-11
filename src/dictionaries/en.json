@@ -10,6 +10,8 @@
     "sitemap": "Sitemap",
     "contact": "Contact",
     "rights": "All rights reserved.",
+    "privacyPolicy": "Privacy Policy",
+    "termsOfService": "Terms of Service",
     "navbar": {
       "home": "Home",
       "services": "Services",
@@ -413,6 +415,14 @@
     "contact": {
       "title": "Contact Us",
       "description": "Let's build something solid. Tell us about your operational challenges."
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "description": "Arunika Vistara Digital (Digifolks Solutions) privacy policy. Transparent, secure, and compliant personal data governance under Indonesian Law No. 27/2022."
+    },
+    "terms": {
+      "title": "Terms of Service",
+      "description": "Official terms of service governing Arunika Vistara Digital (Digifolks Solutions) platform usage and enterprise software consultations."
     }
   }
 }

@@ -58,8 +58,12 @@ export function Footer({ dict, lang }: { dict?: any; lang?: string }) {
             &copy; {new Date().getFullYear()} Digifolks Solutions. All rights reserved.
           </p>
           <div className="flex gap-4">
-            <a href="#" className="text-border-flat/50 hover:text-bg-pure text-xs transition-colors">Privacy Policy</a>
-            <a href="#" className="text-border-flat/50 hover:text-bg-pure text-xs transition-colors">Terms of Service</a>
+            <Link href={`${prefix}/privacy`} className="text-border-flat/50 hover:text-bg-pure text-xs transition-colors">
+              {dict?.privacyPolicy || 'Privacy Policy'}
+            </Link>
+            <Link href={`${prefix}/terms`} className="text-border-flat/50 hover:text-bg-pure text-xs transition-colors">
+              {dict?.termsOfService || 'Terms of Service'}
+            </Link>
           </div>
         </div>
       </div>

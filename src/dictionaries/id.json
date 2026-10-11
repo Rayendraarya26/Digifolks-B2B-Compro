@@ -10,6 +10,8 @@
     "sitemap": "Sitemap",
     "contact": "Kontak",
     "rights": "Seluruh hak cipta dilindungi.",
+    "privacyPolicy": "Kebijakan Privasi",
+    "termsOfService": "Ketentuan Layanan",
     "navbar": {
       "home": "Beranda",
       "services": "Layanan",
@@ -413,6 +415,14 @@
     "contact": {
       "title": "Hubungi Kami",
       "description": "Mari bangun sistem yang solid. Ceritakan tantangan operasional bisnis Anda."
+    },
+    "privacy": {
+      "title": "Kebijakan Privasi",
+      "description": "Kebijakan privasi Arunika Vistara Digital (Digifolks Solutions). Pengelolaan data pribadi yang transparan, aman, dan patuh UU No. 27/2022 (UU PDP)."
+    },
+    "terms": {
+      "title": "Ketentuan Layanan",
+      "description": "Ketentuan layanan resmi Arunika Vistara Digital (Digifolks Solutions) untuk akses platform dan konsultasi rekayasa sistem enterprise."
     }
   }
 }
