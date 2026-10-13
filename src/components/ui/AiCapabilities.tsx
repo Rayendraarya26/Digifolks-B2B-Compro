@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import { Reveal } from '@/components/animations/Reveal';
-import { ScanFace, LineChart, Bot, FileText, Sparkles, Target, Zap } from 'lucide-react';
+import { ScanFace, LineChart, Bot, FileText, Workflow, Target, Zap } from 'lucide-react';
 
 const categoryIds = ['vision', 'data', 'process'];
 
@@ -21,7 +21,7 @@ const categoryIcons = [
   [
     <Bot key="bot" className="w-8 h-8 text-accent-emerald" />,
     <FileText key="filetext" className="w-8 h-8 text-accent-emerald" />,
-    <Sparkles key="sparkles" className="w-8 h-8 text-accent-emerald" />
+    <Workflow key="workflow" className="w-8 h-8 text-accent-emerald" />
   ]
 ];
 

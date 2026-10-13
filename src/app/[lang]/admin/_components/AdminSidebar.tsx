@@ -8,7 +8,7 @@ import {
   Cpu,
   Quote,
   HelpCircle,
-  Sparkles,
+  Dna,
   Inbox,
   Settings,
   LogOut,
@@ -26,7 +26,7 @@ const navigation = [
   { name: "Inquiries", href: "/admin/inquiries", icon: Inbox },
   { name: "Testimonials", href: "/admin/testimonials", icon: Quote },
   { name: "FAQs", href: "/admin/faqs", icon: HelpCircle },
-  { name: "Team DNA", href: "/admin/team-dna", icon: Sparkles },
+  { name: "Team DNA", href: "/admin/team-dna", icon: Dna },
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 

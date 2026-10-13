@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
+import { HOMEPAGE_MARKDOWN, NOT_FOUND_MARKDOWN, isKnownPath } from '@/lib/agent-markdown';
 
 const locales = ['en', 'id'];
 const defaultLocale = 'en';
@@ -9,8 +10,10 @@ const enabledLocales = ['en', 'id'];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const acceptHeader = request.headers.get('accept') || '';
+  const wantsMarkdown = acceptHeader.includes('text/markdown');
 
-  // Skip public files, api routes, and Next.js internals
+  // Skip public files (except directory paths), api routes, and Next.js internals
   if (
     pathname.includes('.') || 
     pathname.startsWith('/api') || 
@@ -19,13 +22,40 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Redirect /login or /:lang/login to /:lang/admin/login
-  if (pathname === '/login' || pathname === '/en/login' || pathname === '/id/login') {
-    request.nextUrl.pathname = `/${defaultLocale}/admin/login`;
-    return NextResponse.redirect(request.nextUrl);
+  // 1. Agent Content Negotiation (acceptmarkdown.com & Ora / Vercel is-agentic audit)
+  if (wantsMarkdown) {
+    // If route is unknown / probe 404
+    if (!isKnownPath(pathname)) {
+      return new NextResponse(NOT_FOUND_MARKDOWN, {
+        status: 404,
+        headers: {
+          'Content-Type': 'text/markdown; charset=utf-8',
+          'Vary': 'Accept',
+          'Cache-Control': 'no-cache',
+        },
+      });
+    }
+
+    // Serve rich Markdown representation for homepage or core sections
+    return new NextResponse(HOMEPAGE_MARKDOWN, {
+      status: 200,
+      headers: {
+        'Content-Type': 'text/markdown; charset=utf-8',
+        'Vary': 'Accept',
+        'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400',
+      },
+    });
   }
 
-  // Redirect disabled locales (e.g. /id/...) to default locale
+  // 2. Redirect /login or /:lang/login to /:lang/admin/login
+  if (pathname === '/login' || pathname === '/en/login' || pathname === '/id/login') {
+    request.nextUrl.pathname = `/${defaultLocale}/admin/login`;
+    const res = NextResponse.redirect(request.nextUrl);
+    res.headers.set('Vary', 'Accept');
+    return res;
+  }
+
+  // 3. Redirect disabled locales (e.g. /id/...) to default locale
   const disabledLocale = locales.find(
     (locale) =>
       !enabledLocales.includes(locale) &&
@@ -34,19 +64,27 @@ export function middleware(request: NextRequest) {
   if (disabledLocale) {
     const newPath = pathname.replace(`/${disabledLocale}`, `/${defaultLocale}`);
     request.nextUrl.pathname = newPath || `/${defaultLocale}`;
-    return NextResponse.redirect(request.nextUrl);
+    const res = NextResponse.redirect(request.nextUrl);
+    res.headers.set('Vary', 'Accept');
+    return res;
   }
 
-  // Check if pathname already has an enabled locale
+  // 4. Check if pathname already has an enabled locale
   const pathnameHasLocale = enabledLocales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
 
-  if (pathnameHasLocale) return NextResponse.next();
+  if (pathnameHasLocale) {
+    const res = NextResponse.next();
+    res.headers.set('Vary', 'Accept');
+    return res;
+  }
 
-  // Redirect to default locale
+  // 5. Redirect to default locale
   request.nextUrl.pathname = `/${defaultLocale}${pathname}`;
-  return NextResponse.redirect(request.nextUrl);
+  const res = NextResponse.redirect(request.nextUrl);
+  res.headers.set('Vary', 'Accept');
+  return res;
 }
 
 export const config = {

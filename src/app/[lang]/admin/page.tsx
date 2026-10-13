@@ -9,7 +9,6 @@ import {
   Plus,
   CheckCircle2,
   Clock,
-  Sparkles,
   BookOpen
 } from "lucide-react";
 import { createClient } from "@/lib/supabase/server";
@@ -108,7 +107,7 @@ export default async function AdminDashboardPage() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border-flat/10 pb-6">
         <div>
           <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full bg-accent-emerald/10 text-accent-emerald font-mono text-xs mb-2 border border-accent-emerald/20 uppercase tracking-widest">
-            <span className="w-1.5 h-1.5 rounded-full bg-accent-emerald animate-pulse" />
+            <span className="w-1.5 h-1.5 rounded-full bg-accent-emerald" />
             Control Center
           </div>
           <h1 className="text-3xl font-bold tracking-tight text-text-pure">Admin Dashboard</h1>

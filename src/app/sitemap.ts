@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next';
 import { getServices, getPortfolios, getBlogPosts } from '@/lib/supabase/queries';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.digifolks.id';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://digifolks.id';
   const languages = ['en', 'id'] as const;
 
   // 1. Static routes

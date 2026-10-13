@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Reveal } from "@/components/animations/Reveal";
 import { 
   ArrowLeft, Clock, Calendar, User, Tag, Share2, 
-  ArrowRight, BookOpen, Sparkles, CheckCircle2 
+  ArrowRight, BookOpen, ShieldCheck, CheckCircle2 
 } from "lucide-react";
 import { getDictionary } from "@/lib/dictionaries";
 import { getBlogPostBySlug, getRelatedBlogPosts } from "@/lib/supabase/queries";
@@ -250,7 +250,7 @@ export default async function BlogPostDetailPage({
           <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 relative z-10">
             <div className="space-y-2">
               <div className="inline-flex items-center gap-1.5 text-xs font-mono text-accent-forest font-bold uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5" />
+                <ShieldCheck className="w-3.5 h-3.5" />
                 Digifolks Engineering
               </div>
               <h3 className="text-xl font-bold text-navy-base">

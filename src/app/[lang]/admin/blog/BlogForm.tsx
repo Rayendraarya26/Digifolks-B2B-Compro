@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { 
-  ArrowLeft, Save, Loader2, Sparkles, Globe, Calendar, User, Tag, 
+  ArrowLeft, Save, Loader2, Sliders, Globe, Calendar, User, Tag, 
   Clock, Eye, Image as ImageIcon, AlertCircle, CheckCircle2 
 } from "lucide-react";
 import { BlogPost, BlogCategory } from "@/lib/supabase/types";
@@ -410,7 +410,7 @@ export function BlogForm({ initialData, categories }: BlogFormProps) {
           {/* Publication Control */}
           <div className="rounded-2xl border border-border-flat/10 bg-navy-base/60 p-6 space-y-5">
             <h3 className="text-sm font-bold text-text-pure flex items-center gap-2">
-              <Sparkles className="h-4 w-4 text-accent-emerald" />
+              <Sliders className="h-4 w-4 text-accent-emerald" />
               Publishing Settings
             </h3>
 

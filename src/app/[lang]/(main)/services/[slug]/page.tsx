@@ -4,7 +4,7 @@ import { notFound } from "next/navigation";
 import { Reveal } from "@/components/animations/Reveal";
 import { Button } from "@/components/ui/Button";
 import { 
-  ArrowLeft, CheckCircle2, ArrowRight, ArrowDown, Cpu, Sparkles 
+  ArrowLeft, CheckCircle2, ArrowRight, ArrowDown, Cpu, Terminal 
 } from "lucide-react";
 import { getDictionary } from "@/lib/dictionaries";
 import { getServiceBySlug, getServices, getPortfolios } from "@/lib/supabase/queries";
@@ -391,7 +391,7 @@ export default async function ServiceDetailPage({
 
             <div className="max-w-2xl mx-auto relative z-10 space-y-6">
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent-emerald/10 text-accent-emerald font-mono text-xs border border-accent-emerald/30 uppercase tracking-widest">
-                <Sparkles className="w-3.5 h-3.5" />
+                <Terminal className="w-3.5 h-3.5" />
                 Engineering Discovery
               </div>
               <h2 className="text-3xl sm:text-4xl font-bold text-text-pure leading-tight">

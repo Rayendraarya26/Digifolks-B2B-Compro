@@ -17,7 +17,7 @@ import {
   ChevronRight, 
   ArrowUp,
   Printer,
-  Sparkles
+  ShieldCheck
 } from 'lucide-react';
 import { LegalDocument } from '@/data/legal/privacyData';
 import { Reveal } from '@/components/animations/Reveal';
@@ -89,7 +89,7 @@ export function LegalDocumentLayout({ document, lang }: LegalDocumentLayoutProps
           <Reveal>
             <div className="flex flex-wrap items-center gap-3 mb-5">
               <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 font-mono text-xs border border-emerald-200 font-semibold uppercase tracking-wider">
-                <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
                 {document.badge}
               </span>
               <span className="inline-flex items-center gap-1.5 text-xs text-slate-500 font-mono">

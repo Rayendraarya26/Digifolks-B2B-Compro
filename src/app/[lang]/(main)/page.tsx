@@ -130,7 +130,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
             <div className="md:col-span-7">
               <Reveal>
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-light text-text-off-white font-mono text-sm mb-6 border border-border-flat/20">
-                  <span className="w-2 h-2 rounded-full bg-accent-emerald animate-pulse" />
+                  <span className="w-1.5 h-1.5 rounded-full bg-accent-emerald" />
                   {t.hero.tag}
                 </div>
                 <h1 className="text-5xl md:text-7xl font-bold text-text-pure leading-tight mb-6 tracking-tight">
@@ -164,7 +164,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
                     <div className="flex justify-between items-center mb-6">
                       <div className="w-1/2 h-4 bg-navy-light rounded-md"></div>
                       <div className="w-8 h-8 rounded-full bg-accent-emerald/20 flex items-center justify-center">
-                        <div className="w-2 h-2 rounded-full bg-accent-emerald animate-pulse"></div>
+                        <div className="w-2 h-2 rounded-full bg-accent-emerald"></div>
                       </div>
                     </div>
                     <div className="flex-1 flex items-end gap-3 relative">

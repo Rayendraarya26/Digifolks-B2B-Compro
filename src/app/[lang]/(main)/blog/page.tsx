@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/animations/Reveal";
 import { 
   BookOpen, Clock, Calendar, User, ArrowRight, 
-  Search, ChevronLeft, ChevronRight, Tag as TagIcon, Sparkles, Filter, X 
+  Search, ChevronLeft, ChevronRight, Tag as TagIcon, Filter, X 
 } from "lucide-react";
 import { getDictionary } from "@/lib/dictionaries";
 import { getBlogPosts, getBlogCategories } from "@/lib/supabase/queries";
@@ -131,7 +131,7 @@ export default async function BlogPage({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
           <Reveal>
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-light/60 text-accent-emerald font-mono text-xs mb-6 border border-accent-emerald/20 uppercase tracking-widest">
-              <Sparkles className="w-3.5 h-3.5" />
+              <BookOpen className="w-3.5 h-3.5" />
               {t.tag}
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-text-pure mb-6 max-w-3xl leading-tight">

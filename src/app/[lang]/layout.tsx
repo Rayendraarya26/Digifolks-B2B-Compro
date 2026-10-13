@@ -31,14 +31,14 @@ export const viewport: Viewport = {
   ],
 };
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://www.digifolks.id";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://digifolks.id";
 
 // Metadata Global yang SEO Friendly
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   authors: [{ name: "Digifolks", url: siteUrl }],
   title: {
-    default: "Digifolks | Scalable Systems & Software Engineering",
+    default: "Digifolks | Scalable Operational Systems & Software Engineering House",
     template: "%s | Digifolks",
   },
   description:
@@ -50,9 +50,10 @@ export const metadata: Metadata = {
     "custom software indonesia",
     "operational system development",
     "ai systems indonesia",
+    "b2b technology partner",
   ],
   openGraph: {
-    title: "Digifolks | Scalable Systems & Software Engineering",
+    title: "Digifolks | Scalable Operational Systems & Software Engineering House",
     description:
       "We design and develop scalable operational systems that reduce complexity, improve reliability, and accelerate business growth.",
     url: siteUrl,
@@ -101,35 +102,75 @@ export default async function RootLayout({
 
   const dict = await getDictionary(lang as 'en' | 'id');
 
-  const orgSchema = {
+  const structuredData = {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "Digifolks",
-    "url": siteUrl,
-    "logo": `${siteUrl}/Dih.webp`,
-    "image": `${siteUrl}/Dih.webp`,
-    "description": lang === 'id'
-      ? "Software house dan partner rekayasa perangkat lunak enterprise. Layanan sistem operasional, solusi AI, platform web, dan aplikasi mobile."
-      : "Software engineering house & B2B technology partner. Enterprise operational systems, AI solutions, web platforms, and mobile apps.",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Yogyakarta",
-      "addressCountry": "ID",
-    },
-    "areaServed": "ID",
-    "knowsLanguage": ["en", "id"],
-    "serviceType": [
-      "Custom Software Development",
-      "Artificial Intelligence Solutions",
-      "Enterprise System Development",
-      "IT Consulting",
+    "@graph": [
+      {
+        "@type": ["Organization", "ProfessionalService"],
+        "@id": `${siteUrl}/#organization`,
+        "name": "Digifolks",
+        "legalName": "Digifolks Technology",
+        "url": siteUrl,
+        "logo": `${siteUrl}/Digifolks-Logo.png`,
+        "image": `${siteUrl}/Dih.webp`,
+        "description": lang === 'id'
+          ? "Software engineering house dan B2B technology partner di Yogyakarta. Merancang dan membangun sistem operasional berskala tinggi (custom ERP, POS, microservices, dan otomasi AI)."
+          : "Software engineering house & B2B technology partner based in Yogyakarta, Indonesia. Engineering scalable operational systems, custom ERP, POS, and AI workflows.",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Yogyakarta",
+          "addressRegion": "D.I. Yogyakarta",
+          "addressCountry": "ID",
+        },
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "telephone": "+62-858-1441-2099",
+            "contactType": "customer service",
+            "email": "marketing@digifolks.id",
+            "availableLanguage": ["Indonesian", "English"],
+          },
+          {
+            "@type": "ContactPoint",
+            "telephone": "+62-895-4010-88270",
+            "contactType": "sales",
+            "email": "digifolkstech@gmail.com",
+            "availableLanguage": ["Indonesian", "English"],
+          },
+        ],
+        "sameAs": [
+          "https://id.linkedin.com/company/digifolks-id",
+          "https://github.com/Rayendraarya26",
+        ],
+        "areaServed": "ID",
+        "knowsLanguage": ["en", "id"],
+        "serviceType": [
+          "Custom Management Systems & ERP",
+          "Point of Sale (POS) Systems",
+          "High-Concurrency Microservices",
+          "Artificial Intelligence Solutions",
+          "High-Performance Web Platforms",
+          "IT Architecture Consulting",
+        ],
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${siteUrl}/#website`,
+        "url": siteUrl,
+        "name": "Digifolks",
+        "description": "Build Scalable Operational Systems",
+        "publisher": {
+          "@id": `${siteUrl}/#organization`,
+        },
+        "inLanguage": ["en", "id"],
+      },
     ],
   };
 
   return (
     <html lang={lang} className={`${plusJakartaSans.variable} ${inter.variable} ${jetbrainsMono.variable}`}>
       <body className="antialiased bg-navy-base text-text-off-white flex flex-col min-h-screen">
-        <JsonLd data={orgSchema} />
+        <JsonLd data={structuredData} />
         <Preloader />
         {/* <SmoothScrollProvider> */}
         <TransitionProvider />
