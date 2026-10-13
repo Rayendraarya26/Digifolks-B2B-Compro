@@ -42,33 +42,43 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   const resolvedParams = await params;
   const lang = resolvedParams?.lang || 'en';
   const dict = await getDictionary(lang as 'en' | 'id');
-  const seo = dict.seo?.home || {
-    title: "Build Scalable Operational Systems",
-    description: "We design and develop scalable systems that reduce operational complexity, improve reliability, and support long-term business growth.",
-  };
-  const url = `/${lang}`;
+  const seo = dict.seo?.home;
+
+  const pageTitle = lang === 'id'
+    ? "Digifolks — Software Engineering House & Sistem Operasional Enterprise"
+    : "Digifolks — Scalable Operational Systems & Software Engineering House";
+
+  const description = seo?.description || (
+    lang === 'id'
+      ? "Digifolks adalah Software Engineering House & B2B Technology Partner di Yogyakarta. Membangun sistem operasional berskala tinggi, ERP kustom, POS, dan microservices."
+      : "Digifolks is a Software Engineering House & B2B Technology Partner in Yogyakarta. We engineer scalable operational systems, custom ERP, POS, and microservices."
+  );
 
   return {
-    title: seo.title,
-    description: seo.description,
+    title: {
+      absolute: pageTitle,
+    },
+    description,
     alternates: {
-      canonical: url,
+      canonical: lang === 'en' ? '/' : `/${lang}`,
       languages: {
         en: '/en',
         id: '/id',
+        'x-default': '/',
       },
     },
     openGraph: {
-      title: seo.title,
-      description: seo.description,
-      url: url,
+      title: pageTitle,
+      description,
+      url: lang === 'en' ? '/' : `/${lang}`,
+      siteName: "Digifolks",
       type: "website",
       images: [
         {
           url: "/Dih.webp",
           width: 1200,
           height: 630,
-          alt: seo.title,
+          alt: pageTitle,
         },
       ],
     },
@@ -121,7 +131,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
   return (
     <div className="flex w-full flex-col bg-navy-base">
       {/* Hero Section */}
-      <section className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-navy-base">
+      <section className="relative pt-24 pb-16 md:pt-32 md:pb-24 overflow-hidden bg-navy-base">
         <div className="absolute top-0 right-0 w-96 h-96 bg-accent-emerald/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-navy-light/50 rounded-full blur-[100px] pointer-events-none" />
 
@@ -129,11 +139,8 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           <div className="grid md:grid-cols-12 gap-12 items-center">
             <div className="md:col-span-7">
               <Reveal>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-light text-text-off-white font-mono text-sm mb-6 border border-border-flat/20">
-                  <span className="w-1.5 h-1.5 rounded-full bg-accent-emerald" />
-                  {t.hero.tag}
-                </div>
                 <h1 className="text-5xl md:text-7xl font-bold text-text-pure leading-tight mb-6 tracking-tight">
+                  <span className="sr-only">Digifolks — Scalable Operational Systems: </span>
                   {t.hero.titleLine1} <br />
                   <span className="text-accent-emerald">{t.hero.titleLine2}</span>
                 </h1>

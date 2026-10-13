@@ -25,7 +25,7 @@
       "tag": "Engineering Excellence",
       "titleLine1": "Engineered for",
       "titleLine2": "Scale & Stability.",
-      "desc": "We build robust operational systems and enterprise software that reduce complexity, improve reliability, and accelerate your business growth.",
+      "desc": "At Digifolks, we build scalable operational systems and enterprise software that reduce complexity, improve reliability, and accelerate your business growth.",
       "cta1": "Schedule Consultation",
       "cta2": "View Our Work"
     },
@@ -300,6 +300,7 @@
   },
   "work": {
     "hero": {
+      "tag": "Case Studies & Systems",
       "titleLine1": "Real Systems.",
       "titleLine2": "Real Impact.",
       "desc": "We collaborate with enterprises to solve operational complexity through precision software engineering.",
@@ -393,8 +394,8 @@
   },
   "seo": {
     "home": {
-      "title": "Build Scalable Operational Systems",
-      "description": "We design and develop scalable systems that reduce operational complexity, improve reliability, and support long-term business growth."
+      "title": "Digifolks — Scalable Operational Systems & Software Engineering House",
+      "description": "Digifolks is a B2B Software Engineering House based in Yogyakarta. We engineer scalable operational systems, custom ERP, POS, microservices, and AI integrations."
     },
     "services": {
       "title": "Services — Scalable System Development",
@@ -423,6 +424,70 @@
     "terms": {
       "title": "Terms of Service",
       "description": "Official terms of service governing Arunika Vistara Digital (Digifolks) platform usage and enterprise software consultations."
+    }
+  },
+  "error": {
+    "404": {
+      "code": "404",
+      "title": "Page Not Found",
+      "description": "The link may be broken or the operational page has been moved. Let us help guide you back.",
+      "backHome": "Back to Home",
+      "viewPortfolio": "View Portfolio",
+      "usefulLinksTitle": "Helpful Destinations",
+      "usefulLinksSubtitle": "Explore other operational sections of Digifolks:",
+      "cards": {
+        "services": {
+          "title": "Our Services",
+          "desc": "Custom management systems, POS, ERP, and integrated AI solutions.",
+          "cta": "Explore services"
+        },
+        "work": {
+          "title": "Case Studies",
+          "desc": "Real operational systems and digital transformations built for business scale.",
+          "cta": "View portfolio"
+        },
+        "blog": {
+          "title": "Blog & Insights",
+          "desc": "Engineering deep dives, architecture breakdowns, and tech insights.",
+          "cta": "Read articles"
+        },
+        "contact": {
+          "title": "Contact Us",
+          "desc": "Discuss your operational challenges or engineer a new system with us.",
+          "cta": "Start consultation"
+        }
+      }
+    },
+    "500": {
+      "code": "500",
+      "title": "Server Error Encountered",
+      "description": "Our systems are experiencing a temporary technical issue. The Digifolks engineering team is actively addressing it. Please reload or return shortly.",
+      "reloadPage": "Reload Page",
+      "backHome": "Back to Home",
+      "usefulLinksTitle": "Helpful Destinations",
+      "usefulLinksSubtitle": "Explore other operational sections while we resolve this issue:",
+      "cards": {
+        "services": {
+          "title": "Our Services",
+          "desc": "Custom management systems, POS, ERP, and integrated AI solutions.",
+          "cta": "Explore services"
+        },
+        "work": {
+          "title": "Case Studies",
+          "desc": "Real operational systems and digital transformations built for business scale.",
+          "cta": "View portfolio"
+        },
+        "blog": {
+          "title": "Blog & Insights",
+          "desc": "Engineering deep dives, architecture breakdowns, and tech insights.",
+          "cta": "Read articles"
+        },
+        "contact": {
+          "title": "Contact Us",
+          "desc": "Discuss your operational challenges or engineer a new system with us.",
+          "cta": "Start consultation"
+        }
+      }
     }
   }
 }

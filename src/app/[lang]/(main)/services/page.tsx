@@ -114,10 +114,11 @@ export default async function ServicesPage({ params }: { params: Promise<{ lang:
         <div className="absolute top-0 right-0 w-96 h-96 bg-accent-emerald/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <Reveal>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-light text-text-off-white font-mono text-xs mb-6 border border-border-flat/10 uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-navy-light/60 text-accent-emerald font-mono text-xs mb-6 border border-accent-emerald/20 uppercase tracking-widest">
+              <Layers className="w-3.5 h-3.5" />
               {t.hero.tag}
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold text-text-pure mb-6 max-w-3xl">
+            <h1 className="text-4xl md:text-6xl font-bold text-text-pure mb-6 max-w-4xl leading-tight">
               {t.hero.titleLine1} <span className="text-accent-emerald">{t.hero.titleAccent}</span> {t.hero.titleLine2}
             </h1>
             <p className="text-xl text-text-off-white max-w-3xl leading-relaxed">

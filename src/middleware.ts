@@ -69,7 +69,11 @@ export function middleware(request: NextRequest) {
     return res;
   }
 
-  // 4. Check if pathname already has an enabled locale
+  // Setup request headers for downstream server components & error pages
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-pathname', pathname);
+  const detectedLang = pathname.startsWith('/id') ? 'id' : 'en';
+  requestHeaders.set('x-lang', detectedLang);
   const pathnameHasLocale = enabledLocales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
@@ -80,7 +84,19 @@ export function middleware(request: NextRequest) {
     return res;
   }
 
-  // 5. Redirect to default locale
+  // 5. Rewrite root path '/' directly to default locale to eliminate redirect chains on main domain
+  if (pathname === '/') {
+    request.nextUrl.pathname = `/${defaultLocale}`;
+    const res = NextResponse.rewrite(request.nextUrl, {
+      request: {
+        headers: requestHeaders,
+      },
+    });
+    res.headers.set('Vary', 'Accept');
+    return res;
+  }
+
+  // 6. Redirect other paths without locale to default locale
   request.nextUrl.pathname = `/${defaultLocale}${pathname}`;
   const res = NextResponse.redirect(request.nextUrl);
   res.headers.set('Vary', 'Accept');

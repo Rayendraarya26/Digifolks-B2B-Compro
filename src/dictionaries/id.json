@@ -25,7 +25,7 @@
       "tag": "Engineering Excellence",
       "titleLine1": "Engineered for",
       "titleLine2": "Scale & Stability.",
-      "desc": "Kami membangun sistem operasional dan perangkat lunak enterprise yang tangguh untuk mengurangi kompleksitas, meningkatkan keandalan, dan mempercepat pertumbuhan bisnis Anda.",
+      "desc": "Digifolks membangun sistem operasional berskala tinggi dan perangkat lunak enterprise yang tangguh untuk mengurangi kompleksitas, meningkatkan keandalan, dan mempercepat pertumbuhan bisnis Anda.",
       "cta1": "Jadwalkan Konsultasi",
       "cta2": "Lihat Hasil Kerja"
     },
@@ -300,6 +300,7 @@
   },
   "work": {
     "hero": {
+      "tag": "Studi Kasus & Portofolio",
       "titleLine1": "Real Systems.",
       "titleLine2": "Real Impact.",
       "desc": "Kami berkolaborasi dengan enterprise untuk memecahkan kompleksitas operasional melalui rekayasa perangkat lunak yang presisi.",
@@ -393,8 +394,8 @@
   },
   "seo": {
     "home": {
-      "title": "Software House & Sistem Enterprise Jogja",
-      "description": "Kami merancang dan mengembangkan sistem operasional yang skalabel untuk mengurangi kompleksitas, meningkatkan keandalan, dan mendukung pertumbuhan bisnis jangka panjang."
+      "title": "Digifolks — Software Engineering House & Sistem Operasional Enterprise",
+      "description": "Digifolks adalah Software Engineering House & B2B Technology Partner di Yogyakarta. Merancang dan membangun sistem operasional berskala tinggi, ERP kustom, POS, dan microservices."
     },
     "services": {
       "title": "Layanan Rekayasa Sistem & Software Enterprise",
@@ -423,6 +424,70 @@
     "terms": {
       "title": "Ketentuan Layanan",
       "description": "Ketentuan layanan resmi Arunika Vistara Digital (Digifolks) untuk akses platform dan konsultasi rekayasa sistem enterprise."
+    }
+  },
+  "error": {
+    "404": {
+      "code": "404",
+      "title": "Halaman Tidak Ditemukan",
+      "description": "Mungkin tautan rusak atau halaman telah dipindahkan. Mari kami bantu menemukan arah kembali.",
+      "backHome": "Kembali ke Beranda",
+      "viewPortfolio": "Lihat Portofolio",
+      "usefulLinksTitle": "Tautan Berguna",
+      "usefulLinksSubtitle": "Beberapa halaman yang mungkin ingin Anda kunjungi:",
+      "cards": {
+        "services": {
+          "title": "Layanan Kami",
+          "desc": "Pengembangan sistem kustom, POS, ERP, dan solusi AI terintegrasi.",
+          "cta": "Eksplorasi layanan"
+        },
+        "work": {
+          "title": "Studi Kasus",
+          "desc": "Koleksi karya terbaik dan transformasi digital yang telah kami bangun.",
+          "cta": "Lihat portofolio"
+        },
+        "blog": {
+          "title": "Blog",
+          "desc": "Artikel, wawasan industri digital, tren teknologi, dan pemikiran tim kami.",
+          "cta": "Baca artikel"
+        },
+        "contact": {
+          "title": "Hubungi Tim",
+          "desc": "Diskusikan kebutuhan proyek Anda atau konsultasikan ide baru bersama kami.",
+          "cta": "Mulai konsultasi"
+        }
+      }
+    },
+    "500": {
+      "code": "500",
+      "title": "Terjadi Gangguan Server",
+      "description": "Sistem kami sedang mengalami masalah teknis sementara. Tim teknis Digifolks sedang menangani ini. Silakan coba muat ulang atau kembali beberapa saat lagi.",
+      "reloadPage": "Muat Ulang Halaman",
+      "backHome": "Kembali ke Beranda",
+      "usefulLinksTitle": "Tautan Berguna",
+      "usefulLinksSubtitle": "Beberapa halaman yang mungkin ingin Anda kunjungi selagi kami menanganinya:",
+      "cards": {
+        "services": {
+          "title": "Layanan Kami",
+          "desc": "Pengembangan sistem kustom, POS, ERP, dan solusi AI terintegrasi.",
+          "cta": "Eksplorasi layanan"
+        },
+        "work": {
+          "title": "Studi Kasus",
+          "desc": "Koleksi karya terbaik dan transformasi digital yang telah kami bangun.",
+          "cta": "Lihat portofolio"
+        },
+        "blog": {
+          "title": "Blog",
+          "desc": "Artikel, wawasan industri digital, tren teknologi, dan pemikiran tim kami.",
+          "cta": "Baca artikel"
+        },
+        "contact": {
+          "title": "Hubungi Tim",
+          "desc": "Diskusikan kebutuhan proyek Anda atau konsultasikan ide baru bersama kami.",
+          "cta": "Mulai konsultasi"
+        }
+      }
     }
   }
 }

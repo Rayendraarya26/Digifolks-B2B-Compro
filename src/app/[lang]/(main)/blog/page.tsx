@@ -124,7 +124,7 @@ export default async function BlogPage({
   return (
     <div className="flex w-full flex-col min-h-screen bg-navy-base">
       {/* Hero Section — Dark Brand Aesthetic */}
-      <section className="relative pt-32 pb-16 bg-navy-base overflow-hidden border-b border-border-flat/10">
+      <section className="relative pt-32 pb-20 bg-navy-base overflow-hidden border-b border-border-flat/10">
         <div className="absolute top-0 right-0 w-96 h-96 bg-accent-emerald/5 rounded-full blur-[100px] pointer-events-none" />
         <div className="absolute top-20 left-0 w-[500px] h-[500px] bg-navy-light/30 rounded-full blur-[160px] pointer-events-none" />
 
@@ -135,10 +135,10 @@ export default async function BlogPage({
               {t.tag}
             </div>
             <h1 className="text-4xl md:text-6xl font-bold text-text-pure mb-6 max-w-3xl leading-tight">
-              {t.titleLine1}{" "}
+              {t.titleLine1} <br />
               <span className="text-accent-emerald">{t.titleLine2}</span>
             </h1>
-            <p className="text-lg md:text-xl text-text-off-white/70 max-w-2xl leading-relaxed">
+            <p className="text-xl text-text-off-white max-w-3xl leading-relaxed">
               {t.desc}
             </p>
           </Reveal>

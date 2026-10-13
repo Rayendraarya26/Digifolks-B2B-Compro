@@ -6,21 +6,52 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const languages = ['en', 'id'] as const;
 
   // 1. Static routes
-  const staticRoutes = ['', '/about', '/services', '/work', '/contact', '/blog'];
-  const staticEntries: MetadataRoute.Sitemap = staticRoutes.flatMap((route) =>
-    languages.map((lang) => ({
-      url: `${baseUrl}/${lang}${route}`,
+  const rootEntry: MetadataRoute.Sitemap[number] = {
+    url: baseUrl,
+    lastModified: new Date(),
+    changeFrequency: 'weekly' as const,
+    priority: 1.0,
+    alternates: {
+      languages: {
+        en: `${baseUrl}/en`,
+        id: `${baseUrl}/id`,
+        'x-default': baseUrl,
+      },
+    },
+  };
+
+  const staticRoutes = ['/about', '/services', '/work', '/contact', '/blog'];
+  const staticEntries: MetadataRoute.Sitemap = [
+    rootEntry,
+    ...staticRoutes.flatMap((route) =>
+      languages.map((lang) => ({
+        url: `${baseUrl}/${lang}${route}`,
+        lastModified: new Date(),
+        changeFrequency: 'monthly' as const,
+        priority: 0.8,
+        alternates: {
+          languages: {
+            en: `${baseUrl}/en${route}`,
+            id: `${baseUrl}/id${route}`,
+          },
+        },
+      }))
+    ),
+    // Also include /en and /id roots
+    ...languages.map((lang) => ({
+      url: `${baseUrl}/${lang}`,
       lastModified: new Date(),
-      changeFrequency: route === '' ? ('weekly' as const) : ('monthly' as const),
-      priority: route === '' ? 1 : 0.8,
+      changeFrequency: 'weekly' as const,
+      priority: 0.9,
       alternates: {
         languages: {
-          en: `${baseUrl}/en${route}`,
-          id: `${baseUrl}/id${route}`,
+          en: `${baseUrl}/en`,
+          id: `${baseUrl}/id`,
+          'x-default': baseUrl,
         },
       },
-    }))
-  );
+    })),
+  ];
 
   // 2. Dynamic service pages
   let serviceEntries: MetadataRoute.Sitemap = [];
