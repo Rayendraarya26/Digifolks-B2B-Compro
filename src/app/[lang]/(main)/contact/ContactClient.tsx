@@ -51,6 +51,18 @@ export default function ContactClient({ dict }: { dict: any }) {
 
       if (response && response.success) {
         setStatus("success");
+
+        // Push lead conversion event to Google Tag Manager
+        if (typeof window !== "undefined") {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: "contact_form_success",
+            lead_type: "b2b_inquiry",
+            service_interest: selectedCategories.length > 0 ? selectedCategories.join(", ") : "Not Provided",
+            budget_range: selectedBudget || "Not Provided",
+          });
+        }
+
         (e.target as HTMLFormElement).reset();
         setSelectedCategories([]);
         setSelectedBudget("");
