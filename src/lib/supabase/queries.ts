@@ -221,9 +221,12 @@ export async function getBlogPosts({
       query = query.contains('tags', [tag]);
     }
 
-    // Filter by search query if provided
+    // Filter by search query if provided (sanitized against wildcard abuse)
     if (search && search.trim()) {
-      query = query.ilike('title', `%${search.trim()}%`);
+      const sanitizedSearch = search.trim().replace(/[%_\\]/g, '\\$&').slice(0, 100);
+      if (sanitizedSearch) {
+        query = query.ilike('title', `%${sanitizedSearch}%`);
+      }
     }
 
     const from = (page - 1) * limit;

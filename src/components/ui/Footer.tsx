@@ -64,6 +64,9 @@ export function Footer({ dict, lang }: { dict?: any; lang?: string }) {
             <Link href={`${prefix}/terms`} className="text-border-flat/50 hover:text-bg-pure text-xs transition-colors">
               {dict?.termsOfService || 'Terms of Service'}
             </Link>
+            <Link href={`${prefix}/security`} className="text-border-flat/50 hover:text-bg-pure text-xs transition-colors">
+              {dict?.securityPolicy || (prefix === '/id' ? 'Keamanan' : 'Security')}
+            </Link>
           </div>
         </div>
       </div>

@@ -20,7 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
   };
 
-  const staticRoutes = ['/about', '/services', '/work', '/contact', '/blog'];
+  const staticRoutes = ['/about', '/services', '/work', '/contact', '/blog', '/privacy', '/terms', '/security'];
   const staticEntries: MetadataRoute.Sitemap = [
     rootEntry,
     ...staticRoutes.flatMap((route) =>

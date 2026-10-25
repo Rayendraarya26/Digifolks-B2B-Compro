@@ -13,13 +13,39 @@ export function middleware(request: NextRequest) {
   const acceptHeader = request.headers.get('accept') || '';
   const wantsMarkdown = acceptHeader.includes('text/markdown');
 
-  // Skip public files (except directory paths), api routes, and Next.js internals
+  // Skip public files (except directory paths), api routes, metadata routes, and Next.js internals
+  const isMetadataRoute =
+    pathname === '/opengraph-image' ||
+    pathname === '/twitter-image' ||
+    pathname === '/manifest.json' ||
+    pathname === '/site.webmanifest' ||
+    pathname === '/manifest.webmanifest' ||
+    pathname === '/robots.txt' ||
+    pathname === '/sitemap.xml' ||
+    pathname.startsWith('/.well-known');
+
   if (
     pathname.includes('.') || 
     pathname.startsWith('/api') || 
-    pathname.startsWith('/_next')
+    pathname.startsWith('/_next') ||
+    isMetadataRoute
   ) {
     return NextResponse.next();
+  }
+
+  // Rewrite localized metadata requests to root static metadata
+  if (
+    pathname === '/en/opengraph-image' ||
+    pathname === '/id/opengraph-image' ||
+    pathname === '/en/manifest.json' ||
+    pathname === '/id/manifest.json' ||
+    pathname === '/en/site.webmanifest' ||
+    pathname === '/id/site.webmanifest'
+  ) {
+    const cleanPath = pathname.replace(/^\/(en|id)/, '');
+    const rewriteUrl = request.nextUrl.clone();
+    rewriteUrl.pathname = cleanPath;
+    return NextResponse.rewrite(rewriteUrl);
   }
 
   // 1. Agent Content Negotiation (acceptmarkdown.com & Ora / Vercel is-agentic audit)
