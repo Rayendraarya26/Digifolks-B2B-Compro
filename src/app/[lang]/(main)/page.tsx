@@ -400,7 +400,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
                         </h3>
 
                         <div className="flex flex-wrap gap-2 pt-4 border-t border-border-flat">
-                          {study.tags && study.tags.map((tag) => (
+                          {Array.isArray(study.tags) && study.tags.map((tag) => (
                             <span key={tag} className="px-2.5 py-1 text-xs font-mono bg-[#1e293b]/5 text-text-muted border border-border-flat rounded-md">
                               {tag}
                             </span>

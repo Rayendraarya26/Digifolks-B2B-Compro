@@ -232,7 +232,7 @@ export default async function BlogPostDetailPage({
                 <Tag className="w-3.5 h-3.5 text-accent-forest" />
                 Tags:
               </span>
-              {post.tags.map((tag) => (
+              {Array.isArray(post.tags) && post.tags.map((tag) => (
                 <Link
                   key={tag}
                   href={`${prefix}/blog?tag=${encodeURIComponent(tag)}`}

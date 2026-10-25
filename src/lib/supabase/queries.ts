@@ -4,6 +4,56 @@ import { Portfolio, Service, FAQ, Testimonial, TeamDNA, GeneralSettings, BlogPos
 // Browser / Public Client
 const supabase = createClient();
 
+function parseJsonArray<T = string>(val: unknown): T[] {
+  if (!val) return [];
+  if (Array.isArray(val)) return val;
+  if (typeof val === 'string') {
+    const trimmed = val.trim();
+    if (trimmed.startsWith('[') && trimmed.endsWith(']')) {
+      try {
+        const parsed = JSON.parse(trimmed);
+        if (Array.isArray(parsed)) return parsed;
+      } catch {
+        // fallback
+      }
+    }
+    if (trimmed.length > 0) {
+      return trimmed.split(',').map((s) => s.trim()).filter(Boolean) as unknown as T[];
+    }
+  }
+  return [];
+}
+
+export function normalizePortfolio(data: any): Portfolio {
+  if (!data) return data;
+  return {
+    ...data,
+    tags: parseJsonArray<string>(data.tags),
+    challenges: parseJsonArray<string>(data.challenges),
+    solutions: parseJsonArray<string>(data.solutions),
+    results: parseJsonArray<{ value: string; label: string }>(data.results),
+    gallery_images: parseJsonArray<string>(data.gallery_images),
+  };
+}
+
+export function normalizeService(data: any): Service {
+  if (!data) return data;
+  return {
+    ...data,
+    features: parseJsonArray<string>(data.features),
+    tech_stack: parseJsonArray<string>(data.tech_stack),
+    icon_lp_url: parseJsonArray<string>(data.icon_lp_url),
+  };
+}
+
+export function normalizeBlogPost(data: any): BlogPost {
+  if (!data) return data;
+  return {
+    ...data,
+    tags: parseJsonArray<string>(data.tags),
+  };
+}
+
 export async function getPortfolios(): Promise<Portfolio[]> {
   try {
     const { data, error } = await supabase
@@ -16,7 +66,7 @@ export async function getPortfolios(): Promise<Portfolio[]> {
       console.error('Error fetching portfolios from Supabase:', error.message);
       return [];
     }
-    return data || [];
+    return (data || []).map(normalizePortfolio);
   } catch (err) {
     console.error('Unexpected error in getPortfolios:', err);
     return [];
@@ -35,7 +85,7 @@ export async function getPortfolioBySlug(slug: string): Promise<Portfolio | null
       console.error(`Error fetching portfolio ${slug} from Supabase:`, error.message);
       return null;
     }
-    return data;
+    return data ? normalizePortfolio(data) : null;
   } catch (err) {
     console.error(`Unexpected error in getPortfolioBySlug (${slug}):`, err);
     return null;
@@ -54,7 +104,7 @@ export async function getServices(): Promise<Service[]> {
       console.error('Error fetching services from Supabase:', error.message);
       return [];
     }
-    return data || [];
+    return (data || []).map(normalizeService);
   } catch (err) {
     console.error('Unexpected error in getServices:', err);
     return [];
@@ -148,7 +198,7 @@ export async function getServiceBySlug(slug: string): Promise<Service | null> {
       console.error(`Error fetching service ${slug} from Supabase:`, error.message);
       return null;
     }
-    return data;
+    return data ? normalizeService(data) : null;
   } catch (err) {
     console.error(`Unexpected error in getServiceBySlug (${slug}):`, err);
     return null;
@@ -244,7 +294,7 @@ export async function getBlogPosts({
     const totalPages = Math.ceil(total / limit);
 
     return {
-      posts: (data as BlogPost[]) || [],
+      posts: (((data as BlogPost[]) || []).map(normalizeBlogPost)),
       total,
       totalPages,
       currentPage: page,
@@ -267,7 +317,7 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
       console.error(`Error fetching blog post ${slug} from Supabase:`, error.message);
       return null;
     }
-    return data as BlogPost;
+    return data ? normalizeBlogPost(data) : null;
   } catch (err) {
     console.error(`Unexpected error in getBlogPostBySlug (${slug}):`, err);
     return null;
@@ -293,7 +343,7 @@ export async function getRelatedBlogPosts(currentPostId: string, categoryId?: st
       console.error('Error fetching related blog posts:', error.message);
       return [];
     }
-    return (data as BlogPost[]) || [];
+    return (((data as BlogPost[]) || []).map(normalizeBlogPost));
   } catch (err) {
     console.error('Unexpected error in getRelatedBlogPosts:', err);
     return [];

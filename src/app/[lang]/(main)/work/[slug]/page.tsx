@@ -204,7 +204,7 @@ export default async function ProjectDetailPage({
                 </section>
               </Reveal>
 
-              {project.challenges && project.challenges.length > 0 && (
+              {Array.isArray(project.challenges) && project.challenges.length > 0 && (
                 <Reveal delay={0.1}>
                   <section>
                     <h2 className="text-sm font-bold text-accent-forest uppercase tracking-widest mb-6">{t.theChallenge}</h2>
@@ -222,7 +222,7 @@ export default async function ProjectDetailPage({
                 </Reveal>
               )}
 
-              {project.solutions && project.solutions.length > 0 && (
+              {Array.isArray(project.solutions) && project.solutions.length > 0 && (
                 <Reveal delay={0.2}>
                   <section>
                     <h2 className="text-sm font-bold text-accent-forest uppercase tracking-widest mb-6">{t.ourSolution}</h2>
@@ -270,7 +270,7 @@ export default async function ProjectDetailPage({
                   </div>
 
                   {/* Tech Stack */}
-                  {project.tags && project.tags.length > 0 && (
+                  {Array.isArray(project.tags) && project.tags.length > 0 && (
                     <div className="bg-bg-pure border border-border-flat rounded-2xl p-6 shadow-sm">
                       <h3 className="text-sm font-bold text-navy-base uppercase tracking-wider mb-4">{t.techStack}</h3>
                       <div className="flex flex-wrap gap-2">

@@ -202,7 +202,7 @@ const ProjectDetail = ({
                 The Craft
               </h3>
               <div className="flex flex-wrap gap-4">
-                {project.tags.map((tech) => (
+                {Array.isArray(project.tags) && project.tags.map((tech) => (
                   <motion.div
                     key={tech}
                     whileHover={{ y: -5, rotate: [-2, 2, 0] }} // Micro-interaction Jiggle

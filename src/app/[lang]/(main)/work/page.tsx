@@ -54,16 +54,19 @@ export default async function PortfoliosPage({ params }: { params: Promise<{ lan
   const cases = await getPortfolios();
 
   const getCoverImage = (slug: string, customCover?: string) => {
-    if (customCover && customCover.startsWith('/')) {
+    if (customCover && (customCover.startsWith('/') || customCover.startsWith('http://') || customCover.startsWith('https://'))) {
       return customCover;
     }
     try {
       const publicDir = path.join(process.cwd(), "public", "Image", "Portfolio", slug);
-      const files = fs.readdirSync(publicDir);
-      const cover = files.find(f => f.startsWith("cover.") && f.match(/\.(png|jpe?g|webp)$/i));
-      return cover ? `/Image/Portfolio/${slug}/${cover}` : `/Image/Portfolio/${slug}/cover.png`;
+      if (fs.existsSync(publicDir)) {
+        const files = fs.readdirSync(publicDir);
+        const cover = files.find(f => f.startsWith("cover.") && f.match(/\.(png|jpe?g|webp)$/i));
+        if (cover) return `/Image/Portfolio/${slug}/${cover}`;
+      }
+      return customCover || `/Image/Portfolio/${slug}/cover.png`;
     } catch {
-      return `/Image/Portfolio/${slug}/cover.png`;
+      return customCover || `/Image/Portfolio/${slug}/cover.png`;
     }
   };
 
@@ -136,7 +139,7 @@ export default async function PortfoliosPage({ params }: { params: Promise<{ lan
                       </h3>
 
                       <div className="flex flex-wrap gap-2 pt-4 border-t border-border-flat">
-                        {study.tags && study.tags.map((tag) => (
+                        {Array.isArray(study.tags) && study.tags.map((tag) => (
                           <span key={tag} className="px-2.5 py-1 text-xs font-mono bg-[#1e293b]/5 text-text-muted border border-border-flat rounded-md">
                             {tag}
                           </span>
