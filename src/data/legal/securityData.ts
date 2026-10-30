@@ -25,8 +25,8 @@ export const securityData: { id: LegalDocument; en: LegalDocument } = {
         icon: "scale"
       },
       {
-        title: "Apresiasi & Pengakuan",
-        description: "Peneliti yang melaporkan celah valid berhak mendapatkan pengakuan publik dan surat apresiasi resmi.",
+        title: "Respon Cepat & Transparan",
+        description: "Komitmen waktu respon 2 hari kerja dan pembaruan transparan selama proses perbaikan.",
         icon: "check"
       }
     ],
@@ -129,13 +129,12 @@ export const securityData: { id: LegalDocument; en: LegalDocument } = {
         ]
       },
       {
-        id: "apresiasi",
+        id: "kebijakan-program",
         number: "7",
-        title: "Pengakuan & Apresiasi",
+        title: "Ketentuan Program & Apresiasi",
         content: [
-          "Sebagai wujud terima kasih kami atas dedikasi dan kerja sama Anda dalam menjaga keamanan ekosistem Digifolks, peneliti yang melaporkan celah yang valid dan belum pernah dilaporkan sebelumnya berhak mendapatkan:",
-          "1. Surat apresiasi resmi (Official Certificate / Letter of Recognition) dari manajemen engineering Digifolks.",
-          "2. Pencantuman nama atau profil profesional Anda di Hall of Fame Keamanan Digifolks (dengan persetujuan Anda)."
+          "Program pengungkapan kerentanan ini diselenggarakan sebagai bentuk kolaborasi keamanan sukarela (volunteer & non-monetary program).",
+          "Digifolks tidak menyediakan imbalan finansial (bounty) atau kompensasi moneter. Kami menyampaikan terima kasih dan apresiasi sebesar-besarnya atas kerja sama seluruh peneliti dalam membantu menjaga keamanan ekosistem digital kami."
         ]
       }
     ],
@@ -174,8 +173,8 @@ export const securityData: { id: LegalDocument; en: LegalDocument } = {
         icon: "scale"
       },
       {
-        title: "Hall of Fame Recognition",
-        description: "Researchers who report qualifying valid vulnerabilities receive formal recognition and credit.",
+        title: "Transparent Response SLA",
+        description: "Committed 2-day acknowledgment SLA and proactive updates throughout the remediation process.",
         icon: "check"
       }
     ],
@@ -278,13 +277,12 @@ export const securityData: { id: LegalDocument; en: LegalDocument } = {
         ]
       },
       {
-        id: "recognition",
+        id: "program-terms",
         number: "7",
-        title: "Recognition & Hall of Fame",
+        title: "Program Terms & Non-Monetary Policy",
         content: [
-          "In appreciation of your efforts to keep Digifolks and our clients safe, researchers who submit qualifying original vulnerabilities are eligible for:",
-          "1. An official Letter of Recognition / Certificate of Appreciation from Digifolks Engineering leadership.",
-          "2. Public listing in the Digifolks Security Hall of Fame (subject to your consent)."
+          "This Vulnerability Disclosure Program operates on a voluntary and non-monetary basis.",
+          "Digifolks does not provide cash bounties or financial compensation. We extend our sincere gratitude and appreciation to researchers for their responsible collaboration in keeping our digital ecosystem secure."
         ]
       }
     ],
