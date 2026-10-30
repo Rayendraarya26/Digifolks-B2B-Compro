@@ -1,11 +1,12 @@
 "use server";
 import { Resend } from 'resend';
 import { createClient } from '@/lib/supabase/server';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Sesuaikan tipe data dengan yang ada di client
-type LaunchpadData = {
+export type LaunchpadData = {
   name: string;
   company: string;
   email: string;
@@ -13,7 +14,14 @@ type LaunchpadData = {
   budget: string;
   currency: "IDR" | "USD";
   details: string;
+  honeypot?: string;
 };
+
+// Disallow newline and control characters in single-line headers/fields (CRLF / Header Injection defense)
+function sanitizeSingleLine(str: string): string {
+  if (!str) return "";
+  return str.replace(/[\r\n\x00-\x1F\x7F]+/g, " ").trim();
+}
 
 function escapeHtml(str: string): string {
   if (!str) return "";
@@ -27,16 +35,38 @@ function escapeHtml(str: string): string {
 
 export async function sendLaunchpadEmail(formData: LaunchpadData) {
   try {
-    const { name, company, email, service, budget, currency, details } = formData;
+    const { name, company, email, service, budget, currency, details, honeypot } = formData;
+
+    // 1. Honeypot check: Bots auto-filling invisible fields are silently dropped
+    if (honeypot && honeypot.trim().length > 0) {
+      console.warn("Honeypot field triggered. Silently dropping submission.");
+      return { success: true };
+    }
+
+    // 2. Rate Limiting Check (per IP)
+    const clientIp = await getClientIp();
+    const ipRateLimit = checkRateLimit(clientIp, {
+      keyPrefix: 'contact_form_ip',
+      limit: 5, // max 5 submissions
+      windowMs: 15 * 60 * 1000, // per 15 minutes
+    });
+
+    if (!ipRateLimit.success) {
+      return {
+        success: false,
+        message: "Too many requests from your IP. Please wait a few minutes before trying again.",
+      };
+    }
+
     const senderDomain = 'Digifolks System <hello@mail.digifolks.id>';
     const adminEmail = ['digifolkstech@gmail.com', 'marketing@digifolks.id'];
 
-    // Input validation & length clamping
-    const cleanName = (name || "").trim().slice(0, 100);
-    const cleanCompany = (company || "").trim().slice(0, 100);
-    const cleanEmail = (email || "").trim().slice(0, 120);
-    const cleanService = (service || "").trim().slice(0, 200);
-    const cleanBudget = (budget || "").trim().slice(0, 50);
+    // 3. Strict Input Sanitization & CRLF Defense
+    const cleanName = sanitizeSingleLine(name).slice(0, 100);
+    const cleanCompany = sanitizeSingleLine(company).slice(0, 100);
+    const cleanEmail = sanitizeSingleLine(email).slice(0, 120);
+    const cleanService = sanitizeSingleLine(service).slice(0, 200);
+    const cleanBudget = sanitizeSingleLine(budget).slice(0, 50);
     const cleanCurrency = currency === "USD" ? "USD" : "IDR";
     const cleanDetails = (details || "").trim().slice(0, 4000);
 
@@ -45,7 +75,21 @@ export async function sendLaunchpadEmail(formData: LaunchpadData) {
       return { success: false, message: "Invalid name or email address provided." };
     }
 
-    // Save inquiry to Supabase database
+    // 4. Rate Limiting Check (per Email address to prevent spamming the same inbox)
+    const emailRateLimit = checkRateLimit(cleanEmail.toLowerCase(), {
+      keyPrefix: 'contact_form_email',
+      limit: 3, // max 3 submissions
+      windowMs: 15 * 60 * 1000, // per 15 minutes
+    });
+
+    if (!emailRateLimit.success) {
+      return {
+        success: false,
+        message: "Too many requests for this email address. Please try again later.",
+      };
+    }
+
+    // 5. Save inquiry to Supabase database
     try {
       const supabase = await createClient();
       await supabase.from('contact_submissions').insert({
@@ -165,13 +209,15 @@ export async function sendLaunchpadEmail(formData: LaunchpadData) {
     ]);
 
     if (error) {
-      console.error("Resend Error:", error);
-      return { success: false, message: error.message };
+      console.error("Resend API Error:", error);
+      // Return generic error message to prevent leaking internal library error details
+      return { success: false, message: "Failed to send message. Please try again later." };
     }
 
     return { success: true };
   } catch (err: any) {
-    console.error("Server Action Error:", err);
-    return { success: false, message: err.message || "Unknown error" };
+    console.error("Server Action Error in sendLaunchpadEmail:", err);
+    // Generic error message without internal error leakage
+    return { success: false, message: "An unexpected error occurred. Please try again later." };
   }
 }

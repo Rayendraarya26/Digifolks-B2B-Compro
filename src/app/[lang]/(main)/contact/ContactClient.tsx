@@ -18,6 +18,7 @@ export default function ContactClient({ dict }: { dict: any }) {
   const [selectedBudget, setSelectedBudget] = useState<string>("");
   const [loading, setLoading] = useState(false);
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const toggleCategory = (category: string) => {
     setSelectedCategories(prev =>
@@ -31,12 +32,14 @@ export default function ContactClient({ dict }: { dict: any }) {
     e.preventDefault();
     setLoading(true);
     setStatus("idle");
+    setErrorMessage("");
 
     const formData = new FormData(e.currentTarget);
     const name = formData.get("name") as string;
     const company = formData.get("company") as string;
     const email = formData.get("email") as string;
     const message = formData.get("message") as string;
+    const honeypot = (formData.get("_gotcha") as string) || "";
 
     try {
       const response = await sendLaunchpadEmail({
@@ -47,10 +50,12 @@ export default function ContactClient({ dict }: { dict: any }) {
         budget: selectedBudget || "Not Provided",
         currency: "IDR",
         details: message,
+        honeypot,
       });
 
       if (response && response.success) {
         setStatus("success");
+        setErrorMessage("");
 
         // Push lead conversion event to Google Tag Manager
         if (typeof window !== "undefined") {
@@ -69,10 +74,12 @@ export default function ContactClient({ dict }: { dict: any }) {
       } else {
         console.error("Failed to send email:", response?.message);
         setStatus("error");
+        setErrorMessage(response?.message || "Failed to send. Please try again.");
       }
     } catch (error) {
       console.error(error);
       setStatus("error");
+      setErrorMessage("An unexpected error occurred. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -100,6 +107,19 @@ export default function ContactClient({ dict }: { dict: any }) {
         <Reveal delay={0.1}>
           <div className="bg-navy-light border border-border-flat/10 rounded-2xl p-8 md:p-12 shadow-lg">
             <form onSubmit={handleSubmit} className="space-y-12">
+              {/* Honeypot field for bot trapping */}
+              <div
+                className="opacity-0 absolute -left-[9999px] h-0 w-0 pointer-events-none"
+                aria-hidden="true"
+                tabIndex={-1}
+              >
+                <input
+                  type="text"
+                  name="_gotcha"
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
 
               {/* 1. Project Categories */}
               <div>
@@ -242,7 +262,7 @@ export default function ContactClient({ dict }: { dict: any }) {
                 )}
                 {status === "error" && (
                   <span className="text-red-400 text-sm font-medium">
-                    ✕ Failed to send. Please try again.
+                    ✕ {errorMessage || "Failed to send. Please try again."}
                   </span>
                 )}
               </div>

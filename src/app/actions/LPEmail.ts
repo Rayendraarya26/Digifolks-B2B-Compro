@@ -1,97 +1,136 @@
 "use server";
 import { Resend } from 'resend';
+import { checkRateLimit, getClientIp } from '@/lib/rate-limit';
 
-// Pastikan API Key lu beneran udah ada di .env.local
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function sendContactEmail(formData: { name: string; email: string; message: string }) {
-  try {
-    const { name, email, message } = formData;
-    const senderDomain = 'Digifolks System <hello@mail.digifolks.id>';
-    const adminEmail = process.env.ADMIN_EMAIL || 'yahyaidrisabdurrahmanz@gmail.com';
+function sanitizeSingleLine(str: string): string {
+  if (!str) return "";
+  return str.replace(/[\r\n\x00-\x1F\x7F]+/g, " ").trim();
+}
 
-    // KITA PAKAI BATCH SEND: Kirim 2 email sekaligus dalam 1 request!
+function escapeHtml(str: string): string {
+  if (!str) return "";
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+export async function sendContactEmail(formData: { name: string; email: string; message: string; honeypot?: string }) {
+  try {
+    const { name, email, message, honeypot } = formData;
+
+    // 1. Honeypot check
+    if (honeypot && honeypot.trim().length > 0) {
+      console.warn("Honeypot triggered on sendContactEmail. Silently dropping.");
+      return { success: true };
+    }
+
+    // 2. IP rate limiting
+    const clientIp = await getClientIp();
+    const ipRateLimit = checkRateLimit(clientIp, {
+      keyPrefix: 'lp_contact_ip',
+      limit: 5,
+      windowMs: 15 * 60 * 1000,
+    });
+
+    if (!ipRateLimit.success) {
+      return { success: false, message: "Too many requests. Please try again later." };
+    }
+
+    const cleanName = sanitizeSingleLine(name).slice(0, 100);
+    const cleanEmail = sanitizeSingleLine(email).slice(0, 120);
+    const cleanMessage = (message || "").trim().slice(0, 4000);
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!cleanName || !cleanEmail || !emailRegex.test(cleanEmail)) {
+      return { success: false, message: "Invalid name or email address provided." };
+    }
+
+    // 3. Email rate limiting
+    const emailRateLimit = checkRateLimit(cleanEmail.toLowerCase(), {
+      keyPrefix: 'lp_contact_email',
+      limit: 3,
+      windowMs: 15 * 60 * 1000,
+    });
+
+    if (!emailRateLimit.success) {
+      return { success: false, message: "Too many requests for this email address." };
+    }
+
+    const safeName = escapeHtml(cleanName);
+    const safeEmail = escapeHtml(cleanEmail);
+    const safeMessage = escapeHtml(cleanMessage);
+
+    const senderDomain = 'Digifolks System <hello@mail.digifolks.id>';
+    const adminEmail = process.env.ADMIN_EMAIL || 'digifolkstech@gmail.com';
+
     const { data, error } = await resend.batch.send([
-      // ==========================================
-      // 1. EMAIL UNTUK ADMIN (MASUK KE INBOX LU)
-      // ==========================================
       {
         from: senderDomain,
         to: [adminEmail],
-        replyTo: email, // Pas lu klik reply, langsung ke email client
-        subject: `[NEW PLAYER] Signal from ${name}`,
+        replyTo: cleanEmail,
+        subject: `[NEW PLAYER] Signal from ${safeName}`,
         html: `
           <div style="font-family: 'Courier New', Courier, monospace; padding: 40px 20px; background-color: #f4f4f5; color: #000;">
             <div style="max-width: 600px; margin: 0 auto; background-color: #FFF; border: 4px solid #000; box-shadow: 8px 8px 0px #000; border-radius: 16px; overflow: hidden;">
-              
               <div style="background-color: #B8E1FF; border-bottom: 4px solid #000; padding: 20px; text-align: center;">
                 <h1 style="margin: 0; font-size: 28px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">
                   NEW PLAYER CONNECTED
                 </h1>
               </div>
-
               <div style="padding: 30px;">
                 <div style="background-color: #FFEA00; border: 3px solid #000; box-shadow: 4px 4px 0px #000; padding: 15px; border-radius: 12px; margin-bottom: 24px;">
-                  <p style="margin: 0 0 10px 0; font-size: 16px;"><strong>👤 ID:</strong> ${name}</p>
-                  <p style="margin: 0; font-size: 16px;"><strong>✉️ COMMS:</strong> <a href="mailto:${email}" style="color: #000; font-weight: bold;">${email}</a></p>
+                  <p style="margin: 0 0 10px 0; font-size: 16px;"><strong>👤 ID:</strong> ${safeName}</p>
+                  <p style="margin: 0; font-size: 16px;"><strong>✉️ COMMS:</strong> <a href="mailto:${safeEmail}" style="color: #000; font-weight: bold;">${safeEmail}</a></p>
                 </div>
-
                 <h3 style="font-size: 14px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase;">Secret Message:</h3>
                 <div style="background-color: #f4f4f5; border: 2px dashed #000; padding: 15px; border-radius: 8px;">
-                  <p style="margin: 0; font-size: 14px; white-space: pre-wrap; font-style: italic;">${message}</p>
+                  <p style="margin: 0; font-size: 14px; white-space: pre-wrap; font-style: italic;">${safeMessage}</p>
                 </div>
               </div>
-
               <div style="background-color: #FF90E8; border-top: 4px solid #000; padding: 15px; text-align: center;">
                 <p style="margin: 0; font-size: 14px; font-weight: bold; color: #FFF; text-transform: uppercase; letter-spacing: 1px;">
                   System Generated by Digifolks
                 </p>
               </div>
-              
             </div>
           </div>
         `,
       },
-
-      // ==========================================
-      // 2. EMAIL UNTUK CLIENT (AUTO-RESPONDER)
-      // ==========================================
       {
         from: senderDomain,
-        to: [email], // Kirim ke email yang diinput client
-        replyTo: adminEmail, // Kalau client bales notif ini, masuknya ke email lu
-        subject: `[Digifolks] Transmission Received, ${name}!`,
+        to: [cleanEmail],
+        replyTo: adminEmail,
+        subject: `[Digifolks] Transmission Received, ${safeName}!`,
         html: `
           <div style="font-family: 'Courier New', Courier, monospace; padding: 40px 20px; background-color: #f4f4f5; color: #000;">
             <div style="max-width: 600px; margin: 0 auto; background-color: #FFF; border: 4px solid #000; box-shadow: 8px 8px 0px #000; border-radius: 16px; overflow: hidden;">
-              
               <div style="background-color: #B8E1FF; border-bottom: 4px solid #000; padding: 20px; text-align: center;">
                 <h1 style="margin: 0; font-size: 28px; text-transform: uppercase; font-weight: 900; letter-spacing: 2px;">
                   SIGNAL ACQUIRED!
                 </h1>
               </div>
-
               <div style="padding: 30px;">
-                <h3 style="margin: 0 0 16px 0; font-size: 22px; text-transform: uppercase; font-weight: 900;">Hello ${name},</h3>
-                
+                <h3 style="margin: 0 0 16px 0; font-size: 22px; text-transform: uppercase; font-weight: 900;">Hello ${safeName},</h3>
                 <div style="background-color: #FFEA00; border: 3px solid #000; box-shadow: 4px 4px 0px #000; padding: 20px; border-radius: 12px; margin-bottom: 24px;">
                   <p style="margin: 0; font-size: 16px; line-height: 1.6; font-weight: bold;">
                     Pesan rahasia lu udah sukses masuk ke mainframe Digifolks! Tim engineer kami lagi nge-decode sinyal ini dan bakal segera ngasih balasan.
                   </p>
                 </div>
-
                 <p style="font-size: 14px; font-weight: bold; margin-bottom: 8px; text-transform: uppercase;">Copy of your message:</p>
                 <div style="background-color: #f4f4f5; border: 2px dashed #000; padding: 15px; border-radius: 8px;">
-                  <p style="margin: 0; font-size: 14px; white-space: pre-wrap; font-style: italic;">${message}</p>
+                  <p style="margin: 0; font-size: 14px; white-space: pre-wrap; font-style: italic;">${safeMessage}</p>
                 </div>
               </div>
-
               <div style="background-color: #FF90E8; border-top: 4px solid #000; padding: 15px; text-align: center;">
                 <p style="margin: 0; font-size: 14px; font-weight: bold; text-transform: uppercase; letter-spacing: 1px;">
                   Hold tight! - The Digifolks Team
                 </p>
               </div>
-              
             </div>
           </div>
         `,
@@ -99,13 +138,13 @@ export async function sendContactEmail(formData: { name: string; email: string; 
     ]);
 
     if (error) {
-      console.error("Resend Error:", error);
-      return { success: false, error };
+      console.error("Resend Error in sendContactEmail:", error);
+      return { success: false, message: "Failed to send message. Please try again later." };
     }
 
-    return { success: true, data };
+    return { success: true };
   } catch (err) {
-    console.error("Server Action Error:", err);
-    return { success: false, error: err };
+    console.error("Server Action Error in sendContactEmail:", err);
+    return { success: false, message: "An unexpected error occurred. Please try again later." };
   }
 }
