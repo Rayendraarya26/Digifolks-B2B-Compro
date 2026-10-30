@@ -1,6 +1,7 @@
+import { notFound } from "next/navigation";
 import { Navbar } from "@/components/ui/Navbar";
 import { Footer } from "@/components/ui/Footer";
-import { getDictionary } from "@/lib/dictionaries";
+import { getDictionary, hasLocale } from "@/lib/dictionaries";
 
 export default async function MainLayout({
   children,
@@ -10,8 +11,13 @@ export default async function MainLayout({
   params: Promise<{ lang: string }> | { lang: string };
 }) {
   const resolvedParams = await params;
-  const lang = resolvedParams?.lang || 'en';
-  const dict = await getDictionary(lang as 'en' | 'id');
+  const lang = resolvedParams?.lang;
+
+  if (!lang || !hasLocale(lang)) {
+    notFound();
+  }
+
+  const dict = await getDictionary(lang);
 
   return (
     <>

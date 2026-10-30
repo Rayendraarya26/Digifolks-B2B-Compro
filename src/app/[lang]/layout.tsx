@@ -6,7 +6,8 @@ import "../globals.css";
 import Preloader from "@/components/loader/Preloader";
 import TransitionProvider from "@/components/providers/TransitionProvider";
 import { Navbar } from "@/components/ui/Navbar";
-import { getDictionary } from "@/lib/dictionaries";
+import { notFound } from "next/navigation";
+import { getDictionary, hasLocale } from "@/lib/dictionaries";
 import { JsonLd } from "@/components/seo/JsonLd";
 
 // Inisialisasi Font
@@ -90,6 +91,10 @@ export const metadata: Metadata = {
 };
 
 
+export function generateStaticParams() {
+  return [{ lang: 'en' }, { lang: 'id' }];
+}
+
 export default async function RootLayout({
   children,
   params
@@ -99,9 +104,13 @@ export default async function RootLayout({
 }>) {
   // Resolve params if it's a promise (Next.js 15+ best practice)
   const resolvedParams = await params;
-  const lang = resolvedParams?.lang || 'en';
+  const lang = resolvedParams?.lang;
 
-  const dict = await getDictionary(lang as 'en' | 'id');
+  if (!lang || !hasLocale(lang)) {
+    notFound();
+  }
+
+  const dict = await getDictionary(lang);
 
   const structuredData = {
     "@context": "https://schema.org",
