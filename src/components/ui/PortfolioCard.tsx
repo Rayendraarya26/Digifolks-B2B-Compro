@@ -63,11 +63,11 @@ export function PortfolioCard({
 
           {/* Card Body */}
           <div className="flex min-w-0 flex-1 flex-col p-4 sm:p-6">
-            {/* Eyebrow Metadata Row: Industry Pill + Year */}
-            <div className="mb-2.5 flex min-w-0 items-center justify-between gap-2">
+            {/* Eyebrow Metadata Row: Industry + Year */}
+            <div className="mb-1.5 flex min-w-0 items-center justify-between gap-2">
               <span
                 title={study.industry}
-                className="inline-flex min-w-0 max-w-full truncate rounded-md border border-accent-forest/20 bg-accent-forest/10 px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-accent-forest sm:text-[11px]"
+                className="min-w-0 truncate text-[11px] font-semibold uppercase tracking-wider text-accent-forest"
               >
                 {study.industry}
               </span>
@@ -81,7 +81,7 @@ export function PortfolioCard({
             {/* Client Name (Full-width dedicated row so long names never crush Industry) */}
             <p
               title={study.client}
-              className="mb-1.5 line-clamp-2 break-words font-mono text-[11px] font-medium uppercase leading-snug tracking-wide text-text-muted sm:text-xs"
+              className="mb-2 line-clamp-2 break-words font-mono text-[11px] font-medium uppercase leading-snug tracking-wide text-text-muted sm:text-xs"
             >
               {study.client}
             </p>
