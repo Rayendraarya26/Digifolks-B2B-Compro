@@ -32,8 +32,10 @@ export async function savePortfolio(data: {
 }) {
   const supabase = await createClient();
 
+  const cleanSlug = data.slug.toLowerCase().trim().replace(/[^a-z0-9-]/g, "-");
+
   const payload = {
-    slug: data.slug.toLowerCase().trim().replace(/[^a-z0-9-]/g, "-"),
+    slug: cleanSlug,
     client: data.client,
     title: data.title,
     project_type: data.project_type || "Web App",
@@ -43,14 +45,14 @@ export async function savePortfolio(data: {
     year: data.year || new Date().getFullYear().toString(),
     metric: data.metric,
     metric_label: data.metric_label,
-    tags: JSON.stringify(data.tags || []),
+    tags: data.tags || [],
     overview: data.overview,
-    challenges: JSON.stringify(data.challenges || []),
-    solutions: JSON.stringify(data.solutions || []),
-    results: JSON.stringify(data.results || []),
+    challenges: data.challenges || [],
+    solutions: data.solutions || [],
+    results: data.results || [],
     is_proposal: Boolean(data.is_proposal),
-    cover_image_url: data.cover_image_url || `/Image/Portfolio/${data.slug}/cover.png`,
-    gallery_images: JSON.stringify(data.gallery_images || []),
+    cover_image_url: data.cover_image_url || `/Image/Portfolio/${cleanSlug}/cover.webp`,
+    gallery_images: data.gallery_images || [],
     sort_order: Number(data.sort_order) || 0,
     is_published: Boolean(data.is_published),
     updated_at: new Date().toISOString(),
@@ -68,9 +70,14 @@ export async function savePortfolio(data: {
   }
 
   revalidatePath("/en");
+  revalidatePath("/id");
   revalidatePath("/en/work");
-  revalidatePath(`/en/work/${data.slug}`);
+  revalidatePath("/id/work");
+  revalidatePath(`/en/work/${cleanSlug}`);
+  revalidatePath(`/id/work/${cleanSlug}`);
   revalidatePath("/admin/portfolios");
+  revalidatePath("/en/admin/portfolios");
+  revalidatePath("/id/admin/portfolios");
   return { success: true };
 }
 
@@ -80,8 +87,12 @@ export async function deletePortfolio(id: string) {
   if (error) throw new Error(error.message);
 
   revalidatePath("/en");
+  revalidatePath("/id");
   revalidatePath("/en/work");
+  revalidatePath("/id/work");
   revalidatePath("/admin/portfolios");
+  revalidatePath("/en/admin/portfolios");
+  revalidatePath("/id/admin/portfolios");
   return { success: true };
 }
 
@@ -89,13 +100,17 @@ export async function togglePublishPortfolio(id: string, is_published: boolean) 
   const supabase = await createClient();
   const { error } = await supabase
     .from("portfolios")
-    .update({ is_published })
+    .update({ is_published, updated_at: new Date().toISOString() })
     .eq("id", id);
   if (error) throw new Error(error.message);
 
   revalidatePath("/en");
+  revalidatePath("/id");
   revalidatePath("/en/work");
+  revalidatePath("/id/work");
   revalidatePath("/admin/portfolios");
+  revalidatePath("/en/admin/portfolios");
+  revalidatePath("/id/admin/portfolios");
   return { success: true };
 }
 

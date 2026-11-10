@@ -185,73 +185,68 @@ async function run() {
         year: "2026",
         metric: "3-in-1",
         metric_label: "Unified Platform (POS + Store + Back Office)",
-        tags: ["Next.js", "Node.js", "PostgreSQL", "POS Integration", "Real-time Sync"],
-        overview: "GorillaCoachID managed retail sales, online orders, inventory, and business operations through separate systems, creating data inconsistencies, duplicate administrative work, and limited visibility into overall business performance. They needed a unified platform to centralize all operations.",
+        tags: ["Go (Golang)", "React 19", "Vite", "PostgreSQL", "POS Integration", "Duitku & Biteship"],
+        overview: "GorillaCoachID managed retail sales, online orders, multi-SKU inventory, and business operations through separate systems, creating stock inconsistencies, duplicate administrative work, and limited visibility into overall performance. They needed a unified omnichannel platform powered by a single high-concurrency backend.",
         challenges: [
-          "Data inconsistencies across separate retail sales and online order systems.",
-          "Duplicate administrative work due to disconnected inventory and customer databases.",
-          "Limited visibility into overall business performance without a centralized dashboard.",
-          "No real-time synchronization between online and offline sales channels."
+          "Stock and data inconsistencies across separate retail store POS and online e-commerce channels.",
+          "Database lock contention and overselling risks when offline POS and web checkouts run simultaneously.",
+          "Duplicate administrative work for multi-SKU inventory, COGS/HPP tracking, and affiliate commissions.",
+          "Manual shipping calculation, payment verification, and customer order status notifications."
         ],
         solutions: [
-          "Developed an integrated business platform combining Point of Sale (POS), Online Store, and Back Office Management into a single ecosystem.",
-          "Implemented real-time synchronization of sales transactions, inventory, product catalogs, and customer information across all channels.",
-          "Built a centralized administrative dashboard for monitoring business performance and managing daily operations.",
-          "Delivered a seamless purchasing experience for customers across online and offline channels."
+          "Architected a unified 4-repository omnichannel ecosystem: a central Go (Chi v5) REST API serving three React 19 + Vite apps (Web Storefront, Physical Store POS, and Back Office ERP).",
+          "Implemented PostgreSQL atomic stock updates and unique active cash sessions to prevent overselling and ensure real-time inventory sync across channels.",
+          "Integrated Duitku payment gateway (VA, QRIS, e-wallet), Biteship real-time shipping rates & pickup, and automated WhatsApp order notifications.",
+          "Built a centralized Back Office ERP with Recharts sales analytics, HPP cost auditing, void authorization tracking, and bulk Excel (xlsx) catalog management."
         ],
         results: [
-          { value: "3-in-1", label: "Unified Platform" },
-          { value: "Real-time", label: "Data Sync" },
-          { value: "100%", label: "Channel Coverage" },
-          { value: "1", label: "Central Dashboard" }
+          { value: "3-in-1", label: "Unified Channels" },
+          { value: "Go + React", label: "Core Architecture" },
+          { value: "Atomic", label: "Zero-Oversell Sync" },
+          { value: "Real-time", label: "POS & Web Stock" }
         ],
-        cover_image_url: "/Image/Portfolio/gorillacoach/cover.png",
+        cover_image_url: "/Image/Portfolio/gorillacoach/cover.webp",
         gallery_images: [
-          "/Image/Portfolio/gorillacoach/gallery-01.png",
-          "/Image/Portfolio/gorillacoach/gallery-02.png",
-          "/Image/Portfolio/gorillacoach/gallery-03.png",
-          "/Image/Portfolio/gorillacoach/gallery-04.png"
+          "/Image/Portfolio/gorillacoach/gallery-01.webp",
+          "/Image/Portfolio/gorillacoach/gallery-02.webp"
         ],
         is_proposal: false,
         sort_order: 1
       },
       {
         slug: "wecore",
-        title: "Professional Agency Company Profile",
+        title: "Creative Agency Company Profile & Campaign Platform",
         client: "Wisesa Cipta Karsa (We Core)",
         project_type: "Web App",
-        headline: "Professional Agency Company Profile for We Core",
+        headline: "Creative Agency Company Profile, Campaign Builder & Admin Portal",
         industry: "Creative Agency",
         duration: "Completed",
         year: "2026",
-        metric: "SEO",
-        metric_label: "Search Engine Optimized",
-        tags: ["Next.js", "WebGL", "UI/UX Strategy", "SEO", "Conversion Optimization"],
-        overview: "We Core struggled with low conversion rates due to a static, slow-loading website that failed to capture professional credibility. Potential clients lost interest before engaging with the content, resulting in missed business opportunities.",
+        metric: "60 FPS",
+        metric_label: "GSAP + Lenis & Dynamic Campaign CMS",
+        tags: ["Next.js 16", "GSAP & Lenis", "Campaign Builder", "Meta Pixel", "Google Analytics"],
+        overview: "Wisesa Cipta Karsa (We Core) needed a high-craft agency website, a zero-code promotional campaign builder, and an internal analytics portal to replace static pages, accelerate marketing launches, and measure paid ad conversions accurately.",
         challenges: [
-          "Low conversion rates due to static and slow-loading website design.",
-          "Failed to capture professional credibility through the existing digital presence.",
-          "Potential clients lost interest before engaging with the content.",
-          "Poor search engine visibility limiting organic discovery by prospects."
+          "Low conversion rates from static pages that failed to convey international creative agency credibility.",
+          "Slow time-to-market when launching promotional packages because campaign pages required developer hardcoding and redeployment.",
+          "Lack of precise paid ad conversion attribution for Meta Ads (Instagram & Facebook) CTA interactions.",
+          "No centralized admin portal for managing case studies, campaign pricing tiers, and visitor analytics."
         ],
         solutions: [
-          "Implemented a conversion-oriented UI/UX strategy combined with technical optimizations for page speed.",
-          "Streamlined navigation architecture for prospective clients to quickly find relevant information.",
-          "Boosted search engine visibility through optimized content architecture and SEO best practices.",
-          "Transformed the website into an active marketing tool that converts traffic into high-potential business leads."
+          "Built WeCore-app with Next.js 16 (App Router), React 19, Tailwind CSS v4, GSAP, and Lenis smooth scroll delivering 60 FPS visual storytelling.",
+          "Engineered a Dynamic Campaign Page Builder (/offers) backed by an Express + Multer media API supporting multi-cycle pricing, promo badges, and showreel video lightboxes.",
+          "Configured Meta Pixel SDK event tracking on key 'Book a Call' CTAs with campaign attributes and integrated Nodemailer lead dispatch.",
+          "Delivered WeCore-admin (Chakra UI, TanStack Table, ApexCharts) connected to Google Analytics Data API for self-service content and traffic monitoring."
         ],
         results: [
-          { value: "SEO", label: "Optimized" },
-          { value: "Fast", label: "Page Load" },
-          { value: "High", label: "Conversion Rate" },
-          { value: "Pro", label: "Brand Credibility" }
+          { value: "60 FPS", label: "GSAP & Lenis UX" },
+          { value: "Zero-Code", label: "Campaign Builder" },
+          { value: "Meta Pixel", label: "Ad Attribution" },
+          { value: "GA API", label: "Admin Analytics" }
         ],
-        cover_image_url: "/Image/Portfolio/wecore/cover.png",
+        cover_image_url: "/Image/Portfolio/wecore/cover.webp",
         gallery_images: [
-          "/Image/Portfolio/wecore/gallery-01.png",
-          "/Image/Portfolio/wecore/gallery-02.png",
-          "/Image/Portfolio/wecore/gallery-03.png",
-          "/Image/Portfolio/wecore/gallery-04.png"
+          "/Image/Portfolio/wecore/gallery-01.webp"
         ],
         is_proposal: false,
         sort_order: 2
@@ -300,81 +295,76 @@ async function run() {
       {
         slug: "homestay",
         title: "Digital Tourism Catalog & Management Platform",
-        client: "Homestaydijogja.Id",
+        client: "Homestay di Jogja",
         project_type: "Web App",
         headline: "Digital Tourism Catalog & Management Platform",
         industry: "Tourism",
         duration: "Completed",
         year: "2026",
         metric: "Local",
-        metric_label: "SEO Focused Platform",
-        tags: ["Custom CMS", "Local SEO", "Responsive Architecture", "Real-time Updates"],
-        overview: "Local accommodation providers in Yogyakarta lacked a centralized digital presence, forcing them to rely heavily on third-party booking platforms with high commission fees that eroded their profit margins. They needed an independent digital catalog.",
+        metric_label: "SEO & Direct Booking Catalog",
+        tags: ["React", "Vite", "PHP Native API", "MySQL", "Custom CMS", "Local SEO"],
+        overview: "Local accommodation providers in Yogyakarta lacked a centralized digital catalog, forcing reliance on third-party OTA platforms with high commission fees. Homestay di Jogja needed an independent, fast-loading listing portal paired with an easy-to-use admin dashboard.",
         challenges: [
-          "No centralized digital presence for local accommodation providers in Yogyakarta.",
-          "Heavy reliance on third-party booking platforms with high commission fees.",
-          "Eroding profit margins due to platform dependency costs.",
-          "Managers lacked full control over their property content and pricing updates."
+          "Travelers needed fast filtering across Yogyakarta areas (Sleman, Bantul, Kota), room capacities, and property facilities.",
+          "Heavy reliance on third-party OTA platforms with high commission fees eroded property owners' profit margins.",
+          "Property managers lacked an intuitive admin panel for multi-photo uploads, featured unit prioritization, and SEO blog publishing.",
+          "No unified view of website visitor analytics without switching to external Google Analytics tools."
         ],
         solutions: [
-          "Developed a high-performance digital catalog focused on local SEO and user-centric navigation.",
-          "Integrated a custom CMS enabling real-time updates for unit details, amenities, and pricing.",
-          "Built with a lightweight and responsive architecture ensuring rapid access for travelers.",
-          "Created a powerful independent alternative to third-party platform dependencies."
+          "Built a dual-build React + Vite frontend monorepo (Tailwind CSS, Radix UI, Framer Motion) sharing components across the public website and admin SPA.",
+          "Developed a cost-efficient PHP Native REST API with MySQL and Role-Based JWT authentication (firebase/php-jwt) for secure content operations.",
+          "Delivered a comprehensive Admin Panel for homestay CRUD, multi-photo uploads, display priority ordering, dynamic location groups, and SEO blog management.",
+          "Integrated Google Analytics reporting directly into the admin dashboard alongside local SEO optimization for direct traveler inquiries."
         ],
         results: [
+          { value: "Dual SPA", label: "Monorepo Frontend" },
           { value: "Local", label: "SEO Optimized" },
-          { value: "CMS", label: "Custom Built" },
-          { value: "Fast", label: "Access Speed" },
-          { value: "0%", label: "Commission Fees" }
+          { value: "0%", label: "OTA Commissions" },
+          { value: "JWT + GA", label: "Admin Control" }
         ],
-        cover_image_url: "/Image/Portfolio/homestay/cover.png",
+        cover_image_url: "/Image/Portfolio/homestay/cover.webp",
         gallery_images: [
-          "/Image/Portfolio/homestay/gallery-01.png",
-          "/Image/Portfolio/homestay/gallery-02.png",
-          "/Image/Portfolio/homestay/gallery-03.png",
-          "/Image/Portfolio/homestay/gallery-04.png"
+          "/Image/Portfolio/homestay/gallery-01.webp",
+          "/Image/Portfolio/homestay/gallery-02.webp"
         ],
         is_proposal: false,
         sort_order: 4
       },
       {
         slug: "kawan-kita-semua",
-        title: "Smart Aquaculture Decision Support System",
+        title: "AquaFlow — Smart Aquaculture Management & Decision Support System",
         client: "PT Kawan Kita Semua",
         project_type: "Web App",
-        headline: "Smart Aquaculture Decision Support System",
+        headline: "AquaFlow — Smart Aquaculture Management & Decision Support System",
         industry: "Aquaculture",
-        duration: "On Going",
+        duration: "Completed",
         year: "2026",
         metric: "AI",
-        metric_label: "Driven Precision Insights",
-        tags: ["AI Analytics", "IoT Monitoring", "Real-time Dashboard", "Inventory Management"],
-        overview: "Shrimp farmers faced significant risks of harvest failure due to unmonitored water quality parameters and the difficulty of generating accurate growth predictions from data often skewed by outliers. They needed a centralized digital command center with AI capabilities.",
+        metric_label: "Aquaculture Decision Support",
+        tags: ["React 18", "Express 5", "Drizzle ORM", "PostgreSQL", "Recharts", "AI Analytics"],
+        overview: "PT Kawan Kita Semua needed to replace fragmented paper and spreadsheet logs across intensive vannamei shrimp farms. Digifolks engineered AquaFlow, a type-safe digital command center unifying pond lifecycle tracking, water quality & plankton monitoring, automated anomaly analytics, and harvest financial accounting.",
         challenges: [
-          "Significant risks of harvest failure due to unmonitored water quality parameters.",
-          "Difficulty generating accurate growth predictions from data skewed by outliers.",
-          "No centralized system for integrating daily operational data (feed, water quality, sampling).",
-          "Lack of early environmental risk detection and cultivation strategy optimization."
+          "Fragmented manual logs for daily feed, anco check trays, and mortality delayed Feed Conversion Ratio (FCR) visibility.",
+          "Difficulty projecting real-time shrimp biomass and ABW/MBW growth against standard industry reference curves.",
+          "Sudden fluctuations in water parameters (DO, pH, temperature, salinity) and plankton dominance risked shrimp stress and crop failure.",
+          "Operational inputs (feed, fry, electricity, treatments) were disconnected from harvest P&L and cost-of-production (HPP/kg) calculation."
         ],
         solutions: [
-          "Engineered a comprehensive digital ecosystem digitizing the entire shrimp farming lifecycle with real-time water quality monitoring.",
-          "Integrated AI to analyze multidimensional relationships between environmental variables and shrimp biomass for high-precision managerial insights.",
-          "Built atomic inventory management to prevent race conditions in stock tracking.",
-          "Implemented an automated risk dashboard ensuring operational efficiency and biological stability throughout every cultivation cycle."
+          "Built AquaFlow using React 18, TypeScript, Vite, shadcn/ui, and Recharts backed by Node.js, Express 5, PostgreSQL, and Drizzle ORM with shared Zod contracts.",
+          "Digitized active pond cycles, daily feed schedules correlated with anco tray evaluations, and weekly ABW/MBW, ADG, and FCR growth curve charts.",
+          "Implemented water quality & plankton dominance monitoring paired with an automated analytics & anomaly simulator for early treatment recommendations and harvest projections.",
+          "Integrated a full Finance Module linking per-cycle operational expenses directly to harvest revenue, real-time P&L, and HPP per kilogram."
         ],
         results: [
-          { value: "AI", label: "Precision Analytics" },
-          { value: "24/7", label: "Water Monitoring" },
-          { value: "Atomic", label: "Inventory Mgmt" },
-          { value: "Auto", label: "Risk Detection" }
+          { value: "AI", label: "Anomaly & Risk DSS" },
+          { value: "FCR/ABW", label: "Growth Curve Tracking" },
+          { value: "Real-time", label: "Water & Plankton" },
+          { value: "HPP/kg", label: "Harvest Financials" }
         ],
-        cover_image_url: "/Image/Portfolio/kawan-kita-semua/cover.png",
+        cover_image_url: "/Image/Portfolio/kawan-kita-semua/cover.webp",
         gallery_images: [
-          "/Image/Portfolio/kawan-kita-semua/gallery-01.png",
-          "/Image/Portfolio/kawan-kita-semua/gallery-02.png",
-          "/Image/Portfolio/kawan-kita-semua/gallery-03.png",
-          "/Image/Portfolio/kawan-kita-semua/gallery-04.png"
+          "/Image/Portfolio/kawan-kita-semua/gallery-01.webp"
         ],
         is_proposal: false,
         sort_order: 5
@@ -422,42 +412,37 @@ async function run() {
       },
       {
         slug: "digital-assessment",
-        title: "Introduction to Company Culture: Digital Assessment",
-        client: "TMMIN",
+        title: "Employee LMS & Digital Assessment (PoC / MVP)",
+        client: "TMMIN (Toyota Motor Mfg Indonesia)",
         project_type: "Web App",
-        headline: "Introduction to Company Culture: Digital Assessment for Prospective Client",
+        headline: "Employee LMS & Digital Assessment (PoC / MVP)",
         industry: "Human Resources",
         duration: "Completed",
         year: "2025",
         metric: "100%",
-        metric_label: "Automated Scoring",
-        tags: ["Assessment Platform", "Automated Scoring", "Analytics Dashboard", "Question Bank"],
-        overview: "Traditional evaluation methods at the organization were plagued by labor-intensive administration and inherent human bias, leading to inconsistent results and fragmented data that hindered objective performance tracking.",
+        metric_label: "Enforced Video & Quiz Gating",
+        tags: ["React", "TypeScript", "Vite", "Material UI", "Radix UI", "Enforced Video LMS"],
+        overview: "To demonstrate an end-to-end corporate training and competency evaluation workflow for TMMIN, Digifolks built a functional Proof of Concept (PoC / MVP) Employee Learning Management System & Digital Assessment transformed directly from Figma blueprints.",
         challenges: [
-          "Labor-intensive administration of traditional evaluation methods.",
-          "Inherent human bias leading to inconsistent assessment results.",
-          "Fragmented data hindering objective performance tracking.",
-          "No centralized framework for automating complex scoring workflows."
+          "Corporate compliance training risked learners skipping or fast-forwarding instructional videos before taking assessments.",
+          "Manual employee evaluation administration and fragmented tracking slowed down HR reporting across divisions.",
+          "Stakeholders needed to validate multi-role workflows (Employee, Admin, Super Admin) in a live interactive browser PoC prior to enterprise SSO integration.",
+          "Training modules required structured chapter locking, question bank management, and immediate scoring with retake rules."
         ],
         solutions: [
-          "Developed a web-based assessment application to digitize the entire employee evaluation lifecycle.",
-          "Integrated comprehensive question bank management with automated scoring engine.",
-          "Built real-time analytical dashboards for data-driven insights.",
-          "Eliminated manual administrative bottlenecks and enhanced data integrity for objective decision-making."
+          "Developed a functional React + TypeScript + Vite web application combining Material UI and Radix UI primitives from Figma design specs.",
+          "Implemented Multi-Role SSO simulation routing users into tailored Employee Learner, Admin HR, and Super Admin management dashboards.",
+          "Engineered a protected Video Player with enforced playback tracking (anti-seeking/no forward skip) and conditional quiz gating unlocked only at 100% completion.",
+          "Built chapter progression states (Locked, In Progress, Completed), multiple-choice automated scoring with instant pass/fail feedback, retake workflows, and admin module/quiz management."
         ],
         results: [
-          { value: "100%", label: "Automated Scoring" },
-          { value: "Real-time", label: "Analytics" },
-          { value: "Zero", label: "Manual Bottlenecks" },
-          { value: "Data", label: "Driven Decisions" }
+          { value: "PoC / MVP", label: "Interactive Web Build" },
+          { value: "Anti-Skip", label: "Video Quiz Gating" },
+          { value: "3 Roles", label: "Simulated SSO Flow" },
+          { value: "100%", label: "Automated Scoring" }
         ],
-        cover_image_url: "/Image/Portfolio/digital-assessment/cover.png",
-        gallery_images: [
-          "/Image/Portfolio/digital-assessment/gallery-01.png",
-          "/Image/Portfolio/digital-assessment/gallery-02.png",
-          "/Image/Portfolio/digital-assessment/gallery-03.png",
-          "/Image/Portfolio/digital-assessment/gallery-04.png"
-        ],
+        cover_image_url: "/Image/Portfolio/digital-assessment/cover.webp",
+        gallery_images: [],
         is_proposal: true,
         sort_order: 7
       },
@@ -465,39 +450,37 @@ async function run() {
         slug: "malaka",
         title: "Integrated Learning Platform (Malaka Project)",
         client: "Malaka Project",
-        project_type: "Web App",
-        headline: "Integrated Learning Platform (Malaka Project)",
+        project_type: "UI/UX Prototype & Proposal",
+        headline: "Integrated Learning Platform — Interactive Prototype & Proposal",
         industry: "Education",
         duration: "Completed",
         year: "2025",
         metric: "All-in-1",
-        metric_label: "Learning Ecosystem",
-        tags: ["Video Streaming", "Classroom Management", "Assessment Tools", "Unified Portal"],
-        overview: "The digital educational ecosystem was fragmented, forcing users to navigate between disconnected platforms for course materials, classroom management, and examinations. This led to a disjointed and frustrating learning experience that hurt engagement.",
+        metric_label: "Interactive Figma & Tech Blueprint",
+        tags: ["Figma Prototype", "UI/UX Design", "System Architecture", "LMS Concept", "Technical Proposal"],
+        overview: "Digital educational ecosystems are often fragmented across disconnected tools for courses, video lessons, and exams. For Malaka Project's stakeholder pitching, Digifolks designed and delivered a high-fidelity interactive clickable Figma prototype paired with a technical architecture proposal for an integrated learning portal.",
         challenges: [
-          "Fragmented digital educational ecosystem with disconnected platforms.",
-          "Users forced to navigate between separate systems for course materials, classroom management, and exams.",
-          "Disjointed and frustrating learning experience reducing engagement.",
-          "No unified environment consolidating the entire educational lifecycle."
+          "Fragmented learning journeys where students switch across separate tools for course exploration, video lessons, quizzes, and assignments.",
+          "Need to validate end-to-end UX flows for both students and mentors with stakeholders before investing in full engineering.",
+          "Lack of clear design tokens, functional boundaries, and scalable Next.js/Tailwind technical architecture specifications for implementation.",
+          "Mentors needed a unified view to track cohort progress, grade submissions, and monitor module performance."
         ],
         solutions: [
-          "Engineered an integrated digital ecosystem merging high-quality video streaming, classroom management, and assessment tools into a unified portal.",
-          "Consolidated the full user journey ensuring a seamless transition from registration to evaluation.",
-          "Designed with centralized architecture to simplify operational control.",
-          "Significantly improved user engagement and retention through a unified learning experience."
+          "Delivered a high-fidelity clickable Figma prototype mapping the complete cohort-based student portal, syllabus exploration, and course pricing.",
+          "Designed a focused educational video player interface featuring time-stamped note-taking panels and automatic next-module progress tracking.",
+          "Prototyped timed quiz workflows, final portfolio/file upload submissions, and instant evaluation feedback loops.",
+          "Designed a Mentor & Instructor Analytics Dashboard alongside a technical architecture blueprint ready for Next.js and Tailwind CSS implementation."
         ],
         results: [
-          { value: "All-in-1", label: "Unified Platform" },
-          { value: "HD", label: "Video Streaming" },
-          { value: "Seamless", label: "User Journey" },
-          { value: "High", label: "Engagement" }
+          { value: "Figma", label: "Clickable Prototype" },
+          { value: "4 Modules", label: "End-to-End UX Flow" },
+          { value: "Blueprint", label: "Technical Architecture" },
+          { value: "Pitching", label: "Deliverable Completed" }
         ],
-        cover_image_url: "/Image/Portfolio/malaka/cover.png",
+        cover_image_url: "/Image/Portfolio/malaka/cover.webp",
         gallery_images: [
-          "/Image/Portfolio/malaka/gallery-01.png",
-          "/Image/Portfolio/malaka/gallery-02.png",
-          "/Image/Portfolio/malaka/gallery-03.png",
-          "/Image/Portfolio/malaka/gallery-04.png"
+          "/Image/Portfolio/malaka/gallery-01.webp",
+          "/Image/Portfolio/malaka/gallery-02.webp"
         ],
         is_proposal: true,
         sort_order: 8
@@ -527,9 +510,23 @@ async function run() {
           solutions = EXCLUDED.solutions,
           results = EXCLUDED.results,
           is_proposal = EXCLUDED.is_proposal,
-          cover_image_url = EXCLUDED.cover_image_url,
-          gallery_images = EXCLUDED.gallery_images,
-          sort_order = EXCLUDED.sort_order;
+          cover_image_url = CASE
+            WHEN portfolios.cover_image_url LIKE 'https://%' THEN portfolios.cover_image_url
+            ELSE EXCLUDED.cover_image_url
+          END,
+          gallery_images = CASE
+            WHEN jsonb_typeof(portfolios.gallery_images) = 'array' THEN
+              CASE
+                WHEN EXISTS (
+                  SELECT 1 FROM jsonb_array_elements_text(portfolios.gallery_images) AS elem
+                  WHERE elem LIKE 'https://%'
+                ) THEN portfolios.gallery_images
+                ELSE EXCLUDED.gallery_images
+              END
+            ELSE EXCLUDED.gallery_images
+          END,
+          sort_order = EXCLUDED.sort_order,
+          updated_at = NOW();
       `, [
         p.slug, p.client, p.title, p.project_type, p.headline, p.industry, p.duration, p.year,
         p.metric, p.metric_label, JSON.stringify(p.tags), p.overview, JSON.stringify(p.challenges),

@@ -344,11 +344,14 @@ export default async function ServiceDetailPage({
                         />
                       )}
                     </div>
-                    <div className="p-4 flex flex-col flex-1">
-                      <span className="text-[10px] font-mono text-accent-forest mb-1 font-semibold">
+                    <div className="p-4 flex flex-col flex-1 min-w-0">
+                      <span
+                        title={item.client}
+                        className="text-[10px] font-mono text-accent-forest mb-1 font-semibold uppercase tracking-wide line-clamp-1 break-words"
+                      >
                         {item.client}
                       </span>
-                      <h3 className="text-sm font-bold text-navy-base line-clamp-2 group-hover:text-accent-forest transition-colors">
+                      <h3 className="text-sm font-bold text-navy-base line-clamp-2 break-words group-hover:text-accent-forest transition-colors">
                         {item.title}
                       </h3>
                     </div>

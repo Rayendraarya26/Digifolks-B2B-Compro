@@ -162,16 +162,16 @@ export default async function ProjectDetailPage({
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="flex flex-wrap gap-3 mb-6 items-center">
+            <div className="flex flex-wrap gap-2.5 sm:gap-3 mb-6 items-center">
               {project.is_proposal && (
-                <span className="px-3 py-1.5 rounded-lg border border-[#10B981]/40 bg-[#10B981]/10 text-[10px] md:text-xs font-mono text-accent-emerald shadow-[0_0_15px_rgba(16,185,129,0.1)]">
+                <span className="max-w-full break-words px-3 py-1.5 rounded-lg border border-[#10B981]/40 bg-[#10B981]/10 text-[10px] md:text-xs font-mono text-accent-emerald shadow-[0_0_15px_rgba(16,185,129,0.1)]">
                   {t.proposalBadge}
                 </span>
               )}
-              <span className="px-3 py-1 rounded-full border border-border-flat/20 text-xs font-mono text-text-off-white/70 uppercase tracking-wider">
+              <span className="max-w-full break-words px-3 py-1 rounded-full border border-border-flat/20 text-xs font-mono text-text-off-white/70 uppercase tracking-wider">
                 {project.client}
               </span>
-              <span className="px-3 py-1 rounded-full border border-accent-emerald/30 bg-accent-emerald/10 text-xs font-mono text-accent-emerald uppercase tracking-wider">
+              <span className="max-w-full break-words px-3 py-1 rounded-full border border-accent-emerald/30 bg-accent-emerald/10 text-xs font-mono text-accent-emerald uppercase tracking-wider">
                 {project.industry}
               </span>
               <span className="px-3 py-1 rounded-full border border-border-flat/20 text-xs font-mono text-text-off-white/70 uppercase tracking-wider">
@@ -181,7 +181,7 @@ export default async function ProjectDetailPage({
           </Reveal>
 
           <Reveal delay={0.15}>
-            <h1 className="text-3xl md:text-5xl font-bold text-text-pure mb-6 leading-tight max-w-4xl">
+            <h1 className="text-2xl sm:text-3xl md:text-5xl font-bold text-text-pure mb-6 leading-tight max-w-4xl break-words">
               {project.title}
             </h1>
           </Reveal>
@@ -190,15 +190,15 @@ export default async function ProjectDetailPage({
 
       {/* Content */}
       <div className="bg-bg-ice-blue flex-grow relative z-10 border-t border-border-flat/10">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="grid md:grid-cols-12 gap-12 md:gap-16">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-20">
+          <div className="grid md:grid-cols-12 gap-10 md:gap-12 lg:gap-16">
 
             {/* Main Content */}
-            <div className="md:col-span-8 space-y-16">
+            <div className="md:col-span-8 min-w-0 space-y-12 sm:space-y-16">
               <Reveal>
                 <section>
                   <h2 className="text-sm font-bold text-accent-forest uppercase tracking-widest mb-4">{t.overview}</h2>
-                  <p className="text-lg text-text-muted leading-relaxed">
+                  <p className="text-base sm:text-lg text-text-muted leading-relaxed break-words">
                     {project.overview}
                   </p>
                 </section>
@@ -210,11 +210,11 @@ export default async function ProjectDetailPage({
                     <h2 className="text-sm font-bold text-accent-forest uppercase tracking-widest mb-6">{t.theChallenge}</h2>
                     <div className="space-y-4">
                       {project.challenges.map((c, i) => (
-                        <div key={i} className="flex gap-4 items-start p-4 bg-bg-pure rounded-xl border border-border-flat">
+                        <div key={i} className="flex gap-3 sm:gap-4 items-start p-4 bg-bg-pure rounded-xl border border-border-flat min-w-0">
                           <div className="w-6 h-6 rounded-full bg-bg-terang-cool flex items-center justify-center flex-shrink-0 mt-0.5 border border-border-flat">
                             <span className="text-xs font-bold text-navy-base">{i + 1}</span>
                           </div>
-                          <p className="text-text-muted leading-relaxed">{c}</p>
+                          <p className="text-sm sm:text-base text-text-muted leading-relaxed break-words min-w-0">{c}</p>
                         </div>
                       ))}
                     </div>
@@ -228,9 +228,9 @@ export default async function ProjectDetailPage({
                     <h2 className="text-sm font-bold text-accent-forest uppercase tracking-widest mb-6">{t.ourSolution}</h2>
                     <div className="space-y-4">
                       {project.solutions.map((s, i) => (
-                        <div key={i} className="flex gap-4 items-start p-4 bg-accent-forest/5 rounded-xl border border-accent-forest/20">
+                        <div key={i} className="flex gap-3 sm:gap-4 items-start p-4 bg-accent-forest/5 rounded-xl border border-accent-forest/20 min-w-0">
                           <CheckCircle2 className="w-5 h-5 text-accent-forest mt-0.5 flex-shrink-0" />
-                          <p className="text-text-muted leading-relaxed">{s}</p>
+                          <p className="text-sm sm:text-base text-text-muted leading-relaxed break-words min-w-0">{s}</p>
                         </div>
                       ))}
                     </div>
@@ -240,42 +240,42 @@ export default async function ProjectDetailPage({
             </div>
 
             {/* Sidebar */}
-            <div className="md:col-span-4">
+            <div className="md:col-span-4 min-w-0">
               <Reveal delay={0.3}>
-                <div className="sticky top-28 space-y-6">
+                <div className="sticky top-28 space-y-6 min-w-0">
                   {/* Project Info */}
-                  <div className="bg-bg-pure border border-border-flat rounded-2xl p-6 shadow-sm">
+                  <div className="bg-bg-pure border border-border-flat rounded-2xl p-5 sm:p-6 shadow-sm">
                     <h3 className="text-sm font-bold text-navy-base uppercase tracking-wider mb-6">{t.projectInfo}</h3>
                     <dl className="space-y-4">
-                      <div className="flex justify-between">
-                        <dt className="text-sm text-text-muted">{t.client}</dt>
-                        <dd className="text-sm font-medium text-navy-base">{project.client}</dd>
+                      <div className="flex items-start justify-between gap-4">
+                        <dt className="text-sm text-text-muted shrink-0">{t.client}</dt>
+                        <dd className="text-sm font-medium text-navy-base text-right break-words min-w-0">{project.client}</dd>
                       </div>
                       <div className="border-t border-border-flat" />
-                      <div className="flex justify-between">
-                        <dt className="text-sm text-text-muted">{t.industry}</dt>
-                        <dd className="text-sm font-medium text-navy-base">{project.industry}</dd>
+                      <div className="flex items-start justify-between gap-4">
+                        <dt className="text-sm text-text-muted shrink-0">{t.industry}</dt>
+                        <dd className="text-sm font-medium text-navy-base text-right break-words min-w-0">{project.industry}</dd>
                       </div>
                       <div className="border-t border-border-flat" />
-                      <div className="flex justify-between">
-                        <dt className="text-sm text-text-muted">{t.duration}</dt>
-                        <dd className="text-sm font-medium text-navy-base">{project.duration}</dd>
+                      <div className="flex items-start justify-between gap-4">
+                        <dt className="text-sm text-text-muted shrink-0">{t.duration}</dt>
+                        <dd className="text-sm font-medium text-navy-base text-right break-words min-w-0">{project.duration}</dd>
                       </div>
                       <div className="border-t border-border-flat" />
-                      <div className="flex justify-between">
-                        <dt className="text-sm text-text-muted">{t.year}</dt>
-                        <dd className="text-sm font-medium text-navy-base">{project.year}</dd>
+                      <div className="flex items-start justify-between gap-4">
+                        <dt className="text-sm text-text-muted shrink-0">{t.year}</dt>
+                        <dd className="text-sm font-medium text-navy-base text-right break-words min-w-0">{project.year}</dd>
                       </div>
                     </dl>
                   </div>
 
                   {/* Tech Stack */}
                   {Array.isArray(project.tags) && project.tags.length > 0 && (
-                    <div className="bg-bg-pure border border-border-flat rounded-2xl p-6 shadow-sm">
+                    <div className="bg-bg-pure border border-border-flat rounded-2xl p-5 sm:p-6 shadow-sm">
                       <h3 className="text-sm font-bold text-navy-base uppercase tracking-wider mb-4">{t.techStack}</h3>
                       <div className="flex flex-wrap gap-2">
                         {project.tags.map((tag) => (
-                          <span key={tag} className="px-3 py-1.5 text-xs font-mono bg-[#1e293b]/5 text-text-muted rounded-lg border border-border-flat">
+                          <span key={tag} className="max-w-full break-words px-3 py-1.5 text-xs font-mono bg-[#1e293b]/5 text-text-muted rounded-lg border border-border-flat">
                             {tag}
                           </span>
                         ))}
